@@ -23,16 +23,23 @@ const ITIN_DATA: TimelineDay[] = [
     {
         id: 1,
         date: "Yoga",
-        dayName: "Nagna Yoga & Yoga Nidra",
+        dayName: "Hatha Yoga & Yoga Nidra",
         title: "Prácticas de Alineación Física, Respiración y Relajación Mental Consciente",
         desc: "",
         events: [
             {
                 time: "Semanal",
-                title: "Nagna Yoga Regular",
-                description: "Práctica física centrada en el asana, pranayama (control del aire) y alineación corporal, apta para todos los niveles y edades.",
+                title: "Hatha Yoga",
+                description: "Hatha Yoga con enfoque terapéutico: consiste en una primera parte de activación, gimnasia o estiramientos; una segunda parte de práctica de asanas (posturas que se mantienen estáticas durante un minuto aproximadamente y te aporta diferentes beneficios); y terminamos siempre con una relajación.",
                 type: "visit",
                 venue: "Sala Principal",
+            },
+            {
+                time: "Vídeos",
+                title: "Yoga del Conocimiento",
+                description: "Actualmente solo se realiza a través de vídeos informativos.",
+                type: "visit",
+                venue: "Online",
             },
             {
                 time: "Sesiones",
