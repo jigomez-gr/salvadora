@@ -234,51 +234,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 3. Bloque de Confianza / Resumen Rápido */}
-      <section id="viaje" className="py-16 bg-white border-y border-[#C5A059]/25 scroll-mt-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-
-            {/* Card 1 */}
-            <div className="bg-[#FAF9F6] p-5 rounded-lg border border-[#C5A059]/20 text-center hover:shadow-md transition">
-              <span className="block text-lg font-serif font-bold text-[#800020] mb-1">Clases Diarias</span>
-              <span className="block text-xs uppercase tracking-widest text-[#1C1C1C]/60 font-semibold">Hatha Yoga</span>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-[#FAF9F6] p-5 rounded-lg border border-[#C5A059]/20 text-center hover:shadow-md transition">
-              <span className="block text-lg font-serif font-bold text-[#800020] mb-1 leading-tight">Baños Gong</span>
-              <span className="block text-xs uppercase tracking-widest text-[#1C1C1C]/60 font-semibold">Relajación Sonora</span>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-[#FAF9F6] p-5 rounded-lg border border-[#C5A059]/20 text-center hover:shadow-md transition">
-              <span className="block text-lg font-serif font-bold text-[#800020] mb-1">La Puja</span>
-              <span className="block text-xs uppercase tracking-widest text-[#1C1C1C]/60 font-semibold">Ceremonia Nocturna</span>
-            </div>
-
-            {/* Card 4 */}
-            <div className="bg-[#FAF9F6] p-5 rounded-lg border border-[#C5A059]/20 text-center hover:shadow-md transition">
-              <span className="block text-lg font-serif font-bold text-[#800020] mb-1">Retiros</span>
-              <span className="block text-xs uppercase tracking-widest text-[#1C1C1C]/60 font-semibold">Ayuno y Bienestar</span>
-            </div>
-
-            {/* Card 5 */}
-            <div className="bg-[#FAF9F6] p-5 rounded-lg border border-[#C5A059]/20 text-center hover:shadow-md transition">
-              <span className="block text-lg font-serif font-bold text-[#800020] mb-1">Salud Integral</span>
-              <span className="block text-xs uppercase tracking-widest text-[#1C1C1C]/60 font-semibold">Cuerpo y Mente</span>
-            </div>
-
-            {/* Card 6 */}
-            <div className="bg-[#FAF9F6] p-5 rounded-lg border border-[#c5a059]/25 text-center hover:shadow-md transition">
-              <span className="block text-lg font-serif font-bold text-[#2E5A44] mb-1">Desde 25 €</span>
-              <span className="block text-xs uppercase tracking-widest text-[#1C1C1C]/60 font-semibold">Opciones Flexibles</span>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
       {/* 4. Introducción Emocional */}
       <section className="pt-16 pb-4 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center scroll-mt-24">
         <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-3">
