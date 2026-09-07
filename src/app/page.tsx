@@ -242,7 +242,7 @@ export default async function Home() {
             {/* Card 1 */}
             <div className="bg-[#FAF9F6] p-5 rounded-lg border border-[#C5A059]/20 text-center hover:shadow-md transition">
               <span className="block text-lg font-serif font-bold text-[#800020] mb-1">Clases Diarias</span>
-              <span className="block text-xs uppercase tracking-widest text-[#1C1C1C]/60 font-semibold">Nagna y Kundalini</span>
+              <span className="block text-xs uppercase tracking-widest text-[#1C1C1C]/60 font-semibold">Hatha Yoga</span>
             </div>
 
             {/* Card 2 */}
@@ -296,7 +296,7 @@ export default async function Home() {
           <div className="max-w-4xl mx-auto text-center mb-12">
             <div className="space-y-4 text-sm sm:text-base text-[#1C1C1C]/75 leading-relaxed text-justify sm:text-center">
               <p>
-                El Centro de Yoga Fuenlabrada de Salvadora Conesa es un espacio dedicado a la salud, el bienestar y el desarrollo integral de la persona en pleno corazón de Fuenlabrada. A través de la práctica regular de Nagna Yoga, Kundalini y meditación, ofrecemos herramientas reales para calmar la mente, fortalecer el cuerpo y reconectar con lo esencial.
+                El Centro de Yoga Fuenlabrada de Salvadora Conesa es un espacio dedicado a la salud, el bienestar y el desarrollo integral de la persona en pleno corazón de Fuenlabrada. A través de la práctica regular de Hatha Yoga, Kundalini y meditación, ofrecemos herramientas reales para calmar la mente, fortalecer el cuerpo y reconectar con lo esencial.
               </p>
               <p>
                 Además de nuestras sesiones semanales, contamos con renombradas experiencias de terapia de sonido como los Baños de Gong y la transformadora Puja de Gong nocturna, ambas guiadas por sonoterapeutas profesionales. Ofrecemos también una variada propuesta de retiros de Ayuno Terapéutico en plena naturaleza, diseñados para resetear el organismo y descansar profundamente.
@@ -431,7 +431,7 @@ export default async function Home() {
               <div className="w-12 h-12 bg-[#800020]/10 flex items-center justify-center rounded-full text-[#800020] mx-auto mb-4">
                 <Compass className="w-6 h-6" />
               </div>
-              <h4 className="font-serif text-lg font-bold text-[#800020] mb-2">Nagna Yoga & Yoga Nidra</h4>
+              <h4 className="font-serif text-lg font-bold text-[#800020] mb-2">Hatha Yoga & Yoga Nidra</h4>
               <p className="text-xs sm:text-sm text-[#1C1C1C]/70 leading-relaxed">
                 Práctica física centrada en el asana, pranayama (control del aire) y relajación profunda.
               </p>

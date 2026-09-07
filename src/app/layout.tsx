@@ -17,7 +17,7 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: "Centro de Yoga Fuenlabrada | Salvadora Conesa",
-  description: "Clases de Nagna y Kundalini yoga, baños y puja de gong, meditación guiada y retiros de ayuno terapéutico en Fuenlabrada, dirigido por Salvadora Conesa.",
+  description: "Clases de Hatha y Kundalini yoga, baños y puja de gong, meditación guiada y retiros de ayuno terapéutico en Fuenlabrada, dirigido por Salvadora Conesa.",
 };
 
 import { ChatBubbleWidget } from "@/components/ChatBubbleWidget";

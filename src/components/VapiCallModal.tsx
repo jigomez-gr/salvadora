@@ -22,7 +22,7 @@ export interface VapiCallOptions {
 }
 
 const INQUIRY_OPTIONS = [
-  { id: "yoga", label: "Clases de Yoga", inquiryText: "Consulta sobre Clases de Nagna y Kundalini Yoga" },
+  { id: "yoga", label: "Clases de Yoga", inquiryText: "Consulta sobre Clases de Hatha Yoga" },
   { id: "gong", label: "Baño de Gong", inquiryText: "Información y fechas de los Baños de Gong" },
   { id: "puja", label: "La Puja de Gong", inquiryText: "Información sobre la Puja nocturna de Gong" },
   { id: "retiro", label: "Retiro de Ayuno", inquiryText: "Consulta sobre los Retiros de Ayuno y Bienestar" },
