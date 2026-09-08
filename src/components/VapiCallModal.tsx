@@ -21,7 +21,13 @@ export interface VapiCallOptions {
   phone?: string;
 }
 
-const INQUIRY_OPTIONS = [
+interface InquiryOption {
+  id: string;
+  label: string;
+  inquiryText: string;
+}
+
+const DEFAULT_INQUIRY_OPTIONS: InquiryOption[] = [
   { id: "yoga", label: "Clases de Yoga", inquiryText: "Consulta sobre Clases de Hatha Yoga" },
   { id: "gong", label: "Baño de Gong", inquiryText: "Información y fechas de los Baños de Gong" },
   { id: "puja", label: "La Puja de Gong", inquiryText: "Información sobre la Puja nocturna de Gong" },
@@ -33,7 +39,9 @@ export default function VapiCallModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [clientName, setClientName] = useState("");
-  const [selectedInquiry, setSelectedInquiry] = useState(INQUIRY_OPTIONS[0].inquiryText);
+  const [inquiryOptions, setInquiryOptions] = useState<InquiryOption[]>(DEFAULT_INQUIRY_OPTIONS);
+  const [contactPhone, setContactPhone] = useState("+34695172625");
+  const [selectedInquiry, setSelectedInquiry] = useState(DEFAULT_INQUIRY_OPTIONS[0].inquiryText);
   const [customInquiry, setCustomInquiry] = useState("");
   const [showCustomInquiry, setShowCustomInquiry] = useState(false);
 
@@ -43,6 +51,41 @@ export default function VapiCallModal() {
   const [sessionId, setSessionId] = useState("");
 
   const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Fetch dynamic CRM services to populate inquiry options and phone
+  useEffect(() => {
+    fetch("/api/crm/services")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.services && Array.isArray(data.services) && data.services.length > 0) {
+          if (data.whatsappNumber) {
+            setContactPhone(data.whatsappNumber);
+          }
+          const dynamicOptions: InquiryOption[] = data.services.slice(0, 7).map((s: any) => {
+            let label = s.name;
+            if (label.length > 25) {
+              label = label.replace(/\s*\([^)]*\)/g, "").trim();
+              if (label.length > 22) label = label.substring(0, 20) + "…";
+            }
+            const inquiryText = `Consulta y disponibilidad para ${s.name}${s.scheduleText ? ` (${s.scheduleText})` : ""}`;
+            return {
+              id: s.id,
+              label,
+              inquiryText,
+            };
+          });
+
+          dynamicOptions.push({
+            id: "general",
+            label: "Consulta General",
+            inquiryText: "Consulta general sobre servicios y horarios",
+          });
+
+          setInquiryOptions(dynamicOptions);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Initialize session ID
   useEffect(() => {
@@ -68,10 +111,13 @@ export default function VapiCallModal() {
       if (detail.inquiry) {
         setSelectedInquiry(detail.inquiry);
         // check if it matches any preset
-        const matched = INQUIRY_OPTIONS.find((opt) => opt.inquiryText === detail.inquiry);
+        const matched = inquiryOptions.find((opt) => opt.inquiryText === detail.inquiry || opt.label === detail.inquiry);
         if (!matched) {
           setShowCustomInquiry(true);
           setCustomInquiry(detail.inquiry);
+        } else {
+          setShowCustomInquiry(false);
+          setSelectedInquiry(matched.inquiryText);
         }
       }
       setStatus("idle");
@@ -84,7 +130,7 @@ export default function VapiCallModal() {
       window.removeEventListener("open-vapi-call-modal" as any, handleOpenModal as EventListener);
       if (countdownTimerRef.current) clearInterval(countdownTimerRef.current);
     };
-  }, []);
+  }, [inquiryOptions]);
 
   // Countdown effect when success
   useEffect(() => {
@@ -293,14 +339,14 @@ export default function VapiCallModal() {
                       Puedes contactar directamente ahora:
                     </span>
                     <a
-                      href="tel:+34695172625"
+                      href={`tel:${contactPhone}`}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#800020] text-white rounded-lg font-bold hover:bg-[#800020]/90 transition"
                     >
                       <Phone className="w-3.5 h-3.5" />
-                      Llamar al 695 172 625
+                      Llamar al {contactPhone.replace("+34", "").trim() || "695 172 625"}
                     </a>
                     <a
-                      href="https://wa.me/34695172625?text=Hola%20Salvadora,%20me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20las%20actividades%20del%20centro"
+                      href={`https://wa.me/${contactPhone.replace(/\+/g, "")}?text=Hola%20Salvadora,%20me%20gustar%C3%ADa%20informaci%C3%B3n%20sobre%20las%20actividades%20del%20centro`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#25D366] text-white rounded-lg font-bold hover:bg-[#20ba5a] transition"
@@ -318,7 +364,7 @@ export default function VapiCallModal() {
                   ¿Qué te gustaría consultar?
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {INQUIRY_OPTIONS.map((opt) => {
+                  {inquiryOptions.map((opt) => {
                     const isSelected = selectedInquiry === opt.inquiryText && !showCustomInquiry;
                     return (
                       <button
@@ -440,10 +486,10 @@ export default function VapiCallModal() {
             Llamada saliente sin coste para ti · RGPD UE
           </span>
           <a
-            href="tel:+34695172625"
+            href={`tel:${contactPhone}`}
             className="hover:text-[#800020] font-semibold underline"
           >
-            Directo: 695 172 625
+            Directo: {contactPhone.replace("+34", "").trim() || "695 172 625"}
           </a>
         </div>
       </div>

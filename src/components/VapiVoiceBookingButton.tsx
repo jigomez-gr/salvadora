@@ -146,7 +146,7 @@ export function VapiVoiceBookingButton({
                   <h3 className="mt-2 text-xl font-bold text-neutral-900">Reserva tu cita por teléfono</h3>
                   <p className="text-xs text-neutral-500 mt-1">
                     Indícanos tu número y te llamamos en 5 segundos. Hablarás con nuestra IA y recibirás un SMS de
-                    confirmación de Zadarma al finalizar.
+                    confirmación al instante al finalizar.
                   </p>
                 </div>
 

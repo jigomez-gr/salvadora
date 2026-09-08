@@ -81,6 +81,38 @@ export function WebMcpProvider() {
           },
           annotations: { readOnlyHint: true },
           execute: async () => {
+            try {
+              const res = await fetch("/api/crm/services");
+              if (res.ok) {
+                const data = await res.json();
+                if (data.services && data.services.length > 0) {
+                  return {
+                    content: [
+                      {
+                        type: "text",
+                        text: JSON.stringify({
+                          services: data.services.map((s: any) => ({
+                            name: s.name,
+                            type: s.serviceType,
+                            price: s.price ? `${s.price} EUR` : "A consultar",
+                            schedule: s.scheduleText || s.eventDatesText,
+                            durationMinutes: s.durationMinutes,
+                            maxCapacity: s.maxCapacity,
+                            firstClassFree: s.firstClassFree,
+                            freeForYogaStudents: s.freeForYogaStudents,
+                            whatsappBookingUrl: s.whatsappBookingUrl,
+                          })),
+                          contactPhone: data.whatsappNumber || "+34 695 17 26 25",
+                        }),
+                      },
+                    ],
+                  };
+                }
+              }
+            } catch (e) {
+              console.warn("Could not fetch live CRM services in WebMCP:", e);
+            }
+
             return {
               content: [
                 {

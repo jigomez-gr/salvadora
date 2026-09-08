@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { cookies } from "next/headers";
 import { sendBookingConfirmationSms } from "@/lib/sms";
+import { fetchCrmServices, findServiceByCodeOrId } from "@/lib/crmServices";
 
 export const dynamic = "force-dynamic";
 
@@ -44,31 +45,22 @@ export async function POST(request: Request) {
             );
         }
 
-        const validAccommodations = [
-            "clase_semanal",
-            "dos_clases_semanal",
-            "gong",
-            "puja",
-            "constelaciones_constelar",
-            "constelaciones_participar",
-            "retiro_encuentro",
-        ];
-        if (!validAccommodations.includes(tipoHabitacion)) {
-            return NextResponse.json(
-                { error: "La modalidad de inscripción seleccionada no es válida." },
-                { status: 400 }
-            );
-        }
+        // Consulta dinámica de servicios del CRM
+        const { services } = await fetchCrmServices();
+        const service = findServiceByCodeOrId(services, tipoHabitacion);
 
-        // Cálculo de importes por actividad
         let unitPrice = 25;
-        if (tipoHabitacion === "clase_semanal") unitPrice = 25;
-        else if (tipoHabitacion === "dos_clases_semanal") unitPrice = 42;
-        else if (tipoHabitacion === "gong") unitPrice = 16;
-        else if (tipoHabitacion === "puja") unitPrice = 90;
-        else if (tipoHabitacion === "constelaciones_constelar") unitPrice = 60;
-        else if (tipoHabitacion === "constelaciones_participar") unitPrice = 20;
-        else if (tipoHabitacion === "retiro_encuentro") unitPrice = 100;
+        if (service && service.price) {
+            const p = parseFloat(service.price);
+            if (!isNaN(p)) unitPrice = p;
+        } else {
+            if (tipoHabitacion === "dos_clases_semanal") unitPrice = 42;
+            else if (tipoHabitacion === "gong") unitPrice = 16;
+            else if (tipoHabitacion === "puja") unitPrice = 90;
+            else if (tipoHabitacion === "constelaciones_constelar") unitPrice = 60;
+            else if (tipoHabitacion === "constelaciones_participar") unitPrice = 20;
+            else if (tipoHabitacion === "retiro_encuentro") unitPrice = 100;
+        }
         const totalAmount = plazasCount * unitPrice;
 
         // Procedimiento de tratamiento de email con respeto:

@@ -17,8 +17,15 @@ import {
     MessageSquare,
     Sparkles,
     Calendar,
-    HeartHandshake
+    HeartHandshake,
+    Clock
 } from "lucide-react";
+import {
+    CrmService,
+    FALLBACK_CRM_SERVICES,
+    findServiceByCodeOrId,
+    formatServicePrice
+} from "@/lib/crmServices";
 
 interface UserSession {
     loggedIn: boolean;
@@ -56,7 +63,11 @@ interface UserSession {
     totalPaid?: number;
 }
 
-export default function BookingForm() {
+interface BookingFormProps {
+    initialServices?: CrmService[];
+}
+
+export default function BookingForm({ initialServices }: BookingFormProps = {}) {
     // Tab Navigation: 'alta' (default) vs 'consulta' (consultar estado existente)
     const [activeTab, setActiveTab] = useState<"alta" | "consulta">("alta");
 
@@ -137,20 +148,33 @@ export default function BookingForm() {
         }
     };
 
+    // Dynamic CRM Services
+    const [services, setServices] = useState<CrmService[]>(
+        initialServices && initialServices.length > 0 ? initialServices : FALLBACK_CRM_SERVICES
+    );
+
     useEffect(() => {
         loadSession();
+        async function loadCrmServices() {
+            try {
+                const res = await fetch("/api/crm/services");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.services && Array.isArray(data.services) && data.services.length > 0) {
+                        setServices(data.services);
+                    }
+                }
+            } catch (err) {
+                console.warn("Could not load dynamic services for booking form:", err);
+            }
+        }
+        loadCrmServices();
     }, []);
 
-    // Price calculation
-    let unitPrice = 25;
-    if (tipoHabitacion === "clase_semanal") unitPrice = 25;
-    else if (tipoHabitacion === "dos_clases_semanal") unitPrice = 42;
-    else if (tipoHabitacion === "gong") unitPrice = 16;
-    else if (tipoHabitacion === "puja") unitPrice = 90;
-    else if (tipoHabitacion === "constelaciones_constelar") unitPrice = 60;
-    else if (tipoHabitacion === "constelaciones_participar") unitPrice = 20;
-    else if (tipoHabitacion === "retiro_encuentro") unitPrice = 100;
-
+    // Dynamic Price calculation from CRM catalog
+    const matchedService = findServiceByCodeOrId(services, tipoHabitacion);
+    const parsedPrice = matchedService && matchedService.price ? parseFloat(matchedService.price) : 25;
+    const unitPrice = isNaN(parsedPrice) ? 25 : parsedPrice;
     const totalPrice = numeroPlazas * unitPrice;
 
     // Remaining balance
@@ -160,8 +184,10 @@ export default function BookingForm() {
         ? Math.max(0, currentReserva.importeTotal - currentPaid)
         : 0;
 
-    // Helper: Service Label
+    // Helper: Dynamic Service Label
     const getServiceTitle = (code: string) => {
+        const found = findServiceByCodeOrId(services, code);
+        if (found) return found.name;
         const labels: Record<string, string> = {
             clase_semanal: "1 Clase Semanal (Mes)",
             dos_clases_semanal: "2 Clases Semanales (Mes)",
@@ -169,7 +195,7 @@ export default function BookingForm() {
             puja: "Puja de Gong",
             constelaciones_constelar: "Constelaciones (Constelar)",
             constelaciones_participar: "Constelaciones (Participar)",
-            retiro_encuentro: "Señal Retiro / Encuentro",
+            retiro_encuentro: "Retiro de Ayuno Terapéutico",
         };
         return labels[code] || code;
     };
@@ -658,46 +684,62 @@ export default function BookingForm() {
                                         Servicio o Actividad a Reservar <span className="text-[#800020]">*</span>
                                     </label>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                        {[
-                                            { id: "clase_semanal", title: "1 Clase Semanal", desc: "1 sesión/semana de Nagna o Kundalini Yoga al mes", price: "25 € / mes" },
-                                            { id: "dos_clases_semanal", title: "2 Clases Semanales", desc: "2 sesiones/semana de Nagna o Kundalini Yoga al mes", price: "42 € / mes" },
-                                            { id: "gong", title: "Baño de Gong", desc: "Sesión mensual de sonoterapia y relajación", price: "16 € / sesión" },
-                                            { id: "puja", title: "Puja de Gong (11h)", desc: "Inmersión nocturna de toda la noche con sonido sagrado", price: "90 € / puja" },
-                                            { id: "constelaciones_constelar", title: "Constelaciones (Constelar)", desc: "Colocar tema familiar propio en el taller grupal", price: "60 € / sesión" },
-                                            { id: "constelaciones_participar", title: "Constelaciones (Participar)", desc: "Asistir como participante o representante", price: "20 € / sesión" },
-                                            { id: "retiro_encuentro", title: "Retiro / Encuentro", desc: "Señal de reserva para retiros en la naturaleza", price: "100 € (Señal)" },
-                                        ].map((svc) => (
-                                            <label
-                                                key={svc.id}
-                                                className={`flex flex-col justify-between p-3.5 rounded-xl border cursor-pointer transition ${
-                                                    tipoHabitacion === svc.id
-                                                        ? "bg-[#800020]/5 border-[#800020] ring-1 ring-[#800020]"
-                                                        : "bg-white border-stone-200 hover:border-stone-400"
-                                                }`}
-                                            >
-                                                <div className="flex items-start gap-2.5">
-                                                    <input
-                                                        type="radio"
-                                                        name="serviceType"
-                                                        value={svc.id}
-                                                        checked={tipoHabitacion === svc.id}
-                                                        onChange={() => setTipoHabitacion(svc.id)}
-                                                        className="mt-0.5 text-[#800020] focus:ring-[#800020]"
-                                                    />
-                                                    <div>
-                                                        <span className="block text-xs font-bold text-stone-900">
-                                                            {svc.title}
-                                                        </span>
-                                                        <span className="block text-[11px] text-stone-500 mt-0.5 leading-snug">
-                                                            {svc.desc}
-                                                        </span>
+                                        {services.map((svc) => {
+                                            const isSelected =
+                                                tipoHabitacion === svc.id ||
+                                                (tipoHabitacion === "clase_semanal" && svc.name.includes("1 clase semanal"));
+                                            const priceDisplay = formatServicePrice(svc);
+
+                                            return (
+                                                <label
+                                                    key={svc.id}
+                                                    className={`flex flex-col justify-between p-3.5 rounded-xl border cursor-pointer transition ${
+                                                        isSelected
+                                                            ? "bg-[#800020]/5 border-[#800020] ring-1 ring-[#800020]"
+                                                            : "bg-white border-stone-200 hover:border-stone-400"
+                                                    }`}
+                                                >
+                                                    <div className="flex items-start gap-2.5">
+                                                        <input
+                                                            type="radio"
+                                                            name="serviceType"
+                                                            value={svc.id}
+                                                            checked={isSelected}
+                                                            onChange={() => setTipoHabitacion(svc.id)}
+                                                            className="mt-0.5 text-[#800020] focus:ring-[#800020]"
+                                                        />
+                                                        <div>
+                                                            <div className="flex items-center gap-1.5 flex-wrap">
+                                                                <span className="block text-xs font-bold text-stone-900 leading-snug">
+                                                                    {svc.name}
+                                                                </span>
+                                                                {svc.firstClassFree && (
+                                                                    <span className="text-[9px] font-bold bg-amber-100 text-amber-900 px-1.5 py-0.2 rounded border border-amber-300">
+                                                                        1ª Gratis
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <span className="block text-[11px] text-stone-500 mt-1 leading-snug line-clamp-2">
+                                                                {svc.description || svc.scheduleText || "Actividad del centro"}
+                                                            </span>
+                                                            {svc.scheduleText && (
+                                                                <span className="block text-[10px] text-[#0B4A72] font-semibold mt-1">
+                                                                    🕒 {svc.scheduleText}
+                                                                </span>
+                                                            )}
+                                                            {svc.maxCapacity && (
+                                                                <span className="block text-[10px] text-stone-400 mt-0.5">
+                                                                    👥 Aforo: {svc.maxCapacity} plazas
+                                                                </span>
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <span className="block text-xs font-bold text-[#800020] mt-2.5 pl-6">
-                                                    {svc.price}
-                                                </span>
-                                            </label>
-                                        ))}
+                                                    <span className="block text-xs font-bold text-[#800020] mt-2.5 pl-6">
+                                                        {priceDisplay}
+                                                    </span>
+                                                </label>
+                                            );
+                                        })}
                                     </div>
                                 </div>
 

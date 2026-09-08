@@ -1,60 +1,32 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
   Sparkles,
   Calendar,
   Clock,
-  MapPin,
   MessageSquare,
   X,
-  Send,
-  RotateCcw,
   CheckCircle2,
-  Maximize2,
-  ChevronRight,
   Phone,
   User,
   Mail,
   ArrowUpRight,
   ShieldCheck,
-  Zap,
-  HeartHandshake,
-  Compass,
   Users,
 } from "lucide-react";
 import { SimuladorDiagnosticoModal } from "@/components/SimuladorDiagnosticoModal";
 import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { VapiVoiceBookingButton } from "@/components/VapiVoiceBookingButton";
-
-interface ChatMessage {
-  id: string;
-  direction: "inbound" | "outbound";
-  body: string;
-}
-
-interface ServiceItem {
-  id: string;
-  title: string;
-  category: string;
-  categoryIcon: string;
-  desc: string;
-  badge?: string;
-  schedules?: {
-    morning?: string;
-    afternoon?: string;
-    note?: string;
-  };
-  duration: string;
-  priceTag: string;
-  isFreeTrial: boolean;
-  serviceName: string;
-  calendarId: string;
-  modalities?: string[];
-  tags?: string[];
-}
+import {
+  CrmService,
+  FALLBACK_CRM_SERVICES,
+  formatServicePrice,
+  formatDuration,
+  categorizeCrmServices,
+} from "@/lib/crmServices";
 
 export default function DemoLandingPage() {
   const showAnalizaIA =
@@ -66,6 +38,33 @@ export default function DemoLandingPage() {
   const [simuladorOpen, setSimuladorOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isCrmChatOpen, setIsCrmChatOpen] = useState(false);
+
+  // Dynamic services from CRM
+  const [services, setServices] = useState<CrmService[]>(FALLBACK_CRM_SERVICES);
+  const [whatsappPhone, setWhatsappPhone] = useState("+34695172625");
+  const [crmLoading, setCrmLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const res = await fetch("/api/crm/services");
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.services && Array.isArray(data.services) && data.services.length > 0) {
+            setServices(data.services);
+            if (data.whatsappNumber) {
+              setWhatsappPhone(data.whatsappNumber);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic services, using fallback catalog:", err);
+      } finally {
+        setCrmLoading(false);
+      }
+    }
+    loadServices();
+  }, []);
 
   useEffect(() => {
     const handleCrmVisibility = (e: CustomEvent<{ isOpen: boolean }>) => {
@@ -83,234 +82,14 @@ export default function DemoLandingPage() {
   const [waLoading, setWaLoading] = useState(false);
   const [waSuccess, setWaSuccess] = useState(false);
 
-  // ─── 1. SERVICIOS DEL CENTRO / CLUB SOCIAL PARQUE GRANADA (EXCLUSIVAMENTE 2) ───
-  const centroActivities: ServiceItem[] = [
-    {
-      id: "bienestar-experience",
-      title: "Bienestar Experience (Longevidad & Salud Integral)",
-      category: "Longevidad & Biohacking",
-      categoryIcon: "🌿",
-      badge: "Programa de Bienestar Integral",
-      desc: "Experiencia personalizada y asesoramiento de bienestar integral presencial y online para optimizar tu energía vital, descanso, equilibrio emocional y longevidad saludable.",
-      tags: [
-        "Biohacking",
-        "Longevidad",
-        "Rejuvenecimiento",
-        "Biología",
-        "Crecimiento",
-        "Estilo de Vida",
-        "Meditación",
-        "Motivación",
-        "Inspiración",
-        "Conciencia",
-        "Ciencia",
-        "Espiritualidad",
-        "Nutrición",
-        "Medicina Natural",
-        "Ciclos Circadianos",
-        "Psicologías Positivas",
-        "Terapia de Sonido",
-      ],
-      schedules: {
-        morning: "Citas concertadas de mañana (Presencial y Online)",
-        afternoon: "Citas concertadas de tarde (Presencial y Online)",
-        note: "Sesión individual de 60 min • Se acuerda la hora entre alumno y asesor",
-      },
-      duration: "60 min",
-      priceTag: "25.00 € / sesión",
-      isFreeTrial: false,
-      serviceName: "Bienestar Experience (Longevidad y Bienestar Integral)",
-      calendarId: "cal-bienestar-experience",
-      modalities: ["Presencial", "Virtual (Online)"],
-    },
-    {
-      id: "iaido",
-      title: "Iaidō (Esgrima Japonesa Tradicional)",
-      category: "Arte de la Katana",
-      categoryIcon: "⚔️",
-      badge: "Prueba Gratis",
-      desc: "El arte marcial milenario del desenvaine, corte y funda de la katana japonesa. Enfoque en la máxima precisión, concentración, etiqueta marcial y postura corporal.",
-      tags: ["Katana Tradicional", "Concentración", "Arte Marcial", "Prueba Gratuita"],
-      schedules: {
-        afternoon: "Lunes: 20:00 a 21:00 (60 min) | Jueves: 20:30 a 22:00 (90 min)",
-        note: "Lugar: Club Social Parque Granada (Cafetería Bar • Entrada Libre). Prueba gratis en todas las clases.",
-      },
-      duration: "60 - 90 min",
-      priceTag: "Prueba Gratis",
-      isFreeTrial: true,
-      serviceName: "Iaidō (Esgrima Japonesa)",
-      calendarId: "cal-iaido",
-      modalities: ["Presencial en Club Social Parque Granada"],
-    },
-  ];
+  // Dynamically categorized services
+  const { destacadas, regularesYoga, talleresEventos, saludTerapeutica } = categorizeCrmServices(services);
 
-  // ─── 2. CLASES REGULARES DE LA ESCUELA DE YOGA SALVADORA CONESA ───
-  const regularYogaServices: ServiceItem[] = [
-    {
-      id: "hatha-yoga-1",
-      title: "Hatha Yoga Terapéutico (1 clase semanal)",
-      category: "Yoga & Salud Postural",
-      categoryIcon: "🧘",
-      badge: "🎁 1ª Clase de Regalo (0€) • Sueltas 10€",
-      desc: "Práctica consciente de asanas, alineación corporal, respiración terapéutica y relajación profunda.",
-      schedules: {
-        morning: "Martes y Jueves: 9:45 y 11:15",
-        afternoon: "Martes: 17:00, 18:30, 20:00 | Miércoles: 20:15 | Jueves: 16:00, 17:30, 19:00",
-        note: "Clases de 90 min. ¡Tu 1ª clase de prueba NO SE COBRA, ES UN REGALO (0 €)! Clases sueltas esporádicas a 10€/sesión (sin permanencia). Cuota de alumno con turno fijo semanal y recuperación de clases (hasta 3 meses / 90 días). Confirmación fehaciente por Email y SMS.",
-      },
-      duration: "90 min",
-      priceTag: "25.00 € / mes (Turno fijo)",
-      isFreeTrial: true,
-      serviceName: "Hatha Yoga Terapéutico (1 clase semanal)",
-      calendarId: "cal-hatha-yoga",
-    },
-    {
-      id: "hatha-yoga-2",
-      title: "Hatha Yoga Terapéutico (2 clases semanales)",
-      category: "Yoga & Práctica Frecuente",
-      categoryIcon: "🧘",
-      badge: "🎁 1ª Clase de Regalo (0€) • Sueltas 10€",
-      desc: "Inscripción para 2 sesiones semanales en los horarios oficiales de mañana o tarde.",
-      schedules: {
-        morning: "Martes y Jueves: 9:45 y 11:15",
-        afternoon: "Martes: 17:00, 18:30, 20:00 | Miércoles: 20:15 | Jueves: 16:00, 17:30, 19:00",
-        note: "Comparte calendario y aforo con 1 clase semanal. ¡Tu 1ª clase de prueba NO SE COBRA, ES UN REGALO (0 €)! Clases sueltas esporádicas a 10€/sesión (sin permanencia). Cuota de alumno con 2 turnos fijos semanales y recuperación de clases (hasta 3 meses / 90 días). Confirmación fehaciente por Email y SMS.",
-      },
-      duration: "90 min",
-      priceTag: "42.00 € / mes (2 Turnos fijos)",
-      isFreeTrial: true,
-      serviceName: "Hatha Yoga Terapéutico (2 clases semanales)",
-      calendarId: "cal-hatha-yoga",
-    },
-    {
-      id: "meditacion",
-      title: "Meditaciones Guiadas",
-      category: "Conciencia & Silencio",
-      categoryIcon: "✨",
-      badge: "¡GRATIS Alumnos de Yoga!",
-      desc: "Sesión grupal de meditación, respiración y centramiento para iniciar el día en calma y presencia. Aforo máximo 28 personas para máxima comodidad y concentración.",
-      schedules: {
-        morning: "Martes y Jueves de 09:15 a 09:45 (30 min)",
-        note: "¡GRATIS para alumnos matriculados en Yoga! No alumnos: 15€/mes (acceso ilimitado) o 3€ meditación suelta. Aforo máximo 28 personas.",
-      },
-      duration: "30 min",
-      priceTag: "GRATIS Alumnos · 15€/mes no alumnos (3€ suelta)",
-      isFreeTrial: false,
-      serviceName: "Meditaciones Guiadas",
-      calendarId: "cal-meditacion",
-    },
-    {
-      id: "gestalt",
-      title: "Terapia Gestalt (Sesión Individual)",
-      category: "Psicoterapia & Crecimiento",
-      categoryIcon: "🌱",
-      desc: "Sesión individual de acompañamiento terapéutico y toma de conciencia presencial u online.",
-      schedules: {
-        note: "Hora acordada de forma personalizada entre el alumno y el terapeuta.",
-      },
-      duration: "60 min",
-      priceTag: "35.00 € / sesión",
-      isFreeTrial: false,
-      serviceName: "Terapia Gestalt (Sesión Individual)",
-      calendarId: "cal-gestalt",
-    },
-  ];
-
-  // ─── 3. TALLERES, EVENTOS Y RETIROS ESPECIALES (REALES) ───
-  const eventServices: ServiceItem[] = [
-    {
-      id: "bano-gong",
-      title: "Baño de Gong y Meditación Sonora",
-      category: "Sonoterapia Mensual",
-      categoryIcon: "🔔",
-      badge: "Sábado 26 Septiembre 2026",
-      desc: "Un sábado al mes a finales de mes. Sesión de 2 horas: preparación, inmersión en el sonido envolvente de los gongs y meditación integradora.",
-      schedules: {
-        afternoon: "Sábado 26 de Septiembre de 2026 de 18:00 a 20:00",
-        note: "Aforo máximo: 30 personas. Pago en el centro.",
-      },
-      duration: "120 min (2h)",
-      priceTag: "16.00 €",
-      isFreeTrial: false,
-      serviceName: "Baño de Gong y Meditación Sonora",
-      calendarId: "cal-gong-mensual",
-    },
-    {
-      id: "puja-gongs",
-      title: "Puja de Gongs (Noche de Sonido - 11 Horas)",
-      category: "Inmersión Anual",
-      categoryIcon: "🌙",
-      badge: "Sábado 28 Noviembre 2026",
-      desc: "Evento anual de 11 horas ininterrumpidas de sonido sagrado durante toda la noche. Se medita y descansa envuelto en la vibración.",
-      schedules: {
-        afternoon: "Sábado 28 de Noviembre de 2026 (de 21:00 a 08:00 del domingo)",
-        note: "Aforo: 30 personas. Precio: 95€ (rango 90-100€ según asistentes). Reserva anticipada.",
-      },
-      duration: "660 min (11h)",
-      priceTag: "95.00 €",
-      isFreeTrial: false,
-      serviceName: "Puja de Gongs (Noche Sagrada de Sonido - 11h)",
-      calendarId: "cal-puja-gongs",
-    },
-    {
-      id: "constelaciones",
-      title: "Constelaciones Familiares",
-      category: "Taller Vivencial",
-      categoryIcon: "🕊️",
-      badge: "Domingo 27 Septiembre 2026",
-      desc: "Taller mensual de sanación de vínculos, dinámicas ocultas y orden en el sistema familiar.",
-      schedules: {
-        morning: "Domingo 27 de Septiembre de 2026 (10:00 a 14:00)",
-        note: "Tarifas: Constelar (asunto propio) 60€ / Participar (representante) 20€. Aforo: 25 personas.",
-      },
-      duration: "240 min (4h)",
-      priceTag: "60.00 € / 20.00 €",
-      isFreeTrial: false,
-      serviceName: "Constelaciones Familiares",
-      calendarId: "cal-constelaciones",
-    },
-    {
-      id: "ayuno-terapeutico",
-      title: "Retiro de Ayuno Terapéutico",
-      category: "Retiro Semestral",
-      categoryIcon: "🏕️",
-      badge: "Puente de Octubre (9-12 Oct 2026)",
-      desc: "Retiro residencial en la naturaleza para descanso digestivo, depuración, caminatas conscientes y salud holística.",
-      schedules: {
-        note: "Del 9 al 12 de Octubre de 2026. Aforo: 20 plazas. Precio según estancia y habitación.",
-      },
-      duration: "4 días",
-      priceTag: "Según estancia",
-      isFreeTrial: false,
-      serviceName: "Retiro de Ayuno Terapéutico",
-      calendarId: "cal-ayuno-terapeutico",
-    },
-    {
-      id: "encuentro-mujeres",
-      title: "Encuentro de Mujeres (Primavera)",
-      category: "Círculo Femenino",
-      categoryIcon: "🌸",
-      badge: "Sábado 15 Mayo 2027",
-      desc: "Jornada anual de conexión, rituales de paso, autocuidado y empoderamiento femenino.",
-      schedules: {
-        morning: "Sábado 15 de Mayo de 2027 (10:00 a 16:00)",
-        note: "Aforo máximo: 25 personas. Precio según programa.",
-      },
-      duration: "360 min (6h)",
-      priceTag: "45.00 €",
-      isFreeTrial: false,
-      serviceName: "Encuentro de Mujeres (Primavera)",
-      calendarId: "cal-encuentro-mujeres",
-    },
-  ];
-
-  const allServices = [...centroActivities, ...regularYogaServices, ...eventServices];
-
-  const handleServiceSelect = (svc: ServiceItem, preferredShift?: string) => {
-    setSelectedService(svc.serviceName);
+  const handleServiceSelect = (svc: CrmService, preferredShift?: string) => {
+    setSelectedService(svc.name);
     const msg = preferredShift
-      ? `Hola, me gustaría reservar para ${svc.title} en turno de ${preferredShift}. ¿Qué disponibilidad tenéis?`
-      : `Hola, me gustaría información y disponibilidad para ${svc.title}.`;
+      ? `Hola, me gustaría reservar para ${svc.name} en turno de ${preferredShift}. ¿Qué disponibilidad tenéis?`
+      : `Hola, me gustaría información y disponibilidad para ${svc.name}.`;
     triggerCrmChat(msg, true);
   };
 
@@ -341,6 +120,11 @@ export default function DemoLandingPage() {
       setTimeout(() => {
         if (data.whatsappUrl) {
           window.open(data.whatsappUrl, "_blank");
+        } else {
+          const defaultMsg = encodeURIComponent(
+            `Hola, me gustaría información sobre ${selectedService || "las actividades del centro"}.`
+          );
+          window.open(`https://wa.me/${whatsappPhone.replace(/[^0-9]/g, "")}?text=${defaultMsg}`, "_blank");
         }
         setWaModalOpen(false);
         setWaSuccess(false);
@@ -351,6 +135,24 @@ export default function DemoLandingPage() {
     }
   };
 
+  // Helper icons and category labels
+  const getCategoryMeta = (svc: CrmService) => {
+    const lower = svc.name.toLowerCase();
+    if (lower.includes("bienestar")) return { icon: "🌿", label: "Longevidad & Biohacking" };
+    if (lower.includes("iaidō") || lower.includes("iaido")) return { icon: "⚔️", label: "Arte de la Katana" };
+    if (lower.includes("hatha")) return { icon: "🧘", label: "Yoga & Salud Postural" };
+    if (lower.includes("meditaci")) return { icon: "✨", label: "Conciencia & Silencio" };
+    if (lower.includes("gestalt")) return { icon: "🌱", label: "Psicoterapia Gestalt" };
+    if (lower.includes("gong") && lower.includes("puja")) return { icon: "🌙", label: "Inmersión Nocturna Anual" };
+    if (lower.includes("gong")) return { icon: "🔔", label: "Sonoterapia Mensual" };
+    if (lower.includes("constelaci")) return { icon: "🕊️", label: "Taller Vivencial" };
+    if (lower.includes("ayuno")) return { icon: "🏕️", label: "Retiro Residencial" };
+    if (lower.includes("mujeres")) return { icon: "🌸", label: "Círculo Femenino" };
+    if (lower.includes("médica") || lower.includes("clinico")) return { icon: "🩺", label: "Consulta Médica" };
+    if (lower.includes("fisioterapia")) return { icon: "💆", label: "Rehabilitación Postural" };
+    return { icon: "🌟", label: svc.serviceType === "recurring" ? "Actividad Regular" : "Evento Especial" };
+  };
+
   return (
     <div className="min-h-screen bg-[#F8F7F4] text-[#1E1E1E] font-sans selection:bg-[#800020] selection:text-white relative">
       {/* Top Banner CRM Notification */}
@@ -359,7 +161,7 @@ export default function DemoLandingPage() {
           <div className="flex items-center gap-2 text-center sm:text-left">
             <span className="flex h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-medium">
-              <strong>Portal de Reservas & Traspaso a WhatsApp</strong>
+              <strong>Catálogo Sincronizado en Vivo con CRM Salvadora</strong> · Traspaso directo a WhatsApp
             </span>
           </div>
           <Link
@@ -375,17 +177,17 @@ export default function DemoLandingPage() {
       <div className="bg-[#0B4A72] text-white px-3 sm:px-4 py-2 text-xs text-center font-bold tracking-wide flex items-center justify-center gap-3 sm:gap-4 flex-wrap shadow-inner">
         <span>📍 CLUB SOCIAL PARQUE GRANADA & CENTRO SALVADORA CONESA</span>
         <span className="bg-emerald-500 text-white px-2.5 py-0.5 rounded text-[11px] font-extrabold uppercase tracking-wide">
-          💳 Pagos en el Centro · Pronto también con Stripe y Giglon
+          💳 Pagos en el Centro · Sincronizado en tiempo real
         </span>
         <button
           onClick={() => setSimuladorOpen(true)}
-          className="inline-flex items-center gap-1 bg-amber-400 hover:bg-amber-300 text-stone-950 px-3 py-0.5 rounded-full text-xs font-bold transition shadow-xs"
+          className="inline-flex items-center gap-1 bg-amber-400 hover:bg-amber-300 text-stone-950 px-3 py-0.5 rounded-full text-xs font-bold transition shadow-xs cursor-pointer"
         >
           🔬 Simulador IA
         </button>
         <button
           onClick={() => setWaModalOpen(true)}
-          className="inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 px-3 py-0.5 rounded-full text-white font-semibold transition shadow-xs"
+          className="inline-flex items-center gap-1 bg-emerald-600 hover:bg-emerald-500 px-3 py-0.5 rounded-full text-white font-semibold transition shadow-xs cursor-pointer"
         >
           📱 Continuar por WhatsApp
         </button>
@@ -463,7 +265,7 @@ export default function DemoLandingPage() {
             Descubre tus Actividades de Salud, Conciencia y Armonía
           </h2>
           <p className="text-stone-700 text-sm sm:text-base max-w-3xl leading-relaxed">
-            Explora las clases regulares de <strong>Hatha Yoga Terapéutico</strong>, nuestro programa <strong>Bienestar Experience (Longevidad & Biohacking)</strong>, las sesiones de <strong>Iaidō</strong> en Parque Granada, meditaciones y retiros especiales. <strong>Pagos en el centro</strong> (pronto también disponibles online con <strong>Stripe</strong> y venta de entradas en <strong>Giglon</strong>).
+            Catálogo completo actualizado en vivo desde nuestra base de datos. Consulta las clases regulares de <strong>Hatha Yoga Terapéutico</strong>, el programa <strong>Bienestar Experience</strong>, las sesiones de <strong>Iaidō</strong> en Parque Granada, meditaciones, sonoterapia y retiros.
           </p>
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2">
             <button
@@ -479,7 +281,7 @@ export default function DemoLandingPage() {
             />
             <button
               onClick={() => setWaModalOpen(true)}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer"
             >
               <Phone className="w-4 h-4" /> Traspasar Consulta a WhatsApp
             </button>
@@ -487,359 +289,420 @@ export default function DemoLandingPage() {
         </div>
       </section>
 
-      {/* ─── SECCIÓN 1: OTRAS ACTIVIDADES ADICIONALES DE LA ESCUELA DE YOGA SALVADORA CONESA (EXCLUSIVAMENTE 2) ─── */}
-      <section className="max-w-6xl mx-auto px-4 py-8">
-        <div className="mb-6 pb-3 border-b-2 border-[#0B4A72]">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-            <div>
-              <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#0B4A72] flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" /> OTRAS ACTIVIDADES ADICIONALES DE LA ESCUELA DE YOGA SALVADORA CONESA
-              </span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
-                Longevidad (Bienestar Experience) & Iaidō (Esgrima Japonesa)
-              </h3>
-            </div>
-            <span className="text-xs text-stone-600 font-medium">
-              Actividades adicionales • Presencial & Online
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {centroActivities.map((act) => (
-            <div
-              key={act.id}
-              className="bg-white rounded-3xl border-2 border-stone-200 p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:border-[#800020] relative overflow-hidden group"
-            >
-              {/* Background accent */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-amber-100/50 via-transparent to-transparent rounded-bl-full pointer-events-none" />
-
+      {/* ─── SECCIÓN 1: OTRAS ACTIVIDADES ADICIONALES (BIENESTAR EXPERIENCE & IAIDŌ) ─── */}
+      {destacadas.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 py-8">
+          <div className="mb-6 pb-3 border-b-2 border-[#0B4A72]">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
               <div>
-                {/* Header Badge */}
-                <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-800 flex items-center gap-1.5 border border-stone-200">
-                    <span>{act.categoryIcon}</span> {act.category}
-                  </span>
-                  {act.badge && (
-                    <span className="text-[11px] font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 uppercase">
-                      {act.badge}
-                    </span>
-                  )}
-                </div>
+                <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#0B4A72] flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" /> ACTIVIDADES DESTACADAS · CLUB SOCIAL PARQUE GRANADA & CENTRO
+                </span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
+                  Longevidad (Bienestar Experience) & Iaidō (Esgrima Japonesa)
+                </h3>
+              </div>
+              <span className="text-xs text-stone-600 font-medium">
+                {crmLoading ? "Sincronizando..." : `${destacadas.length} actividades disponibles`}
+              </span>
+            </div>
+          </div>
 
-                {/* Title & Emblem for Bienestar Experience */}
-                {act.id === "bienestar-experience" ? (
-                  <div className="space-y-4 mb-4">
-                    <div className="flex items-center gap-3">
-                      {/* Emblem SVG inspired by the user's PDF */}
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-full bg-stone-900 text-white flex items-center justify-center p-2 border-2 border-amber-500 shadow-md text-center">
-                        <div className="leading-tight">
-                          <span className="block text-[8px] font-bold tracking-widest text-amber-300 uppercase">BIEN</span>
-                          <span className="block text-[10px] font-extrabold tracking-wider uppercase">ESTAR</span>
-                          <span className="block text-[8px] font-bold tracking-widest text-stone-300 uppercase">EXP</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {destacadas.map((act) => {
+              const meta = getCategoryMeta(act);
+              const isBienestar = act.name.toLowerCase().includes("bienestar experience");
+              const priceDisplay = formatServicePrice(act);
+              const durationDisplay = formatDuration(act.durationMinutes);
+
+              return (
+                <div
+                  key={act.id}
+                  className="bg-white rounded-3xl border-2 border-stone-200 p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between hover:border-[#800020] relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-amber-100/50 via-transparent to-transparent rounded-bl-full pointer-events-none" />
+
+                  <div>
+                    {/* Header Badges */}
+                    <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-stone-100 text-stone-800 flex items-center gap-1.5 border border-stone-200">
+                        <span>{meta.icon}</span> {meta.label}
+                      </span>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {act.firstClassFree && (
+                          <span className="text-[11px] font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 uppercase">
+                            Prueba Gratis
+                          </span>
+                        )}
+                        {act.maxCapacity && (
+                          <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200 flex items-center gap-1">
+                            <Users className="w-3 h-3" /> Aforo: {act.maxCapacity} {act.maxCapacity === 1 ? "plaza" : "plazas"}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Title & Emblem for Bienestar Experience */}
+                    {isBienestar ? (
+                      <div className="space-y-4 mb-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-full bg-stone-900 text-white flex items-center justify-center p-2 border-2 border-amber-500 shadow-md text-center">
+                            <div className="leading-tight">
+                              <span className="block text-[8px] font-bold tracking-widest text-amber-300 uppercase">BIEN</span>
+                              <span className="block text-[10px] font-extrabold tracking-wider uppercase">ESTAR</span>
+                              <span className="block text-[8px] font-bold tracking-widest text-stone-300 uppercase">EXP</span>
+                            </div>
+                          </div>
+                          <div>
+                            <h4 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 group-hover:text-[#800020] transition-colors leading-snug">
+                              {act.name}
+                            </h4>
+                            <p className="text-xs font-semibold text-emerald-700 mt-0.5">
+                              {priceDisplay} • {act.allowedModalities?.map(m => m === "in_person" ? "Presencial" : m === "virtual" ? "Online" : m).join(" · ") || "Presencial y Online"}
+                            </p>
+                          </div>
+                        </div>
+
+                        <p className="text-xs sm:text-sm text-stone-700 leading-relaxed whitespace-pre-line">
+                          {act.description}
+                        </p>
+
+                        <div className="pt-2">
+                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#0B4A72] block mb-1.5">
+                            🔬 Disciplinas y Áreas Incluidas:
+                          </span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {[
+                              "Biohacking",
+                              "Longevidad",
+                              "Rejuvenecimiento",
+                              "Ciclos Circadianos",
+                              "Psicología Positiva",
+                              "Terapia de Sonido",
+                              "Nutrición Celular",
+                              "Meditación",
+                            ].map((t) => (
+                              <span
+                                key={t}
+                                className="inline-block bg-amber-50 text-amber-900 border border-amber-200/80 px-2 py-0.5 rounded-md text-[10px] font-medium"
+                              >
+                                • {t}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
+                    ) : (
                       <div>
-                        <h4 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 group-hover:text-[#800020] transition-colors leading-snug">
-                          {act.title}
-                        </h4>
-                        <p className="text-xs font-semibold text-emerald-700 mt-0.5">
-                          {act.priceTag} • {act.modalities?.join(" · ")}
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 group-hover:text-[#800020] transition-colors">
+                            {act.name}
+                          </h4>
+                          <span className="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg text-xs border border-emerald-200 shrink-0 ml-2">
+                            {priceDisplay}
+                          </span>
+                        </div>
+                        <p className="text-xs sm:text-sm text-stone-700 leading-relaxed mb-4 whitespace-pre-line">
+                          {act.description}
                         </p>
                       </div>
-                    </div>
+                    )}
 
-                    <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
-                      {act.desc}
-                    </p>
-
-                    {/* Tags from PDF Emblem */}
-                    {act.tags && (
-                      <div className="pt-2">
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#0B4A72] block mb-1.5">
-                          🔬 Disciplinas y Áreas Incluidas (PDF Oficial):
-                        </span>
-                        <div className="flex flex-wrap gap-1.5">
-                          {act.tags.map((t) => (
-                            <span
-                              key={t}
-                              className="inline-block bg-amber-50 text-amber-900 border border-amber-200/80 px-2 py-0.5 rounded-md text-[10px] font-medium"
-                            >
-                              • {t}
-                            </span>
-                          ))}
+                    {/* Horarios dinámicos desde CRM */}
+                    {(act.scheduleText || act.eventDatesText) && (
+                      <div className="bg-[#FAF9F6] rounded-2xl p-4 border border-stone-200/90 space-y-2 mb-4">
+                        <div className="text-xs font-bold text-[#800020] uppercase tracking-wider flex items-center gap-1.5">
+                          <Clock className="w-4 h-4 text-[#0B4A72]" /> Horarios y Turnos Oficiales:
+                        </div>
+                        <div className="text-xs text-stone-800">
+                          {act.scheduleText || act.eventDatesText}
+                        </div>
+                        <div className="text-[11px] text-stone-600 italic pt-1 border-t border-stone-200 flex items-center justify-between">
+                          <span>Duración: {durationDisplay}</span>
+                          {act.maxCapacity && <span>Aforo máximo: {act.maxCapacity} plazas</span>}
                         </div>
                       </div>
                     )}
                   </div>
-                ) : (
-                  <div>
-                    <h4 className="font-serif text-xl sm:text-2xl font-bold text-stone-900 mb-2 group-hover:text-[#800020] transition-colors">
-                      {act.title}
-                    </h4>
-                    <p className="text-xs sm:text-sm text-stone-700 leading-relaxed mb-4">
-                      {act.desc}
-                    </p>
-                    {act.tags && (
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {act.tags.map((t) => (
-                          <span
-                            key={t}
-                            className="bg-stone-100 text-stone-800 px-2 py-0.5 rounded-md text-[11px] font-medium border border-stone-200"
-                          >
-                            ✓ {t}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
 
-                {/* Schedules */}
-                {act.schedules && (
-                  <div className="bg-[#FAF9F6] rounded-2xl p-4 border border-stone-200/90 space-y-2 mb-4">
-                    <div className="text-xs font-bold text-[#800020] uppercase tracking-wider flex items-center gap-1.5">
-                      <Clock className="w-4 h-4 text-[#0B4A72]" /> Horarios y Condiciones:
+                  {/* Action Buttons */}
+                  <div className="pt-3 border-t border-stone-100 space-y-2.5">
+                    <button
+                      onClick={() => handleServiceSelect(act)}
+                      className="w-full py-3 px-4 bg-[#800020] hover:bg-[#800020]/90 text-white rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Calendar className="w-4 h-4" /> Reservar / Consultar Disponibilidad
+                    </button>
+                    <div className="flex items-center justify-between text-xs pt-1">
+                      {act.whatsappBookingUrl ? (
+                        <a
+                          href={act.whatsappBookingUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1"
+                        >
+                          <Phone className="w-3.5 h-3.5" /> Pedir por WhatsApp
+                        </a>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setSelectedService(act.name);
+                            setWaModalOpen(true);
+                          }}
+                          className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1 cursor-pointer"
+                        >
+                          <Phone className="w-3.5 h-3.5" /> Pedir por WhatsApp
+                        </button>
+                      )}
+                      <span className="text-stone-500 font-medium">Pago en centro</span>
                     </div>
-                    {act.schedules.afternoon && (
-                      <div className="text-xs text-stone-800">
-                        <strong>Turnos:</strong> {act.schedules.afternoon}
-                      </div>
-                    )}
-                    {act.schedules.morning && (
-                      <div className="text-xs text-stone-800">
-                        <strong>Mañanas:</strong> {act.schedules.morning}
-                      </div>
-                    )}
-                    {act.schedules.note && (
-                      <div className="text-[11px] text-stone-600 italic pt-1 border-t border-stone-200">
-                        ℹ️ {act.schedules.note}
-                      </div>
-                    )}
                   </div>
-                )}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-3 border-t border-stone-100 space-y-2.5">
-                <button
-                  onClick={() => handleServiceSelect(act)}
-                  className="w-full py-3 px-4 bg-[#800020] hover:bg-[#800020]/90 text-white rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2"
-                >
-                  <Calendar className="w-4 h-4" /> Reservar / Consultar Disponibilidad
-                </button>
-                <div className="flex items-center justify-between text-xs pt-1">
-                  <button
-                    onClick={() => {
-                      setSelectedService(act.serviceName);
-                      setWaModalOpen(true);
-                    }}
-                    className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1"
-                  >
-                    <Phone className="w-3.5 h-3.5" /> Pedir por WhatsApp
-                  </button>
-                  <span className="text-stone-500 font-medium">Pago en centro (Pronto Stripe & Giglon)</span>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
-      {/* ─── SECCIÓN 2: CLASES Y SERVICIOS REGULARES DE YOGA & TERAPIA ─── */}
+      {/* ─── SECCIÓN 2: ESCUELA DE YOGA & TERAPIAS REGULARES ─── */}
       <section className="max-w-6xl mx-auto px-4 py-8">
         <div className="mb-6 pb-3 border-b-2 border-stone-300">
           <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#800020]">
-            ESCUELA SALVADORA CONESA
+            ESCUELA SALVADORA CONESA · CLASES REGULARES
           </span>
           <h3 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
-            Hatha Yoga Terapéutico, Meditaciones y Terapia Gestalt
+            Hatha Yoga Terapéutico, Meditaciones y Terapias
           </h3>
         </div>
 
-        {/* Banner Informativo Reglas de Yoga */}
+        {/* Banner Informativo Políticas de Yoga */}
         <div className="mb-6 bg-amber-50/95 border-2 border-amber-200/90 rounded-2xl p-5 text-xs text-stone-800 shadow-sm space-y-2">
           <div className="flex items-center gap-2">
             <span className="text-xl">🧘</span>
             <h4 className="font-bold text-amber-950 text-sm sm:text-base">
-              Políticas Oficiales, 1ª Clase de Regalo y Flexibilidad de Alumnos:
+              Condiciones de Matriculación y Flexibilidad para Alumnos:
             </h4>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1 text-stone-700 leading-relaxed">
             <div className="space-y-2">
               <p>
-                • 🎁 <strong>1ª Clase de prueba de REGALO:</strong> ¡Tu primera clase de prueba <strong>NO SE COBRA, ES UN REGALO</strong>! (100% gratuita, 0 €, sin compromiso ni permanencia).
+                • 🎁 <strong>1ª Clase de prueba de REGALO:</strong> Tu primera clase en las disciplinas marcadas es gratuita (0 €), sin compromiso ni permanencia.
               </p>
               <p>
-                • 📅 <strong>Cuotas de Alumno (Turno fijo garantizado):</strong> 1 clase/semana por <strong>25,00 €/mes</strong> o 2 clases/semana por <strong>42,00 €/mes</strong>. Alumno con horario fijo semanal reservado para no tener que estar reservando cita cada semana. Total libertad para darse de alta o baja cuando se desee.
+                • 📅 <strong>Cuotas de Alumno con Turno Fijo:</strong> 1 clase semanal (25 €/mes) o 2 clases semanales (42 €/mes) con plaza reservada fija garantizada.
               </p>
               <p>
-                • 🎟️ <strong>Clases sueltas / esporádicas:</strong> <strong>10,00 € por clase</strong> para quien no desee matricularse como alumno mensual, sin permanencia.
+                • 🎟️ <strong>Clases sueltas / esporádicas:</strong> 10 € por clase para quien no desee matricularse mensualmente.
               </p>
             </div>
             <div className="space-y-2">
               <p>
-                • 🔄 <strong>Política de recuperaciones (hasta 3 meses / 90 días):</strong> Si no puedes asistir y avisas con antelación, tienes hasta 3 meses para recuperar tu clase en cualquier otro turno con plaza libre.
+                • 🔄 <strong>Política de recuperaciones (hasta 3 meses / 90 días):</strong> Si avisas con antelación, puedes recuperar tus clases en cualquier otro turno disponible.
               </p>
               <p>
-                • ✨ <strong>Meditaciones Guiadas (Martes y Jueves 09:15):</strong> <strong>¡GRATIS!</strong> para todos los alumnos matriculados en Yoga. No alumnos: 15,00 €/mes (acceso ilimitado) o 3,00 € por meditación suelta (aforo máx. 28 personas).
+                • ✨ <strong>Meditaciones Guiadas:</strong> Gratuitas para los alumnos matriculados en Yoga. No alumnos: 15 €/mes (o 3 € sesión suelta).
               </p>
               <p>
-                • 📩 <strong>Confirmación fehaciente:</strong> Recibirás confirmación inmediata por <strong>Correo Electrónico y por SMS</strong> tras cada reserva, cambio o reprogramación de clase.
+                • 📩 <strong>Confirmación Inmediata:</strong> Avisos por SMS y correo electrónico al confirmar cada plaza o reserva.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {regularYogaServices.map((svc) => (
-            <div
-              key={svc.id}
-              className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between hover:border-[#800020]/40"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-1 mb-2.5">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-100 text-stone-700 flex items-center gap-1">
-                    <span>{svc.categoryIcon}</span> {svc.category}
-                  </span>
-                  <span className="text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                    {svc.priceTag}
-                  </span>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {[...regularesYoga, ...saludTerapeutica].map((svc) => {
+            const meta = getCategoryMeta(svc);
+            const priceDisplay = formatServicePrice(svc);
+            const durationDisplay = formatDuration(svc.durationMinutes);
 
-                {svc.badge && (
-                  <div className="mb-2">
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 inline-block">
-                      ⭐ {svc.badge}
+            return (
+              <div
+                key={svc.id}
+                className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between hover:border-[#800020]/40"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-1 mb-2.5">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-100 text-stone-700 flex items-center gap-1">
+                      <span>{meta.icon}</span> {meta.label}
+                    </span>
+                    <span className="text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                      {priceDisplay}
                     </span>
                   </div>
-                )}
 
-                <h4 className="font-serif text-base font-bold text-stone-900 mb-1.5 leading-snug">
-                  {svc.title}
-                </h4>
-                <p className="text-xs text-stone-600 leading-relaxed mb-3">
-                  {svc.desc}
-                </p>
-
-                {svc.schedules && (
-                  <div className="bg-[#FAF9F6] rounded-xl p-3 border border-stone-200 text-xs space-y-1 mb-3">
-                    <div className="font-bold text-[#800020] text-[11px] uppercase">Horarios:</div>
-                    {svc.schedules.morning && (
-                      <div className="text-[11px] text-stone-800">
-                        <strong>Mañanas:</strong> {svc.schedules.morning}
-                      </div>
+                  {/* Badges especiales */}
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {svc.firstClassFree && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 inline-block">
+                        ⭐ 1ª Clase de Regalo (0€)
+                      </span>
                     )}
-                    {svc.schedules.afternoon && (
-                      <div className="text-[11px] text-stone-800">
-                        <strong>Tardes:</strong> {svc.schedules.afternoon}
-                      </div>
+                    {svc.freeForYogaStudents && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-900 border border-purple-300 inline-block">
+                        ✨ ¡Gratis Alumnos Yoga!
+                      </span>
                     )}
-                    {svc.schedules.note && (
-                      <div className="text-[10px] text-stone-500 italic pt-1 border-t border-stone-200">
-                        {svc.schedules.note}
-                      </div>
+                    {svc.maxCapacity && (
+                      <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-stone-100 text-stone-600 border border-stone-200 inline-flex items-center gap-1">
+                        <Users className="w-2.5 h-2.5" /> Aforo: {svc.maxCapacity} plazas
+                      </span>
                     )}
                   </div>
-                )}
-              </div>
 
-              <div className="pt-2 border-t border-stone-100 space-y-2">
-                <button
-                  onClick={() => handleServiceSelect(svc)}
-                  className="w-full py-2 px-3 bg-[#800020] hover:bg-[#800020]/90 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1"
-                >
-                  <Calendar className="w-3.5 h-3.5" /> Reservar Plaza
-                </button>
-                <div className="flex items-center justify-between text-[11px] text-stone-500">
-                  <span>{svc.duration}</span>
+                  <h4 className="font-serif text-base font-bold text-stone-900 mb-1.5 leading-snug">
+                    {svc.name}
+                  </h4>
+                  <p className="text-xs text-stone-600 leading-relaxed mb-3 whitespace-pre-line">
+                    {svc.description}
+                  </p>
+
+                  {svc.scheduleText && (
+                    <div className="bg-[#FAF9F6] rounded-xl p-3 border border-stone-200 text-xs space-y-1 mb-3">
+                      <div className="font-bold text-[#800020] text-[11px] uppercase flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" /> Horarios Oficiales:
+                      </div>
+                      <div className="text-[11px] text-stone-800">
+                        {svc.scheduleText}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="pt-2 border-t border-stone-100 space-y-2">
                   <button
-                    onClick={() => {
-                      setSelectedService(svc.serviceName);
-                      setWaModalOpen(true);
-                    }}
-                    className="text-emerald-700 font-bold hover:underline"
+                    onClick={() => handleServiceSelect(svc)}
+                    className="w-full py-2 px-3 bg-[#800020] hover:bg-[#800020]/90 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1 cursor-pointer"
                   >
-                    WhatsApp
+                    <Calendar className="w-3.5 h-3.5" /> Reservar Plaza
                   </button>
+                  <div className="flex items-center justify-between text-[11px] text-stone-500">
+                    <span>{durationDisplay}</span>
+                    {svc.whatsappBookingUrl ? (
+                      <a
+                        href={svc.whatsappBookingUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-emerald-700 font-bold hover:underline"
+                      >
+                        WhatsApp
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setSelectedService(svc.name);
+                          setWaModalOpen(true);
+                        }}
+                        className="text-emerald-700 font-bold hover:underline cursor-pointer"
+                      >
+                        WhatsApp
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
       {/* ─── SECCIÓN 3: TALLERES, EVENTOS Y RETIROS ESPECIALES ─── */}
-      <section className="max-w-6xl mx-auto px-4 py-8">
-        <div className="mb-6 pb-3 border-b-2 border-purple-300">
-          <span className="text-[11px] font-extrabold uppercase tracking-widest text-purple-900">
-            ENCUENTROS, SONIDO Y RETIROS
-          </span>
-          <h3 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
-            Baños de Gong, Constelaciones, Ayuno y Pujas
-          </h3>
-        </div>
+      {talleresEventos.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 py-8">
+          <div className="mb-6 pb-3 border-b-2 border-purple-300">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-purple-900">
+              ENCUENTROS, SONIDO Y RETIROS
+            </span>
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
+              Baños de Gong, Pujas, Constelaciones y Retiros
+            </h3>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {eventServices.map((ev) => (
-            <div
-              key={ev.id}
-              className="bg-white rounded-3xl border border-purple-200/80 p-5 shadow-xs hover:shadow-lg transition flex flex-col justify-between hover:border-purple-600"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-1 mb-2.5">
-                  <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-900 border border-purple-200 flex items-center gap-1">
-                    <span>{ev.categoryIcon}</span> {ev.category}
-                  </span>
-                  <span className="text-xs font-extrabold text-stone-900 bg-amber-100 px-2.5 py-0.5 rounded-md">
-                    {ev.priceTag}
-                  </span>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {talleresEventos.map((ev) => {
+              const meta = getCategoryMeta(ev);
+              const priceDisplay = formatServicePrice(ev);
+              const durationDisplay = formatDuration(ev.durationMinutes);
 
-                {ev.badge && (
-                  <div className="inline-block bg-purple-100 text-purple-950 font-bold text-[11px] px-2.5 py-0.5 rounded-md mb-2">
-                    🗓️ {ev.badge}
-                  </div>
-                )}
-
-                <h4 className="font-serif text-lg font-bold text-stone-900 mb-1.5 leading-snug">
-                  {ev.title}
-                </h4>
-                <p className="text-xs text-stone-600 leading-relaxed mb-3">
-                  {ev.desc}
-                </p>
-
-                {ev.schedules?.note && (
-                  <div className="bg-stone-50 rounded-xl p-2.5 border border-stone-200 text-[11px] text-stone-600 mb-3 italic">
-                    ℹ️ {ev.schedules.note}
-                  </div>
-                )}
-              </div>
-
-              <div className="pt-2 border-t border-stone-100 space-y-2">
-                <button
-                  onClick={() => handleServiceSelect(ev)}
-                  className="w-full py-2.5 px-4 bg-purple-900 hover:bg-purple-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1.5"
+              return (
+                <div
+                  key={ev.id}
+                  className="bg-white rounded-3xl border border-purple-200/80 p-5 shadow-xs hover:shadow-lg transition flex flex-col justify-between hover:border-purple-600"
                 >
-                  <Calendar className="w-3.5 h-3.5" /> Solicitar Reserva
-                </button>
-                <div className="flex items-center justify-between text-[11px] text-stone-500">
-                  <span>Duración: {ev.duration}</span>
-                  <button
-                    onClick={() => {
-                      setSelectedService(ev.serviceName);
-                      setWaModalOpen(true);
-                    }}
-                    className="text-emerald-700 font-bold hover:underline"
-                  >
-                    WhatsApp
-                  </button>
+                  <div>
+                    <div className="flex items-center justify-between gap-1 mb-2.5">
+                      <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-900 border border-purple-200 flex items-center gap-1">
+                        <span>{meta.icon}</span> {meta.label}
+                      </span>
+                      <span className="text-xs font-extrabold text-stone-900 bg-amber-100 px-2.5 py-0.5 rounded-md">
+                        {priceDisplay}
+                      </span>
+                    </div>
+
+                    {/* Fecha de evento o aforo */}
+                    <div className="flex flex-wrap gap-1.5 mb-2">
+                      {ev.eventDatesText && (
+                        <div className="inline-block bg-purple-100 text-purple-950 font-bold text-[11px] px-2.5 py-0.5 rounded-md">
+                          🗓️ {ev.eventDatesText}
+                        </div>
+                      )}
+                      {ev.maxCapacity && (
+                        <div className="inline-flex items-center gap-1 bg-stone-100 text-stone-700 text-[11px] px-2.5 py-0.5 rounded-md border border-stone-200">
+                          <Users className="w-3 h-3" /> Aforo: {ev.maxCapacity} plazas
+                        </div>
+                      )}
+                    </div>
+
+                    <h4 className="font-serif text-lg font-bold text-stone-900 mb-1.5 leading-snug">
+                      {ev.name}
+                    </h4>
+                    <p className="text-xs text-stone-600 leading-relaxed mb-3 whitespace-pre-line">
+                      {ev.description}
+                    </p>
+
+                    {ev.scheduleText && (
+                      <div className="bg-stone-50 rounded-xl p-2.5 border border-stone-200 text-[11px] text-stone-700 mb-3">
+                        <span className="font-bold text-[#800020]">Horario:</span> {ev.scheduleText}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-2 border-t border-stone-100 space-y-2">
+                    <button
+                      onClick={() => handleServiceSelect(ev)}
+                      className="w-full py-2.5 px-4 bg-purple-900 hover:bg-purple-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <Calendar className="w-3.5 h-3.5" /> Solicitar Reserva
+                    </button>
+                    <div className="flex items-center justify-between text-[11px] text-stone-500">
+                      <span>Duración: {durationDisplay}</span>
+                      {ev.whatsappBookingUrl ? (
+                        <a
+                          href={ev.whatsappBookingUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-emerald-700 font-bold hover:underline"
+                        >
+                          WhatsApp
+                        </a>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setSelectedService(ev.name);
+                            setWaModalOpen(true);
+                          }}
+                          className="text-emerald-700 font-bold hover:underline cursor-pointer"
+                        >
+                          WhatsApp
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Footer */}
       <footer className="bg-stone-900 text-stone-400 text-xs py-10 border-t border-stone-800 space-y-5">
@@ -847,13 +710,12 @@ export default function DemoLandingPage() {
           <p className="font-semibold text-stone-300">
             CENTRO DE YOGA & BIENESTAR SALVADORA CONESA · FUENLABRADA
           </p>
-          <p>Actividades en Club Social Parque Granada (Cafetería Bar • Entrada Libre).</p>
+          <p>Actividades en Club Social Parque Granada y Sede Principal.</p>
           <p className="text-stone-400 text-[11px]">
-            Consultas y reservas por WhatsApp: <strong>695 172 625</strong> · <strong>Pagos en el centro</strong> (pronto también disponibles con <strong>Stripe</strong> y <strong>Giglon</strong>).
+            Consultas y reservas por WhatsApp: <strong>695 172 625</strong> · Pagos directos en el centro y registro en CRM.
           </p>
         </div>
 
-        {/* Legal Links, Copyright and Webmaster */}
         <div className="max-w-6xl mx-auto px-4 pt-4 border-t border-stone-800 text-center space-y-3">
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-medium text-stone-400">
             <a
@@ -885,16 +747,6 @@ export default function DemoLandingPage() {
           <p className="text-[11px] text-stone-500">
             © 2026 Centro de Yoga Fuenlabrada Salvadora Conesa. Todos los derechos reservados.
           </p>
-
-          <p className="text-[11px] text-stone-500">
-            WebMaster ReagrupamientoAI{" "}
-            <a
-              href="mailto:contacto@reagrupamientoAI.com"
-              className="text-amber-400 hover:text-amber-300 font-semibold hover:underline"
-            >
-              @reagrupamientoAI.com
-            </a>
-          </p>
         </div>
       </footer>
 
@@ -910,7 +762,7 @@ export default function DemoLandingPage() {
           >
             <button
               onClick={() => setWaModalOpen(false)}
-              className="absolute top-4 right-4 p-1.5 text-stone-400 hover:text-stone-700 rounded-lg"
+              className="absolute top-4 right-4 p-1.5 text-stone-400 hover:text-stone-700 rounded-lg cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1006,7 +858,7 @@ export default function DemoLandingPage() {
                   <button
                     type="submit"
                     disabled={waLoading}
-                    className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   >
                     {waLoading ? (
                       "Registrando en CRM..."
@@ -1029,7 +881,7 @@ export default function DemoLandingPage() {
         </div>
       )}
 
-      {/* ─── FLOATING ANALIZAIA SIMULATOR BUBBLE (hidden when CRM chat is open to prevent stacking) ─── */}
+      {/* ─── FLOATING ANALIZAIA SIMULATOR BUBBLE ─── */}
       {showAnalizaIA && !isCrmChatOpen && (
         <button
           onClick={() => setSimuladorOpen(true)}

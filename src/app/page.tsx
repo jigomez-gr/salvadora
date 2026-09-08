@@ -15,6 +15,7 @@ import CrmBookingButton from "@/components/CrmBookingButton";
 import VapiCallButton from "@/components/VapiCallButton";
 import { VapiVoiceBookingButton } from "@/components/VapiVoiceBookingButton";
 import Footer from "@/components/Footer";
+import { fetchCrmServices, findServiceByCodeOrId, formatDuration } from "@/lib/crmServices";
 
 export const dynamic = "force-dynamic";
 import {
@@ -55,6 +56,26 @@ function getSubImages(dayNum: number): string[] {
 
 export default async function Home() {
   const videosExist = checkVideosExist();
+  const { services } = await fetchCrmServices();
+
+  const hatha1Svc = findServiceByCodeOrId(services, "clase_semanal");
+  const hatha2Svc = findServiceByCodeOrId(services, "dos_clases_semanal");
+  const gongSvc = findServiceByCodeOrId(services, "gong");
+  const pujaSvc = findServiceByCodeOrId(services, "puja");
+  const meditacionSvc = findServiceByCodeOrId(services, "meditacion");
+
+  const hatha1Price = hatha1Svc?.price ? `${parseFloat(hatha1Svc.price).toFixed(0)} €` : "25 €";
+  const hatha2Price = hatha2Svc?.price ? `${parseFloat(hatha2Svc.price).toFixed(0)} €` : "42 €";
+  const gongPrice = gongSvc?.price ? `${parseFloat(gongSvc.price).toFixed(0)} €` : "16 €";
+  const pujaPrice = pujaSvc?.price ? `${parseFloat(pujaSvc.price).toFixed(0)} €` : "95 €";
+  const meditacionPrice = meditacionSvc?.price ? `${parseFloat(meditacionSvc.price).toFixed(0)} €` : "15 €";
+
+  const meditacionSchedule = meditacionSvc?.scheduleText || "Martes y Jueves de 09:15 a 09:45";
+  const meditacionCapacity = meditacionSvc?.maxCapacity || 28;
+  const gongSchedule = gongSvc?.eventDatesText || gongSvc?.scheduleText || "Un sábado al mes";
+  const gongDuration = gongSvc ? formatDuration(gongSvc.durationMinutes) : "2 horas";
+  const pujaSchedule = pujaSvc?.eventDatesText || "Sábado 28 de Noviembre de 2026 (Noche de 21:00 a 08:00)";
+  const pujaDuration = pujaSvc ? formatDuration(pujaSvc.durationMinutes) : "11 horas";
 
   const atmosphereDays = [
     {
@@ -591,7 +612,7 @@ export default async function Home() {
                   • 🎁 <strong>1ª Clase de prueba de REGALO:</strong> ¡Tu primera clase de prueba <strong>NO SE COBRA, ES UN REGALO</strong>! (100% gratuita, 0 €, sin permanencia ni compromiso).
                 </p>
                 <p>
-                  • 📅 <strong>Cuotas de Alumno (Turno fijo garantizado):</strong> 1 clase/semana por <strong>25,00 €/mes</strong> o 2 clases/semana por <strong>42,00 €/mes</strong>. Alumno con horario fijo reservado para no tener que estar reservando cita cada semana. Total libertad para darse de alta o baja cuando se desee.
+                  • 📅 <strong>Cuotas de Alumno (Turno fijo garantizado):</strong> 1 clase/semana por <strong>{hatha1Price}/mes</strong> o 2 clases/semana por <strong>{hatha2Price}/mes</strong>. Alumno con horario fijo reservado para no tener que estar reservando cita cada semana. Total libertad para darse de alta o baja cuando se desee.
                 </p>
                 <p>
                   • 🎟️ <strong>Clases sueltas / esporádicas:</strong> <strong>10,00 € por clase</strong> para quien no desee matricularse como alumno mensual, sin permanencia.
@@ -602,7 +623,7 @@ export default async function Home() {
                   • 🔄 <strong>Política de recuperaciones (hasta 3 meses / 90 días):</strong> Si no puedes asistir y avisas con antelación, tienes hasta 3 meses para recuperar tu clase en cualquier otro turno con plaza libre.
                 </p>
                 <p>
-                  • ✨ <strong>Meditaciones Guiadas (Martes y Jueves 09:15):</strong> <strong>¡GRATIS!</strong> para todos los alumnos matriculados en Yoga. No alumnos: 15,00 €/mes (acceso ilimitado) o 3,00 € por meditación suelta (aforo máx. 28 personas).
+                  • ✨ <strong>Meditaciones Guiadas ({meditacionSchedule}):</strong> <strong>¡GRATIS!</strong> para todos los alumnos matriculados en Yoga. No alumnos: {meditacionPrice}/mes (acceso ilimitado) o 3,00 € por meditación suelta (aforo máx. {meditacionCapacity} personas).
                 </p>
                 <p>
                   • 📩 <strong>Confirmación fehaciente:</strong> Recibirás confirmación inmediata por <strong>Correo Electrónico y por SMS</strong> tras cada reserva, cambio o reprogramación de clase.
@@ -617,7 +638,7 @@ export default async function Home() {
                 🎁 1ª Clase de REGALO (0€)
               </span>
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">1 Clase Semanal</span>
-              <span className="font-serif text-2xl font-black text-[#800020]">25 €</span>
+              <span className="font-serif text-2xl font-black text-[#800020]">{hatha1Price}</span>
               <span className="block text-[10px] text-stone-500 mt-1">Al mes / Turno fijo reservado</span>
             </div>
             <div className="border-t sm:border-t-0 sm:border-l border-stone-150 pt-4 sm:pt-0">
@@ -625,7 +646,7 @@ export default async function Home() {
                 🎁 1ª Clase de REGALO (0€)
               </span>
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">2 Clases Semanales</span>
-              <span className="font-serif text-2xl font-black text-[#800020]">42 €</span>
+              <span className="font-serif text-2xl font-black text-[#800020]">{hatha2Price}</span>
               <span className="block text-[10px] text-stone-500 mt-1">Al mes / 2 turnos fijos reservados</span>
             </div>
             <div className="border-t md:border-t-0 md:border-l border-stone-150 pt-4 md:pt-0">
@@ -638,21 +659,21 @@ export default async function Home() {
             </div>
             <div className="border-t border-stone-150 pt-4">
               <span className="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-900 border border-purple-300 mb-1.5">
-                ✨ M y J 09:15
+                ✨ {meditacionSchedule}
               </span>
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Meditaciones Guiadas</span>
-              <span className="font-serif text-xl sm:text-2xl font-black text-[#800020]">GRATIS / 15 €</span>
-              <span className="block text-[10px] text-stone-500 mt-1">Gratis alumnos · 15€/mes (3€ suelta)</span>
+              <span className="font-serif text-xl sm:text-2xl font-black text-[#800020]">GRATIS / {meditacionPrice}</span>
+              <span className="block text-[10px] text-stone-500 mt-1">Gratis alumnos · {meditacionPrice}/mes (aforo {meditacionCapacity} plazas)</span>
             </div>
             <div className="border-t sm:border-l border-stone-150 pt-4">
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Baño de Gong</span>
-              <span className="font-serif text-2xl font-black text-[#800020]">16 €</span>
-              <span className="block text-[10px] text-stone-400 mt-1">Un sábado al mes / Sesión (2h)</span>
+              <span className="font-serif text-2xl font-black text-[#800020]">{gongPrice}</span>
+              <span className="block text-[10px] text-stone-400 mt-1">{gongSchedule} · {gongDuration}</span>
             </div>
             <div className="border-t md:border-l border-stone-150 pt-4">
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Puja de Gong</span>
-              <span className="font-serif text-2xl font-black text-[#800020]">90 € - 95 €</span>
-              <span className="block text-[10px] text-stone-400 mt-1">Sesión nocturna (11 horas inmersión)</span>
+              <span className="font-serif text-2xl font-black text-[#800020]">{pujaPrice}</span>
+              <span className="block text-[10px] text-stone-400 mt-1">{pujaSchedule} ({pujaDuration})</span>
             </div>
           </div>
 
@@ -667,15 +688,15 @@ export default async function Home() {
             </div>
             <div className="flex justify-between items-center sm:px-8 py-1.5 border-b border-stone-100">
               <span className="font-semibold text-left">Cuotas mensuales (con horario fijo reservado):</span>
-              <span className="font-bold text-[#800020]">25 € (1 clase/sem) · 42 € (2 clases/sem)</span>
+              <span className="font-bold text-[#800020]">{hatha1Price} (1 clase/sem) · {hatha2Price} (2 clases/sem)</span>
             </div>
             <div className="flex justify-between items-center sm:px-8 py-1.5 border-b border-stone-100">
               <span className="font-semibold text-left">Plazo de recuperación de clases avisando:</span>
               <span className="font-bold text-[#800020]">Hasta 3 meses (90 días)</span>
             </div>
             <div className="flex justify-between items-center sm:px-8 py-1.5 border-b border-stone-100">
-              <span className="font-semibold text-left">Meditaciones guiadas (M y J 09:15 - 09:45):</span>
-              <span className="font-bold text-stone-800">¡GRATIS para alumnos! (15€ no alumnos)</span>
+              <span className="font-semibold text-left">Meditaciones guiadas ({meditacionSchedule}):</span>
+              <span className="font-bold text-stone-800">¡GRATIS para alumnos! ({meditacionPrice} no alumnos)</span>
             </div>
             <div className="flex justify-between items-center sm:px-8 py-1.5">
               <span className="font-semibold text-left">Confirmación fehaciente de citas y cambios:</span>
@@ -776,7 +797,7 @@ export default async function Home() {
             </h2>
           </div>
 
-          <BookingForm />
+          <BookingForm initialServices={services} />
         </div>
       </section>
 
