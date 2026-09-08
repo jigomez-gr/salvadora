@@ -13,6 +13,7 @@ import NagnaYogaSection from "@/components/NagnaYogaSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import CrmBookingButton from "@/components/CrmBookingButton";
 import VapiCallButton from "@/components/VapiCallButton";
+import { VapiVoiceBookingButton } from "@/components/VapiVoiceBookingButton";
 import Footer from "@/components/Footer";
 
 export const dynamic = "force-dynamic";
@@ -603,13 +604,37 @@ export default async function Home() {
             Tarifas y Aportaciones
           </h2>
 
+          {/* Banner Informativo Reglas de Yoga */}
+          <div className="mb-6 bg-amber-50/90 border border-amber-200 rounded-2xl p-4 text-xs text-stone-800 text-left shadow-xs">
+            <div className="flex items-start gap-2.5">
+              <span className="text-base">🧘</span>
+              <div className="space-y-1">
+                <p className="font-bold text-amber-950 text-xs sm:text-sm">
+                  Modalidades de Alumno, Clase de Prueba y Recuperaciones:
+                </p>
+                <p className="text-stone-700 leading-relaxed">
+                  • <strong>1ª Cita de prueba:</strong> Es <strong>gratuita si confirmas que te transformas en alumno</strong> (cuota mensual de 25€/mes para 1 clase/semana o 42€/mes para 2 clases/semana). Si decides no continuar como alumno, se abona como sesión suelta (10 €).
+                </p>
+                <p className="text-stone-700 leading-relaxed">
+                  • <strong>Recuperación de clases (3 meses):</strong> Siendo alumno activo, si no puedes acudir a tu clase semanal por cualquier motivo, puedes recuperarla a partir de la semana siguiente durante <strong>3 meses (90 días)</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 border-y border-stone-100 mb-8 font-sans">
             <div>
+              <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 mb-1.5">
+                ⭐ 1ª Clase gratis si te haces alumno
+              </span>
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">1 Clase Semanal</span>
               <span className="font-serif text-2xl font-black text-[#800020]">25 €</span>
               <span className="block text-[10px] text-stone-400 mt-1">Al mes / Nagna o Kundalini</span>
             </div>
             <div className="border-t sm:border-t-0 sm:border-l border-stone-150 pt-4 sm:pt-0">
+              <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 mb-1.5">
+                ⭐ 1ª Clase gratis si te haces alumno
+              </span>
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">2 Clases Semanales</span>
               <span className="font-serif text-2xl font-black text-[#800020]">42 €</span>
               <span className="block text-[10px] text-stone-400 mt-1">Al mes / Nagna o Kundalini</span>
@@ -636,11 +661,32 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="space-y-4 max-w-xl mx-auto text-sm text-[#1C1C1C]/85">
-            <div className="flex justify-between items-center sm:px-12">
+          <div className="space-y-3 max-w-xl mx-auto text-xs sm:text-sm text-[#1C1C1C]/85">
+            <div className="flex justify-between items-center sm:px-8 py-1 border-b border-stone-100">
+              <span className="font-semibold text-left">Sesión suelta de prueba (si no continúas como alumno):</span>
+              <span className="font-bold text-[#800020]">10,00 €</span>
+            </div>
+            <div className="flex justify-between items-center sm:px-8 py-1 border-b border-stone-100">
+              <span className="font-semibold text-left">Plazo de recuperación de clases perdidas:</span>
+              <span className="font-bold text-[#800020]">3 meses (90 días)</span>
+            </div>
+            <div className="flex justify-between items-center sm:px-8 py-1">
               <span className="font-semibold text-left">Frecuencia de la Puja de Gong:</span>
               <span className="font-bold text-[#800020]">2 veces al año</span>
             </div>
+          </div>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <VapiVoiceBookingButton
+              buttonText="📞 Reservar por Teléfono (Llamada IA + SMS)"
+              serviceHint="Reserva o consulta de plaza de Yoga"
+            />
+            <Link
+              href="/servicios"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#800020] px-6 py-3.5 text-sm font-semibold text-[#800020] hover:bg-[#800020] hover:text-white transition-all"
+            >
+              Ver Horarios y Catálogo Completo
+            </Link>
           </div>
         </div>
       </section>

@@ -82,10 +82,12 @@ const WEBMCP_INLINE_SCRIPT = `
               ],
               pricing: {
                 matricula: "Gratuita",
-                mes_1_dia_semana: "45€ / mes",
-                mes_2_dias_semana: "65€ / mes",
-                sesion_suelta: "15€",
-                bano_de_gong: "25€ / sesión"
+                mes_1_dia_semana: "25€ / mes",
+                mes_2_dias_semana: "42€ / mes",
+                primera_cita_prueba: "Gratuita si te haces alumno / 10€ sesión suelta",
+                recuperacion_clases: "Hasta 3 meses (90 días)",
+                bano_de_gong: "16€ / sesión",
+                puja_de_gong: "90€ / sesión"
               },
               contactPhone: "+34 695 17 26 25"
             })
