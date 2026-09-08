@@ -534,12 +534,13 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Barcelona Enero 2026 */}
+          <div className="max-w-2xl mx-auto">
+            {/* Retiro de Ayuno */}
             <div className="bg-white rounded-xl border border-stone-200 overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
               <div className="relative aspect-video bg-[#1C1C1C] flex items-center justify-center border-b border-stone-100">
                 <video
-                  src="/videos/previoabarcelona.mp4"
+                  src="/videos/previo_ayunos.mp4"
+                  poster="/videos/previo_ayunos_poster.jpg"
                   controls
                   playsInline
                   preload="metadata"
@@ -557,35 +558,7 @@ export default async function Home() {
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm text-[#1C1C1C]/75 leading-relaxed">
-                    Un recorrido completo por las dinámicas, paseos y vivencias compartidas en nuestro último retiro de ayuno conscientes del pasado enero de 2026.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Sevilla 2025 */}
-            <div className="bg-white rounded-xl border border-stone-200 overflow-hidden shadow-sm hover:shadow-md transition duration-300 flex flex-col">
-              <div className="relative aspect-video bg-[#1C1C1C] flex items-center justify-center border-b border-stone-100">
-                <video
-                  src="/videos/viajeprevioasevilla.mp4"
-                  controls
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <h4 className="font-serif text-lg font-bold text-[#800020]">
-                      Taller de Gong y Sonido (Año 2025)
-                    </h4>
-                    <span className="text-[10px] bg-[#800020]/10 text-[#800020] border border-[#800020]/20 px-2 py-0.5 rounded font-bold uppercase tracking-wider font-sans">
-                      Recuerdo
-                    </span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-[#1C1C1C]/75 leading-relaxed">
-                    Las bellas resonancias y recuerdos de nuestro taller presencial de sonoterapia e iniciación a los cuencos celebrado en Sevilla en 2025.
+                    Un recorrido completo por las dinámicas, paseos y vivencias compartidas en nuestro último retiro de ayuno consciente del pasado enero de 2026.
                   </p>
                 </div>
               </div>
