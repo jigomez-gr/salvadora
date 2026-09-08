@@ -59,7 +59,7 @@ export default async function Home() {
   const atmosphereDays = [
     {
       dayNum: 1,
-      title: "Nagna Yoga & Yoga Nidra",
+      title: "Hatha Yoga & Yoga Nidra",
       subtitle: "Clases regulares corporales",
       href: "#itinerario",
       mainImage: "/imagenes/yoga/01_05_yoga_sala_centro_1920x1080.jpg",
@@ -605,18 +605,34 @@ export default async function Home() {
           </h2>
 
           {/* Banner Informativo Reglas de Yoga */}
-          <div className="mb-6 bg-amber-50/90 border border-amber-200 rounded-2xl p-4 text-xs text-stone-800 text-left shadow-xs">
-            <div className="flex items-start gap-2.5">
-              <span className="text-base">🧘</span>
-              <div className="space-y-1">
-                <p className="font-bold text-amber-950 text-xs sm:text-sm">
-                  Modalidades de Alumno, Clase de Prueba y Recuperaciones:
+          <div className="mb-6 bg-amber-50/95 border-2 border-amber-200/90 rounded-2xl p-5 text-xs text-stone-800 text-left shadow-xs space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🧘</span>
+              <h3 className="font-bold text-amber-950 text-sm sm:text-base">
+                Políticas Oficiales, 1ª Clase de Regalo y Flexibilidad de Alumnos:
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1 text-stone-700 leading-relaxed">
+              <div className="space-y-2">
+                <p>
+                  • 🎁 <strong>1ª Clase de prueba de REGALO:</strong> ¡Tu primera clase de prueba <strong>NO SE COBRA, ES UN REGALO</strong>! (100% gratuita, 0 €, sin permanencia ni compromiso).
                 </p>
-                <p className="text-stone-700 leading-relaxed">
-                  • <strong>1ª Cita de prueba:</strong> Es <strong>gratuita si confirmas que te transformas en alumno</strong> (cuota mensual de 25€/mes para 1 clase/semana o 42€/mes para 2 clases/semana). Si decides no continuar como alumno, se abona como sesión suelta (10 €).
+                <p>
+                  • 📅 <strong>Cuotas de Alumno (Turno fijo garantizado):</strong> 1 clase/semana por <strong>25,00 €/mes</strong> o 2 clases/semana por <strong>42,00 €/mes</strong>. Alumno con horario fijo reservado para no tener que estar reservando cita cada semana. Total libertad para darse de alta o baja cuando se desee.
                 </p>
-                <p className="text-stone-700 leading-relaxed">
-                  • <strong>Recuperación de clases (3 meses):</strong> Siendo alumno activo, si no puedes acudir a tu clase semanal por cualquier motivo, puedes recuperarla a partir de la semana siguiente durante <strong>3 meses (90 días)</strong>.
+                <p>
+                  • 🎟️ <strong>Clases sueltas / esporádicas:</strong> <strong>10,00 € por clase</strong> para quien no desee matricularse como alumno mensual, sin permanencia.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <p>
+                  • 🔄 <strong>Política de recuperaciones (hasta 3 meses / 90 días):</strong> Si no puedes asistir y avisas con antelación, tienes hasta 3 meses para recuperar tu clase en cualquier otro turno con plaza libre.
+                </p>
+                <p>
+                  • ✨ <strong>Meditaciones Guiadas (Martes y Jueves 09:15):</strong> <strong>¡GRATIS!</strong> para todos los alumnos matriculados en Yoga. No alumnos: 15,00 €/mes (acceso ilimitado) o 3,00 € por meditación suelta (aforo máx. 28 personas).
+                </p>
+                <p>
+                  • 📩 <strong>Confirmación fehaciente:</strong> Recibirás confirmación inmediata por <strong>Correo Electrónico y por SMS</strong> tras cada reserva, cambio o reprogramación de clase.
                 </p>
               </div>
             </div>
@@ -624,55 +640,73 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 py-8 border-y border-stone-100 mb-8 font-sans">
             <div>
-              <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 mb-1.5">
-                ⭐ 1ª Clase gratis si te haces alumno
+              <span className="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 mb-1.5">
+                🎁 1ª Clase de REGALO (0€)
               </span>
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">1 Clase Semanal</span>
               <span className="font-serif text-2xl font-black text-[#800020]">25 €</span>
-              <span className="block text-[10px] text-stone-400 mt-1">Al mes / Nagna o Kundalini</span>
+              <span className="block text-[10px] text-stone-500 mt-1">Al mes / Turno fijo reservado</span>
             </div>
             <div className="border-t sm:border-t-0 sm:border-l border-stone-150 pt-4 sm:pt-0">
-              <span className="inline-block text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 mb-1.5">
-                ⭐ 1ª Clase gratis si te haces alumno
+              <span className="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 mb-1.5">
+                🎁 1ª Clase de REGALO (0€)
               </span>
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">2 Clases Semanales</span>
               <span className="font-serif text-2xl font-black text-[#800020]">42 €</span>
-              <span className="block text-[10px] text-stone-400 mt-1">Al mes / Nagna o Kundalini</span>
+              <span className="block text-[10px] text-stone-500 mt-1">Al mes / 2 turnos fijos reservados</span>
             </div>
             <div className="border-t md:border-t-0 md:border-l border-stone-150 pt-4 md:pt-0">
-              <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Baño de Gong</span>
-              <span className="font-serif text-2xl font-black text-[#800020]">16 €</span>
-              <span className="block text-[10px] text-stone-400 mt-1">Un sábado al mes / Sesión</span>
+              <span className="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-900 border border-emerald-300 mb-1.5">
+                🎟️ Sin Permanencia
+              </span>
+              <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Clases Sueltas / Esporádicas</span>
+              <span className="font-serif text-2xl font-black text-[#800020]">10 €</span>
+              <span className="block text-[10px] text-stone-500 mt-1">Por clase / Hatha Yoga Terapéutico</span>
             </div>
             <div className="border-t border-stone-150 pt-4">
-              <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Puja de Gong</span>
-              <span className="font-serif text-2xl font-black text-[#800020]">90 €</span>
-              <span className="block text-[10px] text-stone-400 mt-1">Sesión nocturna (toda la noche)</span>
+              <span className="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-900 border border-purple-300 mb-1.5">
+                ✨ M y J 09:15
+              </span>
+              <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Meditaciones Guiadas</span>
+              <span className="font-serif text-xl sm:text-2xl font-black text-[#800020]">GRATIS / 15 €</span>
+              <span className="block text-[10px] text-stone-500 mt-1">Gratis alumnos · 15€/mes (3€ suelta)</span>
             </div>
             <div className="border-t sm:border-l border-stone-150 pt-4">
-              <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Constelaciones</span>
-              <span className="font-serif text-xl sm:text-2xl font-black text-[#800020]">60 € / 20 €</span>
-              <span className="block text-[10px] text-stone-400 mt-1">60 € constelar / 20 € participar</span>
+              <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Baño de Gong</span>
+              <span className="font-serif text-2xl font-black text-[#800020]">16 €</span>
+              <span className="block text-[10px] text-stone-400 mt-1">Un sábado al mes / Sesión (2h)</span>
             </div>
             <div className="border-t md:border-l border-stone-150 pt-4">
-              <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Retiros y Encuentros</span>
-              <span className="font-serif text-2xl font-black text-[#2E5A44]">Variable</span>
-              <span className="block text-[10px] text-stone-400 mt-1">Varía según alojamiento</span>
+              <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Puja de Gong</span>
+              <span className="font-serif text-2xl font-black text-[#800020]">90 € - 95 €</span>
+              <span className="block text-[10px] text-stone-400 mt-1">Sesión nocturna (11 horas inmersión)</span>
             </div>
           </div>
 
           <div className="space-y-3 max-w-xl mx-auto text-xs sm:text-sm text-[#1C1C1C]/85">
-            <div className="flex justify-between items-center sm:px-8 py-1 border-b border-stone-100">
-              <span className="font-semibold text-left">Sesión suelta de prueba (si no continúas como alumno):</span>
-              <span className="font-bold text-[#800020]">10,00 €</span>
+            <div className="flex justify-between items-center sm:px-8 py-1.5 border-b border-stone-100">
+              <span className="font-semibold text-left">Primera clase de prueba:</span>
+              <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">¡GRATIS! Es un regalo (0 €)</span>
             </div>
-            <div className="flex justify-between items-center sm:px-8 py-1 border-b border-stone-100">
-              <span className="font-semibold text-left">Plazo de recuperación de clases perdidas:</span>
-              <span className="font-bold text-[#800020]">3 meses (90 días)</span>
+            <div className="flex justify-between items-center sm:px-8 py-1.5 border-b border-stone-100">
+              <span className="font-semibold text-left">Clases sueltas o esporádicas (sin permanencia):</span>
+              <span className="font-bold text-[#800020]">10,00 € / clase</span>
             </div>
-            <div className="flex justify-between items-center sm:px-8 py-1">
-              <span className="font-semibold text-left">Frecuencia de la Puja de Gong:</span>
-              <span className="font-bold text-[#800020]">2 veces al año</span>
+            <div className="flex justify-between items-center sm:px-8 py-1.5 border-b border-stone-100">
+              <span className="font-semibold text-left">Cuotas mensuales (con horario fijo reservado):</span>
+              <span className="font-bold text-[#800020]">25 € (1 clase/sem) · 42 € (2 clases/sem)</span>
+            </div>
+            <div className="flex justify-between items-center sm:px-8 py-1.5 border-b border-stone-100">
+              <span className="font-semibold text-left">Plazo de recuperación de clases avisando:</span>
+              <span className="font-bold text-[#800020]">Hasta 3 meses (90 días)</span>
+            </div>
+            <div className="flex justify-between items-center sm:px-8 py-1.5 border-b border-stone-100">
+              <span className="font-semibold text-left">Meditaciones guiadas (M y J 09:15 - 09:45):</span>
+              <span className="font-bold text-stone-800">¡GRATIS para alumnos! (15€ no alumnos)</span>
+            </div>
+            <div className="flex justify-between items-center sm:px-8 py-1.5">
+              <span className="font-semibold text-left">Confirmación fehaciente de citas y cambios:</span>
+              <span className="font-bold text-emerald-700">Por Email y por SMS instantáneo</span>
             </div>
           </div>
 
