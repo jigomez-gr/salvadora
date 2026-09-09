@@ -32,6 +32,15 @@ export function ChatBubbleWidget({
   const [sessionId, setSessionId] = useState("");
   const [rgpdAccepted, setRgpdAccepted] = useState(true);
   const [clearToast, setClearToast] = useState(false);
+  const [showMobileTooltip, setShowMobileTooltip] = useState(true);
+
+  // En pantallas móviles, ocultar el tooltip automáticamente tras 6 segundos para no ocupar espacio permanentemente
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMobileTooltip(false);
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -450,13 +459,15 @@ export function ChatBubbleWidget({
         </div>
       )}
 
-      {/* Floating Toggle Button with Tooltip (ALWAYS deployed when chat is closed, hidden when open) */}
+      {/* Floating Toggle Button with Tooltip (ALWAYS deployed on desktop; temporary & dismissible on mobile) */}
       {!isOpen && (
         <div className="relative flex items-center">
-          {/* Tooltip always displayed when bubble is closed */}
+          {/* Tooltip: permanente en escritorio (sm:flex), temporal (6s) y descartable en móvil */}
           <div
             onClick={() => setIsOpen(true)}
-            className="flex items-center cursor-pointer mr-2.5 sm:mr-3 select-none transition-all duration-300 animate-in fade-in"
+            className={`${
+              showMobileTooltip ? "flex" : "hidden sm:flex"
+            } items-center cursor-pointer mr-2.5 sm:mr-3 select-none transition-all duration-300 animate-in fade-in`}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
@@ -466,8 +477,20 @@ export function ChatBubbleWidget({
               }
             }}
           >
-            <div className="bg-stone-900/95 text-white text-[11px] sm:text-xs font-medium px-3.5 py-2 rounded-xl shadow-2xl max-w-[calc(100vw-95px)] sm:max-w-[340px] md:max-w-[420px] text-right sm:text-left leading-snug backdrop-blur-xs border border-white/15 tracking-normal hover:bg-stone-800 transition-colors">
-              {tooltipText}
+            <div className="bg-stone-900/95 text-white text-[11px] sm:text-xs font-medium px-3.5 py-2 rounded-xl shadow-2xl max-w-[calc(100vw-95px)] sm:max-w-[340px] md:max-w-[420px] text-right sm:text-left leading-snug backdrop-blur-xs border border-white/15 tracking-normal hover:bg-stone-800 transition-colors flex items-start sm:items-center gap-1.5">
+              <span>{tooltipText}</span>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMobileTooltip(false);
+                }}
+                title="Cerrar aviso"
+                aria-label="Cerrar aviso"
+                className="sm:hidden -mr-1 p-0.5 text-stone-400 hover:text-white shrink-0 rounded hover:bg-white/10"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
             </div>
             <div className="w-2 h-2 bg-stone-900/95 rotate-45 -ml-1 shrink-0 border-r border-t border-white/15" />
           </div>
