@@ -239,7 +239,7 @@ export function ChatBubbleWidget({
 
 
 
-  const tooltipText = "Asistente reservas citas, reprogramaciones y cancelaciones";
+  const tooltipText = "Asistente para consultar nuestros servicios, reservas de citas, cancelaciones, reprogramaciones y asistencia a eventos";
 
   return (
     <div
@@ -383,15 +383,38 @@ export function ChatBubbleWidget({
             </div>
           )}
 
-          {/* Quick Action Bar: Pedir por WhatsApp & Pedir por Teléfono (VAPI) */}
-          <div className="flex items-center gap-2 border-t border-stone-200 bg-stone-50 px-3 py-2">
+          {/* Input Form */}
+          <form
+            onSubmit={(e) => handleSendMessage(e)}
+            className="flex items-center gap-2 border-t border-stone-200 bg-white p-2.5 sm:p-3"
+          >
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Escribe tu consulta o reserva..."
+              className="flex-1 rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2 text-sm text-stone-900 outline-none transition-all placeholder:text-stone-400 focus:border-[#800020] focus:bg-white"
+            />
+            <button
+              type="submit"
+              disabled={!inputValue.trim() || isTyping}
+              aria-label="Enviar mensaje"
+              className="flex h-10 w-10 sm:h-9.5 sm:w-9.5 shrink-0 items-center justify-center rounded-xl text-white transition-opacity disabled:opacity-40 cursor-pointer"
+              style={{ backgroundColor: brandColor }}
+            >
+              <Send className="h-4.5 w-4.5" />
+            </button>
+          </form>
+
+          {/* Quick Action Bar: Pedir por WhatsApp & Pedir por Teléfono (VAPI) - Más pequeño y justo antes de Cumple RGPD */}
+          <div className="flex items-center gap-2 border-t border-stone-100 bg-stone-50/90 px-3 py-1.5">
             <button
               type="button"
               onClick={handleWhatsAppClick}
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] py-2 px-2 text-xs font-bold text-white shadow-xs transition active:scale-98 cursor-pointer"
+              className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#25D366] hover:bg-[#20ba5a] py-1.5 px-2 text-[11px] font-bold text-white shadow-2xs transition active:scale-98 cursor-pointer"
               title="Pedir por WhatsApp"
             >
-              <MessageCircle className="h-4 w-4 shrink-0" />
+              <MessageCircle className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">Pedir por WhatsApp</span>
             </button>
             <button
@@ -401,36 +424,13 @@ export function ChatBubbleWidget({
                   inquiry: inputValue.trim() || (messages.length > 1 ? messages[messages.length - 1].body : "Consulta sobre clases y servicios"),
                 });
               }}
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#800020] hover:bg-[#800020]/90 py-2 px-2 text-xs font-bold text-white shadow-xs transition active:scale-98 cursor-pointer border border-[#C5A059]/30"
+              className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#800020] hover:bg-[#800020]/90 py-1.5 px-2 text-[11px] font-bold text-white shadow-2xs transition active:scale-98 cursor-pointer border border-[#C5A059]/30"
               title="Pedir por Teléfono con Asistente de Voz IA"
             >
-              <PhoneCall className="h-4 w-4 shrink-0 text-[#C5A059]" />
+              <PhoneCall className="h-3.5 w-3.5 shrink-0 text-[#C5A059]" />
               <span className="truncate">Te Llamamos (IA)</span>
             </button>
           </div>
-
-          {/* Input Form */}
-          <form
-            onSubmit={(e) => handleSendMessage(e)}
-            className="flex items-center gap-2 border-t border-stone-200 bg-white p-3 sm:p-3.5"
-          >
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Escribe tu consulta o reserva..."
-              className="flex-1 rounded-xl border border-stone-300 bg-stone-50 px-4 py-3 sm:py-2.5 text-base sm:text-sm text-stone-900 outline-none transition-all placeholder:text-stone-400 focus:border-[#800020] focus:bg-white"
-            />
-            <button
-              type="submit"
-              disabled={!inputValue.trim() || isTyping}
-              aria-label="Enviar mensaje"
-              className="flex h-11 w-11 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl text-white transition-opacity disabled:opacity-40 cursor-pointer"
-              style={{ backgroundColor: brandColor }}
-            >
-              <Send className="h-5 w-5 sm:h-4.5 sm:w-4.5" />
-            </button>
-          </form>
 
           {/* Permanent Legal & AI Footer in Chat Window */}
           <div className="px-3.5 py-1.5 bg-stone-100 border-t border-stone-200/80 text-[10px] text-stone-500 flex items-center justify-between select-none">
@@ -450,15 +450,26 @@ export function ChatBubbleWidget({
         </div>
       )}
 
-      {/* Floating Toggle Button with Tooltip (ONLY visible when chat is closed to avoid stacking) */}
+      {/* Floating Toggle Button with Tooltip (ALWAYS deployed when chat is closed, hidden when open) */}
       {!isOpen && (
-        <div className="relative group flex items-center">
-          {/* Tooltip visible on hover/focus */}
-          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-200 transform group-hover:translate-x-0 translate-x-2 z-50">
-            <div className="bg-stone-900/95 text-white text-xs font-medium px-3.5 py-2 rounded-xl shadow-2xl whitespace-nowrap backdrop-blur-xs border border-white/15 tracking-wide">
+        <div className="relative flex items-center">
+          {/* Tooltip always displayed when bubble is closed */}
+          <div
+            onClick={() => setIsOpen(true)}
+            className="flex items-center cursor-pointer mr-2.5 sm:mr-3 select-none transition-all duration-300 animate-in fade-in"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                setIsOpen(true);
+              }
+            }}
+          >
+            <div className="bg-stone-900/95 text-white text-[11px] sm:text-xs font-medium px-3.5 py-2 rounded-xl shadow-2xl max-w-[calc(100vw-95px)] sm:max-w-[340px] md:max-w-[420px] text-right sm:text-left leading-snug backdrop-blur-xs border border-white/15 tracking-normal hover:bg-stone-800 transition-colors">
               {tooltipText}
             </div>
-            <div className="w-2 h-2 bg-stone-900/95 rotate-45 -ml-1 border-r border-t border-white/15" />
+            <div className="w-2 h-2 bg-stone-900/95 rotate-45 -ml-1 shrink-0 border-r border-t border-white/15" />
           </div>
 
           <button
@@ -466,7 +477,7 @@ export function ChatBubbleWidget({
             onClick={() => setIsOpen(true)}
             aria-label={tooltipText}
             title={tooltipText}
-            className="flex h-14 w-14 sm:h-15 sm:w-15 items-center justify-center rounded-full text-white shadow-2xl transition-transform hover:scale-105 active:scale-95 border-2 border-white/30 cursor-pointer"
+            className="flex h-14 w-14 sm:h-15 sm:w-15 shrink-0 items-center justify-center rounded-full text-white shadow-2xl transition-transform hover:scale-105 active:scale-95 border-2 border-white/30 cursor-pointer"
             style={{ backgroundColor: brandColor }}
           >
             <MessageSquare className="h-7 w-7" />
