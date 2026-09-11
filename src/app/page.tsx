@@ -256,70 +256,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 4. Introducción Emocional */}
-      <section className="pt-16 pb-4 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center scroll-mt-24">
-        <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-3">
-          Centro de Yoga Fuenlabrada
-        </span>
-        <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#800020]">
-          Salvadora Conesa
-        </h2>
-      </section>
-
-      {/* 5. El Eje Histórico del Viaje */}
-      <section className="pt-12 pb-24 bg-white border-y border-[#C5A059]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          <div className="max-w-4xl mx-auto text-center mb-12">
-            <div className="space-y-4 text-sm sm:text-base text-[#1C1C1C]/75 leading-relaxed text-justify sm:text-center">
-              <p>
-                El Centro de Yoga Fuenlabrada de Salvadora Conesa es un espacio dedicado a la salud, el bienestar y el desarrollo integral de la persona en pleno corazón de Fuenlabrada. A través de la práctica regular de Hatha Yoga, Kundalini y meditación, ofrecemos herramientas reales para calmar la mente, fortalecer el cuerpo y reconectar con lo esencial.
-              </p>
-              <p>
-                Además de nuestras sesiones semanales, contamos con renombradas experiencias de terapia de sonido como los Baños de Gong y la transformadora Puja de Gong nocturna, ambas guiadas por sonoterapeutas profesionales. Ofrecemos también una variada propuesta de retiros de Ayuno Terapéutico en plena naturaleza, diseñados para resetear el organismo y descansar profundamente.
-              </p>
-              <p>
-                Colaboramos activamente con profesionales de disciplinas de salud y defensa como Entrenamiento Funcional, Taichí, Defensa Personal, Ninjutsú y Kai sai Budo, consolidando un espacio de crecimiento y comunidad.
-              </p>
-            </div>
-          </div>
-
-          {/* Grid Layout: Video on the left, Photos on the right */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch mt-12">
-
-            {/* Video Container (Left Column) */}
-            <div className="flex flex-col justify-center">
-              <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-[#C5A059]/25 shadow-xl shadow-[#800020]/5 hover:shadow-2xl transition duration-500 font-sans w-full">
-                <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/5 border border-stone-200">
-                  <video
-                    src="/videos/prologo.mp4"
-                    poster="/imagenes/centro/401_interior_centro_yoga_1920x1080.jpg"
-                    controls
-                    playsInline
-                    className="w-full h-full object-cover select-none"
-                  />
-                </div>
-                <div className="mt-4 text-center space-y-1 select-none border-t border-[#C5A059]/10 pt-4">
-                  <p className="font-serif italic font-bold text-[#800020] text-sm sm:text-base">
-                    "Un espacio para la calma"
-                  </p>
-                  <p className="tracking-widest uppercase text-[9px] sm:text-[10px] text-stone-500 font-semibold">
-                    Presentación del Centro
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Gallery (Right Column) */}
-            <div>
-              <PrologoGallery />
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 5.5 Sección Sobre Mí */}
+      {/* 4. Sección Sobre Mí */}
       <section id="sobre-mi" className="py-20 bg-[#FAF9F6] border-b border-[#C5A059]/20 scroll-mt-24">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -367,10 +304,71 @@ export default async function Home() {
                 Con el paso de los años observo con agrado, que algunas personas vienen a yoga porque se lo recomienda su médico bien porque previamente lo ha experimentado o porque ha visto resultados muy favorables en otros pacientes. También realizo la formación en <strong className="text-[#800020] font-semibold">MOVIMIENTO EXPRESIVO</strong> que me habilita para dar masaje circulatorio y sensitivo, además puedo ofrecer algo más dinámico y divertido que se hace con una base musical. Siento que estoy colaborando a difundir y realizar un trabajo precioso y sanador. Mi principal propósito es que me gustaría difundirlo para que pudiese llegar a la mayor cantidad posible de personas y que estas pudieran comprobar los beneficios. Además, el que uno de los lugares donde ahora mismo estoy impartiendo yoga sea en las instalaciones de un club social situado en Fuenlabrada llamado Parque Granada me permite que los precios sean accesibles a todas las personas, incluso con bajo presupuesto y esto me llena de satisfacción.
               </p>
             </div>
-
-            {/* Nagna Yoga Banner and Video Collection */}
-            <NagnaYogaSection />
           </div>
+        </div>
+      </section>
+
+      {/* 5. El Centro de Yoga Fuenlabrada */}
+      <section className="pt-16 pb-24 bg-white border-b border-[#C5A059]/20 scroll-mt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-3">
+              Centro de Yoga Fuenlabrada
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#800020] mb-6">
+              Salvadora Conesa
+            </h2>
+            <div className="space-y-4 text-sm sm:text-base text-[#1C1C1C]/75 leading-relaxed text-justify sm:text-center">
+              <p>
+                El Centro de Yoga Fuenlabrada de Salvadora Conesa es un espacio dedicado a la salud, el bienestar y el desarrollo integral de la persona en pleno corazón de Fuenlabrada. A través de la práctica regular de Hatha Yoga, Kundalini y meditación, ofrecemos herramientas reales para calmar la mente, fortalecer el cuerpo y reconectar con lo esencial.
+              </p>
+              <p>
+                Además de nuestras sesiones semanales, contamos con renombradas experiencias de terapia de sonido como los Baños de Gong y la transformadora Puja de Gong nocturna, ambas guiadas por sonoterapeutas profesionales. Ofrecemos también una variada propuesta de retiros de Ayuno Terapéutico en plena naturaleza, diseñados para resetear el organismo y descansar profundamente.
+              </p>
+              <p>
+                Colaboramos activamente con profesionales de disciplinas de salud y defensa como Entrenamiento Funcional, Taichí, Defensa Personal, Ninjutsú y Kai sai Budo, consolidando un espacio de crecimiento y comunidad.
+              </p>
+            </div>
+          </div>
+
+          {/* Grid Layout: Video on the left, Photos on the right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch mt-12">
+            {/* Video Container (Left Column) */}
+            <div className="flex flex-col justify-center">
+              <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-[#C5A059]/25 shadow-xl shadow-[#800020]/5 hover:shadow-2xl transition duration-500 font-sans w-full">
+                <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/5 border border-stone-200">
+                  <video
+                    src="/videos/prologo.mp4"
+                    poster="/videos/prologo_poster.jpg"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover select-none"
+                  />
+                </div>
+                <div className="mt-4 text-center space-y-1 select-none border-t border-[#C5A059]/10 pt-4">
+                  <p className="font-serif italic font-bold text-[#800020] text-sm sm:text-base">
+                    "Un espacio para la calma"
+                  </p>
+                  <p className="tracking-widest uppercase text-[9px] sm:text-[10px] text-stone-500 font-semibold">
+                    Presentación del Centro
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Gallery (Right Column) */}
+            <div>
+              <PrologoGallery />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5.5 Nagna Yoga */}
+      <section className="py-20 bg-[#FAF9F6] border-b border-[#C5A059]/20">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <NagnaYogaSection />
         </div>
       </section>
 
