@@ -76,6 +76,13 @@ export async function GET(
 
     let physicalPath = "";
     let mimeType = "video/mp4";
+    if (baseName.endsWith(".jpg") || baseName.endsWith(".jpeg")) {
+      mimeType = "image/jpeg";
+    } else if (baseName.endsWith(".png")) {
+      mimeType = "image/png";
+    } else if (baseName.endsWith(".webp")) {
+      mimeType = "image/webp";
+    }
 
     // 1. Resolve candidates for physical path
     const candidatePaths: string[] = [];

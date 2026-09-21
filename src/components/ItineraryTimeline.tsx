@@ -717,7 +717,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                             <div className="w-full h-full bg-[#1C1C1C] relative aspect-video">
                                                 <video
                                                     src={getVideoPath(day.id)}
-                                                    poster={ACTIVITY_FLYERS[day.id]?.[0]?.imagePath || thumb.src}
+                                                    poster={`/videos/itinerario-${day.id}-poster.jpg`}
                                                     controls
                                                     playsInline
                                                     preload="metadata"
