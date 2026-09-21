@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -21,6 +21,7 @@ import {
   Film,
   Image as ImageIcon,
   Maximize2,
+  Play,
 } from "lucide-react";
 import { SimuladorDiagnosticoModal } from "@/components/SimuladorDiagnosticoModal";
 import { triggerCrmChat } from "@/components/ChatBubbleWidget";
@@ -61,8 +62,21 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
 
   // Inicialmente sacar siempre el vídeo (si existe) y su poster para identificarlo
   const [activeTab, setActiveTab] = useState<"video" | "flyer">(videoSrc ? "video" : "flyer");
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [zoomMedia, setZoomMedia] = useState<"video" | "flyer">(videoSrc ? "video" : "flyer");
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (isPlaying && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [isPlaying]);
+
+  const handleTabChange = (tab: "video" | "flyer") => {
+    setActiveTab(tab);
+    setIsPlaying(false);
+  };
 
   const openZoom = (type: "video" | "flyer") => {
     setZoomMedia(type);
@@ -81,7 +95,7 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
           <div className="inline-flex rounded-lg bg-stone-100 p-0.5 border border-stone-200 text-xs">
             <button
               type="button"
-              onClick={() => setActiveTab("video")}
+              onClick={() => handleTabChange("video")}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
                 activeTab === "video"
                   ? "bg-white text-[#800020] shadow-xs border border-stone-200/80"
@@ -93,7 +107,7 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
             </button>
             <button
               type="button"
-              onClick={() => setActiveTab("flyer")}
+              onClick={() => handleTabChange("flyer")}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
                 activeTab === "flyer"
                   ? "bg-white text-[#0B4A72] shadow-xs border border-stone-200/80"
@@ -110,29 +124,88 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
       {/* Visor Multimedia Principal: Vídeo por defecto si existe con su poster, o Flyer */}
       {activeTab === "video" && videoSrc ? (
         <div className="relative group overflow-hidden rounded-2xl border border-stone-200 bg-stone-950 aspect-video w-full shadow-xs flex items-center justify-center">
-          <video
-            src={videoSrc}
-            poster={flyerSrc || undefined}
-            controls
-            playsInline
-            preload="metadata"
-            className="w-full h-full object-contain max-h-full"
-          />
-          <button
-            type="button"
-            onClick={() => openZoom("video")}
-            className="absolute bottom-2.5 right-2.5 bg-black/75 hover:bg-black/95 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur-xs flex items-center gap-1 shadow-sm transition opacity-90 group-hover:opacity-100 cursor-pointer z-10"
-            title="Ampliar vídeo"
-          >
-            <Maximize2 className="w-3 h-3" /> Ampliar vídeo
-          </button>
+          {!isPlaying ? (
+            /* Pantalla de portada / póster identificativo con botón de reproducción */
+            <div
+              className="relative w-full h-full flex items-center justify-center cursor-pointer select-none bg-stone-900"
+              onClick={() => setIsPlaying(true)}
+              title="Haz clic para reproducir el vídeo"
+            >
+              {flyerSrc && (
+                <>
+                  <img
+                    src={flyerSrc}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-md opacity-30 scale-105 pointer-events-none"
+                  />
+                  <img
+                    src={flyerSrc}
+                    alt={`Póster ${act.name}`}
+                    className="relative z-10 w-full h-full object-contain max-h-full transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
+                </>
+              )}
+              {/* Botón de Play Central */}
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/25 group-hover:bg-black/15 transition-all">
+                <div className="w-13 h-13 sm:w-16 sm:h-16 rounded-full bg-[#800020]/90 text-white flex items-center justify-center shadow-xl border-2 border-white/85 group-hover:scale-110 group-hover:bg-[#800020] transition-all transform duration-200">
+                  <Play className="w-6 h-6 sm:w-7 sm:h-7 fill-white ml-0.5" />
+                </div>
+                <span className="mt-2.5 px-3 py-1 rounded-full bg-black/70 backdrop-blur-xs text-white text-[11px] sm:text-xs font-semibold tracking-wide shadow-md border border-white/10 group-hover:bg-black/85 transition">
+                  Reproducir vídeo
+                </span>
+              </div>
+
+              {/* Botón Ampliar vídeo en esquina */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openZoom("video");
+                }}
+                className="absolute bottom-2.5 right-2.5 z-30 bg-black/75 hover:bg-black/95 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur-xs flex items-center gap-1 shadow-sm transition opacity-90 group-hover:opacity-100 cursor-pointer"
+                title="Ampliar vídeo"
+              >
+                <Maximize2 className="w-3 h-3" /> Ampliar vídeo
+              </button>
+            </div>
+          ) : (
+            /* Vídeo activo en reproducción */
+            <>
+              <video
+                ref={videoRef}
+                src={videoSrc}
+                poster={flyerSrc || undefined}
+                controls
+                autoPlay
+                playsInline
+                preload="auto"
+                onEnded={() => setIsPlaying(false)}
+                className="w-full h-full object-contain max-h-full"
+              />
+              <button
+                type="button"
+                onClick={() => openZoom("video")}
+                className="absolute bottom-2.5 right-2.5 bg-black/75 hover:bg-black/95 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur-xs flex items-center gap-1 shadow-sm transition opacity-90 group-hover:opacity-100 cursor-pointer z-10"
+                title="Ampliar vídeo"
+              >
+                <Maximize2 className="w-3 h-3" /> Ampliar vídeo
+              </button>
+            </>
+          )}
         </div>
       ) : flyerSrc ? (
-        <div className="relative group overflow-hidden rounded-2xl border border-stone-200 bg-stone-100 aspect-video w-full shadow-xs flex items-center justify-center">
+        <div className="relative group overflow-hidden rounded-2xl border border-stone-200 bg-stone-950 aspect-video w-full shadow-xs flex items-center justify-center">
+          <img
+            src={flyerSrc}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover blur-md opacity-25 scale-105 pointer-events-none"
+          />
           <img
             src={flyerSrc}
             alt={act.name}
-            className="w-full h-full object-contain cursor-pointer transition-transform duration-300 group-hover:scale-102"
+            className="relative z-10 w-full h-full object-contain cursor-pointer transition-transform duration-300 group-hover:scale-102"
             onClick={() => openZoom("flyer")}
             onError={(e) => {
               (e.target as HTMLElement).style.display = "none";
@@ -141,7 +214,7 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
           <button
             type="button"
             onClick={() => openZoom("flyer")}
-            className="absolute bottom-2.5 right-2.5 bg-black/75 hover:bg-black/95 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur-xs flex items-center gap-1 shadow-sm transition opacity-90 group-hover:opacity-100 cursor-pointer z-10"
+            className="absolute bottom-2.5 right-2.5 z-20 bg-black/75 hover:bg-black/95 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur-xs flex items-center gap-1 shadow-sm transition opacity-90 group-hover:opacity-100 cursor-pointer"
             title="Ampliar flyer"
           >
             <Maximize2 className="w-3 h-3" /> Ampliar flyer

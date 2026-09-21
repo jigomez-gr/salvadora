@@ -406,7 +406,7 @@ const ACTIVITY_FLYERS: { [key: number]: ActivityFlyer[] } = {
         { title: "Flyer Ayuno Terapéutico", imagePath: "/flyers/ayuno.jpeg" }
     ],
     9: [
-        { title: "Intenta (Salud)", imagePath: "/flyers/intenta.jpeg" },
+        { title: "Actividades Especiales", imagePath: "/flyers/flyer_actividades_especiales.jpg" },
         { title: "Bienestar", imagePath: "/flyers/bienestar.png" }
     ]
 };
@@ -717,6 +717,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                             <div className="w-full h-full bg-[#1C1C1C] relative aspect-video">
                                                 <video
                                                     src={getVideoPath(day.id)}
+                                                    poster={ACTIVITY_FLYERS[day.id]?.[0]?.imagePath || thumb.src}
                                                     controls
                                                     playsInline
                                                     preload="metadata"
