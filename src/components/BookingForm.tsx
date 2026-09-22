@@ -232,9 +232,10 @@ export default function BookingForm({ initialServices, initialCategories }: Book
 
     // Dynamic Price calculation from CRM catalog
     const matchedService = findServiceByCodeOrId(services, tipoHabitacion);
+    const isSinPrecio = matchedService?.sinpreciodefinitivo === "S";
     const parsedPrice = matchedService && matchedService.price ? parseFloat(matchedService.price) : 25;
-    const unitPrice = isNaN(parsedPrice) ? 25 : parsedPrice;
-    const totalPrice = numeroPlazas * unitPrice;
+    const unitPrice = isSinPrecio ? 0 : (isNaN(parsedPrice) ? 25 : parsedPrice);
+    const totalPrice = isSinPrecio ? 0 : numeroPlazas * unitPrice;
 
     // Remaining balance
     const currentReserva = bookingSuccessData?.reserva || session?.reserva;
@@ -902,15 +903,23 @@ export default function BookingForm({ initialServices, initialCategories }: Book
                                                                             <span className="block text-[11px] text-stone-500 mt-1 leading-snug line-clamp-2">
                                                                                 {svc.description || svc.scheduleText || "Actividad del centro"}
                                                                             </span>
-                                                                            {svc.scheduleText && (
-                                                                                <span className="block text-[10px] text-[#0B4A72] font-semibold mt-1">
-                                                                                    🕒 {svc.scheduleText}
-                                                                                </span>
-                                                                            )}
-                                                                            {svc.eventDatesText && (
+                                                                            {svc.sinfechadefinitiva === "S" ? (
                                                                                 <span className="block text-[10px] text-purple-700 font-semibold mt-1">
-                                                                                    📅 {svc.eventDatesText}
+                                                                                    📅 {svc.textosinfechadefinitiva || "Fecha por confirmar"}
                                                                                 </span>
+                                                                            ) : (
+                                                                                <>
+                                                                                    {svc.scheduleText && (
+                                                                                        <span className="block text-[10px] text-[#0B4A72] font-semibold mt-1">
+                                                                                            🕒 {svc.scheduleText}
+                                                                                        </span>
+                                                                                    )}
+                                                                                    {svc.eventDatesText && (
+                                                                                        <span className="block text-[10px] text-purple-700 font-semibold mt-1">
+                                                                                            📅 {svc.eventDatesText}
+                                                                                        </span>
+                                                                                    )}
+                                                                                </>
                                                                             )}
                                                                             {svc.maxCapacity && (
                                                                                 <span className="block text-[10px] text-stone-400 mt-0.5">
@@ -962,11 +971,13 @@ export default function BookingForm({ initialServices, initialCategories }: Book
                                             Total a abonar
                                         </span>
                                         <span className="text-[11px] text-stone-600">
-                                            {numeroPlazas} plaza(s) x {unitPrice} €
+                                            {isSinPrecio
+                                                ? (matchedService?.textosinpreciodefinitivo || "Precio por confirmar")
+                                                : `${numeroPlazas} plaza(s) x ${unitPrice} €`}
                                         </span>
                                     </div>
                                     <div className="font-serif text-2xl font-bold text-[#800020]">
-                                        {totalPrice} €
+                                        {isSinPrecio ? "A determinar" : `${totalPrice} €`}
                                     </div>
                                 </div>
 

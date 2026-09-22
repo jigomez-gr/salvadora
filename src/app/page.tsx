@@ -73,14 +73,22 @@ export default async function Home() {
   const hatha1Price = hatha1Svc?.price ? `${parseFloat(hatha1Svc.price).toFixed(0)} €` : "25 €";
   const hatha2Price = hatha2Svc?.price ? `${parseFloat(hatha2Svc.price).toFixed(0)} €` : "42 €";
   const gongPrice = gongSvc?.price ? `${parseFloat(gongSvc.price).toFixed(0)} €` : "16 €";
-  const pujaPrice = pujaSvc?.price ? `${parseFloat(pujaSvc.price).toFixed(0)} €` : "95 €";
+  const pujaPrice = pujaSvc
+    ? (pujaSvc.sinpreciodefinitivo === "S"
+        ? (pujaSvc.textosinpreciodefinitivo || "Precio por confirmar")
+        : `${parseFloat(pujaSvc.price || "0").toFixed(0)} €`)
+    : "el precio se determinara en funcion de las caracteristicas del viaje y alojamiento";
   const meditacionPrice = meditacionSvc?.price ? `${parseFloat(meditacionSvc.price).toFixed(0)} €` : "15 €";
 
   const meditacionSchedule = meditacionSvc?.scheduleText || "Martes y Jueves de 09:15 a 09:45";
   const meditacionCapacity = meditacionSvc?.maxCapacity || 28;
   const gongSchedule = gongSvc?.eventDatesText || gongSvc?.scheduleText || "Un sábado al mes";
   const gongDuration = gongSvc ? formatDuration(gongSvc.durationMinutes) : "2 horas";
-  const pujaSchedule = pujaSvc?.eventDatesText || "Sábado 28 de Noviembre de 2026 (Noche de 21:00 a 08:00)";
+  const pujaSchedule = pujaSvc
+    ? (pujaSvc.sinfechadefinitiva === "S"
+        ? (pujaSvc.textosinfechadefinitiva || "Fecha por confirmar")
+        : (pujaSvc.eventDatesText || pujaSvc.scheduleText || "Fecha por confirmar"))
+    : "dos encuentros  la primera puja es proximamente y la segunda en marzo 2027";
   const pujaDuration = pujaSvc ? formatDuration(pujaSvc.durationMinutes) : "11 horas";
 
   const atmosphereDays = [

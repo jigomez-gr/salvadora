@@ -94,8 +94,12 @@ export function WebMcpProvider() {
                           services: data.services.map((s: any) => ({
                             name: s.name,
                             type: s.serviceType,
-                            price: s.price ? `${s.price} EUR` : "A consultar",
-                            schedule: s.scheduleText || s.eventDatesText,
+                            price: s.sinpreciodefinitivo === "S"
+                              ? (s.textosinpreciodefinitivo || "Precio por confirmar")
+                              : (s.price ? `${s.price} EUR` : "A consultar"),
+                            schedule: s.sinfechadefinitiva === "S"
+                              ? (s.textosinfechadefinitiva || "Fecha por confirmar")
+                              : (s.scheduleText || s.eventDatesText),
                             durationMinutes: s.durationMinutes,
                             maxCapacity: s.maxCapacity,
                             firstClassFree: s.firstClassFree,

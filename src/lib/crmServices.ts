@@ -38,6 +38,10 @@ export interface CrmService {
   fechaDesde?: string | null;
   fechaHasta?: string | null;
   displayOrder?: number;
+  sinfechadefinitiva?: string | null;
+  textosinfechadefinitiva?: string | null;
+  sinpreciodefinitivo?: string | null;
+  textosinpreciodefinitivo?: string | null;
 }
 
 export interface CrmServicesResponse {
@@ -156,15 +160,19 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     id: "f929b07c-3505-42b8-907f-be7a1bca9af6",
     name: "Puja de Gongs (Noche Sagrada de Sonido - 11h)",
     serviceType: "event",
-    description: "Evento anual de inmersión y transformación sonora durante toda la noche (11 horas continuas de sonido). Fecha prevista: Finales de noviembre (Sábado 28 de Noviembre de 2026, 21:00 a 08:00). Aforo: 30 personas por sesión. Precio: 95€ (90-100€ según asistentes). Reserva anticipada. Pago en el centro.",
-    eventDatesText: "Sábado 28 de Noviembre de 2026 (Noche de 21:00 a 08:00)",
+    description: "Evento anual de inmersión y transformación sonora durante toda la noche (11 horas continuas de sonido). Próximamente / Marzo 2027. Aforo: 30 personas por sesión. Reserva anticipada. Pago en el centro.",
+    eventDatesText: "dos encuentros  la primera puja es proximamente y la segunda en marzo 2027",
     durationMinutes: 660,
-    price: "95.00",
+    price: "0.00",
     currency: "EUR",
     maxCapacity: 30,
     allowedModalities: ["in_person"],
     firstClassFree: false,
     freeForYogaStudents: false,
+    sinfechadefinitiva: "S",
+    textosinfechadefinitiva: "dos encuentros  la primera puja es proximamente y la segunda en marzo 2027",
+    sinpreciodefinitivo: "S",
+    textosinpreciodefinitivo: "el precio se determinara en funcion de las caracteristicas del viaje y alojamiento",
     flyerUrl: "/flyers/banogong.jpeg",
     videoParticularUrl: "/videos/itinerario-4.mp4",
     videoParticularPath: "media_base/videos/itinerario-4.mp4",
@@ -268,14 +276,18 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     name: "Encuentro de Mujeres (Primavera)",
     serviceType: "event",
     description: "Círculo y espacio de conexión femenina, dinámicas grupales, sanación emocional y meditación.",
-    eventDatesText: "Primavera 2026",
+    eventDatesText: "fecha por confirmar",
     durationMinutes: 240,
-    price: "35.00",
+    price: "0.00",
     currency: "EUR",
     maxCapacity: 25,
     allowedModalities: ["in_person"],
     firstClassFree: false,
     freeForYogaStudents: false,
+    sinfechadefinitiva: "S",
+    textosinfechadefinitiva: "fecha por confirmar",
+    sinpreciodefinitivo: "S",
+    textosinpreciodefinitivo: "fecha por confirmar",
     flyerUrl: "/flyers/encuentros_mujeres.jpeg",
     videoParticularUrl: "/videos/itinerario-7.mp4",
     videoParticularPath: "media_base/videos/itinerario-7.mp4",
@@ -410,6 +422,10 @@ export async function fetchCrmServices(filters?: {
  * Human-readable price formatting based on CRM data.
  */
 export function formatServicePrice(service: CrmService): string {
+  if (service.sinpreciodefinitivo === "S") {
+    return service.textosinpreciodefinitivo || "Precio por confirmar";
+  }
+
   if (service.price === null || service.price === undefined || service.price === "") {
     return "A consultar";
   }
@@ -440,6 +456,16 @@ export function formatServicePrice(service: CrmService): string {
   }
 
   return formattedNum;
+}
+
+/**
+ * Human-readable date / schedule formatting based on CRM data.
+ */
+export function formatServiceDate(service: CrmService): string {
+  if (service.sinfechadefinitiva === "S") {
+    return service.textosinfechadefinitiva || "Fecha por confirmar";
+  }
+  return service.eventDatesText || service.scheduleText || "";
 }
 
 /**

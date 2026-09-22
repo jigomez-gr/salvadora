@@ -1004,9 +1004,9 @@ function ServiciosContent() {
                             </span>
                           </div>
 
-                          {act.eventDatesText && (
+                          {(act.sinfechadefinitiva === "S" || act.eventDatesText) && (
                             <div className="mb-2 inline-block bg-purple-100 text-purple-950 font-bold text-[11px] px-2.5 py-0.5 rounded-md">
-                              🗓️ {act.eventDatesText}
+                              🗓️ {act.sinfechadefinitiva === "S" ? (act.textosinfechadefinitiva || "Fecha por confirmar") : act.eventDatesText}
                             </div>
                           )}
 
@@ -1017,13 +1017,15 @@ function ServiciosContent() {
                       )}
 
                       {/* Horarios dinámicos desde CRM */}
-                      {(act.scheduleText || act.eventDatesText) && (
+                      {(act.sinfechadefinitiva === "S" || act.scheduleText || act.eventDatesText) && (
                         <div className="bg-[#FAF9F6] rounded-2xl p-4 border border-stone-200/90 space-y-2 mb-4">
                           <div className="text-xs font-bold text-[#800020] uppercase tracking-wider flex items-center gap-1.5">
                             <Clock className="w-4 h-4 text-[#0B4A72]" /> Horarios y Turnos Oficiales:
                           </div>
                           <div className="text-xs text-stone-800">
-                            {act.scheduleText || act.eventDatesText}
+                            {act.sinfechadefinitiva === "S"
+                              ? (act.textosinfechadefinitiva || "Fecha por confirmar")
+                              : (act.scheduleText || act.eventDatesText)}
                           </div>
                           <div className="text-[11px] text-stone-600 italic pt-1 border-t border-stone-200 flex items-center justify-between">
                             <span>Duración: {durationDisplay}</span>
@@ -1127,13 +1129,15 @@ function ServiciosContent() {
                       {act.description}
                     </p>
 
-                    {act.scheduleText && (
+                    {(act.sinfechadefinitiva === "S" || act.scheduleText || act.eventDatesText) && (
                       <div className="bg-[#FAF9F6] rounded-xl p-3 border border-stone-200 text-xs space-y-1 mb-3">
                         <div className="font-bold text-[#800020] text-[11px] uppercase flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5" /> Horario:
                         </div>
                         <div className="text-[11px] text-stone-800">
-                          {act.scheduleText}
+                          {act.sinfechadefinitiva === "S"
+                            ? (act.textosinfechadefinitiva || "Fecha por confirmar")
+                            : (act.scheduleText || act.eventDatesText)}
                         </div>
                       </div>
                     )}
