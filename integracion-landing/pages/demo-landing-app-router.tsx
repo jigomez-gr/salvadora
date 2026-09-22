@@ -73,6 +73,19 @@ export default function DemoLandingPage() {
   const [waSuccess, setWaSuccess] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    if (!inputValue) {
+      textarea.style.height = "38px";
+      return;
+    }
+    textarea.style.height = "auto";
+    const nextHeight = Math.min(Math.max(textarea.scrollHeight, 38), 120);
+    textarea.style.height = `${nextHeight}px`;
+  }, [inputValue, isOpen]);
 
   // ─── 1. SERVICIOS DEL CENTRO / CLUB SOCIAL PARQUE GRANADA (EXCLUSIVAMENTE 2) ───
   const centroActivities: ServiceItem[] = [
@@ -349,6 +362,9 @@ export default function DemoLandingPage() {
 
     setMessages((prev) => [...prev, userMsg]);
     setInputValue("");
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "38px";
+    }
     setIsTyping(true);
 
     try {
@@ -1254,24 +1270,32 @@ export default function DemoLandingPage() {
           </div>
 
           {/* Input Footer */}
-          <div className="p-2.5 sm:p-3 bg-white border-t border-stone-200 flex items-center gap-2">
-            <input
-              type="text"
+          <div className="p-2.5 sm:p-3 bg-white border-t border-stone-200 flex items-end gap-2">
+            <textarea
+              ref={textareaRef}
+              rows={1}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
+                  const isTouchMobile =
+                    typeof window !== "undefined" &&
+                    ("ontouchstart" in window || navigator.maxTouchPoints > 0) &&
+                    window.innerWidth < 768;
+                  if (!isTouchMobile) {
+                    e.preventDefault();
+                    handleSend();
+                  }
                 }
               }}
               placeholder="Ej: ¿Qué turnos hay de Yoga o Iaidō?..."
-              className="flex-1 bg-stone-100 border border-stone-300 focus:border-[#800020] focus:bg-white rounded-full px-3.5 py-2 text-xs text-stone-800 outline-none transition"
+              className="flex-1 resize-none rounded-xl border border-stone-300 bg-stone-100 px-3.5 py-2 text-xs text-stone-800 outline-none transition-[background-color,border-color] placeholder:text-stone-400 focus:border-[#800020] focus:bg-white min-h-[38px] max-h-[120px] leading-snug overflow-y-auto"
+              style={{ height: "38px" }}
             />
             <button
               onClick={() => handleSend()}
               disabled={isTyping || !inputValue.trim()}
-              className="w-8 h-8 rounded-full bg-[#800020] text-white flex items-center justify-center hover:bg-[#800020]/90 disabled:opacity-40 disabled:cursor-not-allowed transition shrink-0"
+              className="w-[38px] h-[38px] rounded-xl bg-[#800020] text-white flex items-center justify-center hover:bg-[#800020]/90 disabled:opacity-40 disabled:cursor-not-allowed transition shrink-0 cursor-pointer"
             >
               <Send className="w-3.5 h-3.5" />
             </button>

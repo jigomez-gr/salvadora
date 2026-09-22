@@ -64,6 +64,20 @@ export function ChatBubbleWidget({
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // Auto-ajuste de altura dinámico (desde 1 línea hasta ~4-5 líneas con máx 120px)
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+    if (!inputValue) {
+      textarea.style.height = "40px";
+      return;
+    }
+    textarea.style.height = "auto";
+    const nextHeight = Math.min(Math.max(textarea.scrollHeight, 40), 120);
+    textarea.style.height = `${nextHeight}px`;
+  }, [inputValue, isOpen]);
 
   // Check for duplicate chat bubbles in the DOM before mounting and periodically
   useEffect(() => {
@@ -164,6 +178,9 @@ export function ChatBubbleWidget({
     const userMsgId = "user-" + Date.now();
     setMessages((prev) => [...prev, { id: userMsgId, direction: "outbound", body: text }]);
     setInputValue("");
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "40px";
+    }
     setIsTyping(true);
 
     try {
@@ -415,20 +432,36 @@ export function ChatBubbleWidget({
           {/* Input Form */}
           <form
             onSubmit={(e) => handleSendMessage(e)}
-            className="flex items-center gap-2 border-t border-stone-200 bg-white p-2.5 sm:p-3"
+            className="flex items-end gap-2 border-t border-stone-200 bg-white p-2.5 sm:p-3"
           >
-            <input
-              type="text"
+            <textarea
+              ref={textareaRef}
+              rows={1}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                // En ordenadores: Enter envía el mensaje y Shift+Enter genera salto de línea.
+                // En dispositivos móviles táctiles: Enter permite añadir párrafos/saltos de línea y se envía con el botón dedicado.
+                if (e.key === "Enter" && !e.shiftKey) {
+                  const isTouchMobile =
+                    typeof window !== "undefined" &&
+                    ("ontouchstart" in window || navigator.maxTouchPoints > 0) &&
+                    window.innerWidth < 768;
+                  if (!isTouchMobile) {
+                    e.preventDefault();
+                    handleSendMessage(e);
+                  }
+                }
+              }}
               placeholder="Escribe tu consulta o reserva..."
-              className="flex-1 rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2 text-sm text-stone-900 outline-none transition-all placeholder:text-stone-400 focus:border-[#800020] focus:bg-white"
+              className="flex-1 resize-none rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2 text-sm text-stone-900 outline-none transition-[background-color,border-color] placeholder:text-stone-400 focus:border-[#800020] focus:bg-white min-h-[40px] max-h-[120px] leading-snug overflow-y-auto"
+              style={{ height: "40px" }}
             />
             <button
               type="submit"
               disabled={!inputValue.trim() || isTyping}
               aria-label="Enviar mensaje"
-              className="flex h-10 w-10 sm:h-9.5 sm:w-9.5 shrink-0 items-center justify-center rounded-xl text-white transition-opacity disabled:opacity-40 cursor-pointer"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white transition-opacity disabled:opacity-40 cursor-pointer"
               style={{ backgroundColor: brandColor }}
             >
               <Send className="h-4.5 w-4.5" />
