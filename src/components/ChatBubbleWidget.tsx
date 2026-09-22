@@ -438,7 +438,12 @@ export function ChatBubbleWidget({
               ref={textareaRef}
               rows={1}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                const target = e.target;
+                target.style.height = "auto";
+                target.style.height = `${Math.min(Math.max(target.scrollHeight, 40), 140)}px`;
+              }}
               onKeyDown={(e) => {
                 // En ordenadores: Enter envía el mensaje y Shift+Enter genera salto de línea.
                 // En dispositivos móviles táctiles: Enter permite añadir párrafos/saltos de línea y se envía con el botón dedicado.
@@ -454,8 +459,7 @@ export function ChatBubbleWidget({
                 }
               }}
               placeholder="Escribe tu consulta o reserva..."
-              className="flex-1 resize-none rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2 text-sm text-stone-900 outline-none transition-[background-color,border-color] placeholder:text-stone-400 focus:border-[#800020] focus:bg-white min-h-[40px] max-h-[120px] leading-snug overflow-y-auto"
-              style={{ height: "40px" }}
+              className="flex-1 resize-none rounded-xl border border-stone-300 bg-stone-50 px-3.5 py-2 text-sm text-stone-900 outline-none transition-[background-color,border-color] placeholder:text-stone-400 focus:border-[#800020] focus:bg-white min-h-[40px] max-h-[140px] leading-snug overflow-y-auto"
             />
             <button
               type="submit"
