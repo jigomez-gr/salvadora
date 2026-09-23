@@ -115,8 +115,8 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     firstClassFree: false,
     freeForYogaStudents: false,
     flyerUrl: "/flyers/bienestar.png",
-    videoParticularUrl: "/videos/itinerario-9.mp4",
-    videoParticularPath: "media_base/videos/itinerario-9.mp4",
+    videoParticularUrl: "/videos/bienestar_madrid.mp4",
+    videoParticularPath: "media_base/videos/bienestar_madrid.mp4",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Bienestar%20Experience%20(Longevidad%20y%20Bienestar%20Integral).",
   },
   {

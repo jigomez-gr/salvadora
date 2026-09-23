@@ -62,7 +62,7 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
 
   const videoPoster = useMemo(() => {
     if (!videoSrc) return undefined;
-    const match = videoSrc.match(/(itinerario-\d+|ayunoterapeuticoparticular|previo_ayunos|prologo)/i);
+    const match = videoSrc.match(/(itinerario-\d+|ayunoterapeuticoparticular|previo_ayunos|prologo|bienestar_madrid)/i);
     if (match) {
       return `/videos/${match[1]}-poster.jpg`;
     }
