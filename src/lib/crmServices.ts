@@ -62,6 +62,65 @@ export const CRM_API_BASE_URL =
 
 export const CRM_SERVICES_ENDPOINT = `${CRM_API_BASE_URL}/api/widget/services`;
 
+export const MAINTENANCE_MESSAGE =
+  "Los servicios en línea de la Escuela de Yoga de Salvadora Conesa No están operativos en estos momentos Intentelo más tarde ";
+export const BLOCKED_USER_MESSAGE =
+  "Usuario Bloqueado por restricción técnica puede apelar enviando un correo a jigomezjub@gmail.com  y si lo consideramos nos pondremos en contacto con vd ";
+
+export async function checkCrmMaintenanceAndContact(
+  phone?: string,
+  email?: string
+): Promise<{
+  allowed: boolean;
+  maintenance: boolean;
+  blocked: boolean;
+  message?: string;
+  statusCode?: number;
+}> {
+  try {
+    const params = new URLSearchParams();
+    if (phone) params.append("phone", phone);
+    if (email) params.append("email", email);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+    const res = await fetch(
+      `${CRM_API_BASE_URL}/api/widget/check-contact?${params.toString()}`,
+      {
+        cache: "no-store",
+        signal: controller.signal,
+      }
+    );
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data.maintenance) {
+        return {
+          allowed: false,
+          maintenance: true,
+          blocked: false,
+          message: data.message || MAINTENANCE_MESSAGE,
+          statusCode: 503,
+        };
+      }
+      if (data.blocked) {
+        return {
+          allowed: false,
+          maintenance: false,
+          blocked: true,
+          message: data.message || BLOCKED_USER_MESSAGE,
+          statusCode: 403,
+        };
+      }
+    }
+  } catch (err) {
+    console.warn("Could not check CRM maintenance and contact status:", err);
+  }
+  return { allowed: true, maintenance: false, blocked: false };
+}
+
 // Fallback catalog in case of temporary network unavailability
 export const FALLBACK_CRM_SERVICES: CrmService[] = [
   {

@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { cookies } from "next/headers";
 import { sendBookingConfirmationSms } from "@/lib/sms";
-import { fetchCrmServices, findServiceByCodeOrId } from "@/lib/crmServices";
+import {
+    fetchCrmServices,
+    findServiceByCodeOrId,
+    checkCrmMaintenanceAndContact,
+} from "@/lib/crmServices";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +38,15 @@ export async function POST(request: Request) {
             return NextResponse.json(
                 { error: "Por favor, indica tu nombre, teléfono y la actividad deseada." },
                 { status: 400 }
+            );
+        }
+
+        // Comprobación de mantenimiento y bloqueo de contacto en CRM
+        const crmCheck = await checkCrmMaintenanceAndContact(telefono, email);
+        if (!crmCheck.allowed) {
+            return NextResponse.json(
+                { error: crmCheck.message },
+                { status: crmCheck.statusCode || 400 }
             );
         }
 

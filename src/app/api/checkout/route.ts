@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import Stripe from "stripe";
-import { fetchCrmServices, findServiceByCodeOrId } from "@/lib/crmServices";
+import {
+    fetchCrmServices,
+    findServiceByCodeOrId,
+    checkCrmMaintenanceAndContact,
+} from "@/lib/crmServices";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +25,24 @@ export async function POST(request: Request) {
 
         let targetReservaId = reservaId;
         let checkoutAmount = parseFloat(amount);
+
+        // Comprobación de mantenimiento y contacto bloqueado
+        let checkPhone = telefono;
+        let checkEmail = email;
+        if (targetReservaId && (!checkPhone || !checkEmail)) {
+            const existingRes = await prisma.reserva.findUnique({ where: { id: targetReservaId } });
+            if (existingRes) {
+                checkPhone = checkPhone || existingRes.telefono;
+                checkEmail = checkEmail || existingRes.email;
+            }
+        }
+        const crmCheck = await checkCrmMaintenanceAndContact(checkPhone, checkEmail);
+        if (!crmCheck.allowed) {
+            return NextResponse.json(
+                { error: crmCheck.message },
+                { status: crmCheck.statusCode || 400 }
+            );
+        }
 
         // If targetReservaId is not provided, this is the legacy direct checkout flow:
         // We first create the reservation, then check out for the FULL amount.
