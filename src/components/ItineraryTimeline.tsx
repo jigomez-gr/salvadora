@@ -228,7 +228,7 @@ const ITIN_DATA: TimelineDay[] = [
                 title: "Longevidad y Hábitos Saludables",
                 description: "Sesiones y talleres sobre longevidad activa, biohacking, nutrición celular, ritmos circadianos y bienestar integral con especialistas colaboradores.",
                 type: "visit",
-                venue: "Sala Multiusos / Online",
+                venue: "Auditorio de Madrid / Presencial",
             },
         ],
     },
