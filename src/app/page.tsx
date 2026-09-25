@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 import Navbar from "@/components/Navbar";
 import ItineraryTimeline from "@/components/ItineraryTimeline";
 import VideoGallery from "@/components/VideoGallery";
-import BookingForm from "@/components/BookingForm";
+import ContactQueryForm from "@/components/ContactQueryForm";
 import HeroMedia from "@/components/HeroMedia";
 import PrologoGallery from "@/components/PrologoGallery";
 import AtmosphereGallery from "@/components/AtmosphereGallery";
@@ -803,19 +803,22 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 12. Formulario de Reserva */}
+      {/* 12. Formulario de Consulta / Contacto (Canal Email) */}
       <section id="reserva" className="py-24 bg-[#FAF9F6] scroll-mt-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-2">
-              Solicitud de Inscripción
+              Atención Personalizada & Canal Email
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#800020]">
-              Inscribirse en las Actividades
+              Envíanos tu Consulta
             </h2>
+            <p className="mt-3 text-xs sm:text-sm text-stone-600 max-w-xl mx-auto leading-relaxed">
+              ¿Quieres información detallada sobre nuestras clases de yoga, baños de gong, terapias o retiros? Escríbenos directamente y te responderemos por correo o teléfono a la mayor brevedad.
+            </p>
           </div>
 
-          <BookingForm initialServices={services} initialCategories={categories} />
+          <ContactQueryForm initialServices={services} initialCategories={categories} />
         </div>
       </section>
 
