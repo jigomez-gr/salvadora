@@ -46,15 +46,12 @@ export default function AtmosphereCard({
             >
                 <img
                     src={`${activeImage}?v=2`}
-                    alt={`Día ${dayNum}`}
+                    alt={title}
                     className="w-full h-full object-cover group-hover/img:scale-105 transition duration-700"
                 />
 
                 {/* Ambient Dark/Red Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent group-hover/img:from-[#800020]/90 group-hover/img:via-[#800020]/25 group-hover/img:to-transparent transition duration-300 flex flex-col justify-end p-5 text-white">
-                    <span className="text-[10px] font-bold tracking-[0.2em] text-[#E9C168] uppercase mb-1">
-                        Día {dayNum}
-                    </span>
                     <h4 className="font-serif text-base sm:text-lg font-bold text-white tracking-wide leading-snug">
                         {title}
                     </h4>

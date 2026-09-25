@@ -34,6 +34,8 @@ const ACTIVITY_FLYERS: { [key: number]: ActivityFlyer[] } = {
         { title: "Flyer Ayuno Terapéutico", imagePath: "/flyers/ayuno.jpeg" }
     ],
     9: [
+        { title: "Servicios y Disciplinas Colaboradoras", imagePath: "/imagenes/centro/servicios_clubsocial.jpeg" },
+        { title: "Iaido y Artes Tradicionales", imagePath: "/flyers/iaido.jpg" },
         { title: "Intenta (Salud)", imagePath: "/flyers/intenta.jpeg" },
         { title: "Bienestar", imagePath: "/flyers/bienestar.png" }
     ]
@@ -140,7 +142,7 @@ const DAYS_DATA: DayItem[] = [
         category: "PRESENCIA Y ACOMPAÑAMIENTO",
         description: "Espacio de presencia y autoconocimiento enfocado en el aquí y el ahora para el acompañamiento emocional.",
         date: "Consulta Individual",
-        image: "/imagenes/centro/401_interior_centro_yoga_1920x1080.jpg",
+        image: "/imagenes/gestalt/01_gestalt_consulta_intima_1920x1080.jpg",
         videos: [
             {
                 title: "Acompañamiento Gestáltico",
@@ -155,7 +157,7 @@ const DAYS_DATA: DayItem[] = [
         category: "SANACIÓN TRANSGENERACIONAL",
         description: "Terapia sistémica grupal para traer orden y claridad a las implicaciones e historias familiares inconscientes.",
         date: "Talleres Mensuales",
-        image: "/imagenes/yoga/01_05_yoga_sala_centro_1920x1080.jpg",
+        image: "/imagenes/constelaciones/101_constelaciones_circulo_sereno_1920x1080.jpg",
         videos: [
             {
                 title: "Talleres de Constelaciones",
@@ -200,7 +202,7 @@ const DAYS_DATA: DayItem[] = [
         category: "ACTIVIDADES ESPECIALES",
         description: "Asesoramiento personalizado en longevidad, biohacking, nutrición y bienestar integral con especialistas colaboradores.",
         date: "Programación Abierta",
-        image: "/imagenes/centro/401_interior_centro_yoga_1920x1080.jpg",
+        image: "/videos/itinerario-9-poster.jpg",
         videos: [
             {
                 title: "Bienestar Experience y Longevidad",

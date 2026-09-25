@@ -201,11 +201,14 @@ export default async function Home() {
       title: "Otras Disciplinas",
       subtitle: "Salud y colaboradores",
       href: "#itinerario",
-      mainImage: "/imagenes/centro/401_interior_centro_yoga_1920x1080.jpg",
+      mainImage: "/imagenes/centro/servicios_clubsocial.jpeg",
       subImages: [
-        "/imagenes/centro/103_entrada_desde_metro_parque_europa_1920x1080.jpg",
-        "/imagenes/centro/204_entrada_principal_centro_1920x1080.jpg",
-        "/imagenes/centro/302_patio_centro_1920x1080.jpg"
+        "/flyers/iaido.jpg",
+        "/flyers/varios/varios1.jpeg",
+        "/flyers/varios/varios3.jpeg",
+        "/flyers/varios/varios2.jpeg",
+        "/flyers/flyer_actividades_especiales.jpg",
+        "/flyers/intenta.jpeg"
       ]
     }
   ];
