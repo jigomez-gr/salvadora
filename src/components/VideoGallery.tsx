@@ -34,10 +34,7 @@ const ACTIVITY_FLYERS: { [key: number]: ActivityFlyer[] } = {
         { title: "Flyer Ayuno Terapéutico", imagePath: "/flyers/ayuno.jpeg" }
     ],
     9: [
-        { title: "Servicios y Disciplinas Colaboradoras", imagePath: "/imagenes/centro/servicios_clubsocial.jpeg" },
-        { title: "Iaido y Artes Tradicionales", imagePath: "/flyers/iaido.jpg" },
-        { title: "Intenta (Salud)", imagePath: "/flyers/intenta.jpeg" },
-        { title: "Bienestar", imagePath: "/flyers/bienestar.png" }
+        { title: "Actividades Especiales", imagePath: "/flyers/flyer_actividades_especiales.jpg" }
     ]
 };
 

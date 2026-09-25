@@ -201,14 +201,9 @@ export default async function Home() {
       title: "Otras Disciplinas",
       subtitle: "Salud y colaboradores",
       href: "#itinerario",
-      mainImage: "/imagenes/centro/servicios_clubsocial.jpeg",
+      mainImage: "/flyers/flyer_actividades_especiales.jpg",
       subImages: [
-        "/flyers/iaido.jpg",
-        "/flyers/varios/varios1.jpeg",
-        "/flyers/varios/varios3.jpeg",
-        "/flyers/varios/varios2.jpeg",
-        "/flyers/flyer_actividades_especiales.jpg",
-        "/flyers/intenta.jpeg"
+        "/flyers/flyer_actividades_especiales.jpg"
       ]
     }
   ];
