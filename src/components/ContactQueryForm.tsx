@@ -32,6 +32,7 @@ export default function ContactQueryForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [requestType, setRequestType] = useState<"consulta" | "reserva">("consulta");
   const [selectedService, setSelectedService] = useState("Consulta General");
   const [message, setMessage] = useState("");
   const [rgpdAccepted, setRgpdAccepted] = useState(false);
@@ -58,11 +59,15 @@ export default function ContactQueryForm({
       return;
     }
     if (!message.trim()) {
-      setError("Por favor, escribe el motivo de tu consulta o duda.");
+      setError(
+        requestType === "reserva"
+          ? "Por favor, indícanos detalles sobre tu reserva (horarios preferidos, etc.)."
+          : "Por favor, escribe el motivo de tu consulta o duda."
+      );
       return;
     }
     if (!rgpdAccepted) {
-      setError("Debes aceptar la política de privacidad para enviar la consulta.");
+      setError("Debes aceptar la política de privacidad para enviar la solicitud.");
       return;
     }
 
@@ -77,22 +82,25 @@ export default function ContactQueryForm({
           phone: phone.trim() || undefined,
           serviceName: selectedService,
           message: message.trim(),
+          requestType,
         }),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "No se pudo enviar la consulta.");
+        throw new Error(data.error || "No se pudo enviar la solicitud.");
       }
 
       setSuccessMessage(
         data.message ||
-          "¡Gracias por contactar! Hemos recibido tu consulta y nos pondremos en contacto contigo lo antes posible."
+          (requestType === "reserva"
+            ? "¡Gracias! Hemos recibido tu solicitud de reserva de plaza y nos pondremos en contacto contigo para confirmarte los detalles."
+            : "¡Gracias por contactar! Hemos recibido tu consulta y nos pondremos en contacto contigo lo antes posible.")
       );
     } catch (err: any) {
       setError(
         err.message ||
-          "Ocurrió un error al enviar tu consulta. Por favor, inténtalo de nuevo o contáctanos por WhatsApp."
+          "Ocurrió un error al enviar tu mensaje. Por favor, inténtalo de nuevo o contáctanos por WhatsApp."
       );
     } finally {
       setLoading(false);
@@ -103,6 +111,7 @@ export default function ContactQueryForm({
     setName("");
     setEmail("");
     setPhone("");
+    setRequestType("consulta");
     setSelectedService("Consulta General");
     setMessage("");
     setRgpdAccepted(false);
@@ -122,7 +131,7 @@ export default function ContactQueryForm({
           </div>
           <div className="space-y-2">
             <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#800020]">
-              Consulta Enviada con Éxito
+              {requestType === "reserva" ? "Solicitud de Reserva Registrada" : "Consulta Enviada con Éxito"}
             </h3>
             <p className="text-sm text-stone-600 leading-relaxed">
               {successMessage}
@@ -143,7 +152,7 @@ export default function ContactQueryForm({
               onClick={handleReset}
               className="inline-flex items-center justify-center px-6 py-2.5 rounded-xl border border-[#800020]/30 text-[#800020] text-xs font-bold uppercase tracking-wider hover:bg-[#800020]/5 transition"
             >
-              Enviar otra consulta
+              Enviar otra petición
             </button>
           </div>
         </div>
@@ -155,11 +164,37 @@ export default function ContactQueryForm({
               <span>Canal de Correo Electrónico Oficial</span>
             </div>
             <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#800020]">
-              Formulario de Consulta Directa
+              Consultas y Reservas por Email
             </h3>
             <p className="text-xs sm:text-sm text-stone-600 mt-1">
-              ¿Tienes preguntas sobre el centro, horarios, nivel de las clases o eventos? Déjanos tu mensaje y te responderemos por correo o teléfono.
+              Envíanos tu consulta sobre horarios y actividades o solicita tu reserva de plaza por escrito. Te responderemos personalmente por correo o teléfono.
             </p>
+
+            {/* Selector de Tipo de Petición */}
+            <div className="mt-4 flex rounded-xl bg-[#FAF9F6] p-1 border border-[#C5A059]/30 max-w-md">
+              <button
+                type="button"
+                onClick={() => setRequestType("consulta")}
+                className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition ${
+                  requestType === "consulta"
+                    ? "bg-[#800020] text-white shadow-xs"
+                    : "text-stone-600 hover:text-stone-900"
+                }`}
+              >
+                Duda / Consulta
+              </button>
+              <button
+                type="button"
+                onClick={() => setRequestType("reserva")}
+                className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition ${
+                  requestType === "reserva"
+                    ? "bg-[#800020] text-white shadow-xs"
+                    : "text-stone-600 hover:text-stone-900"
+                }`}
+              >
+                Solicitar Reserva de Plaza
+              </button>
+            </div>
           </div>
 
           {error && (
@@ -266,7 +301,8 @@ export default function ContactQueryForm({
           {/* Mensaje */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider">
-              Tu Consulta o Mensaje <span className="text-red-500">*</span>
+              {requestType === "reserva" ? "Detalles de tu Reserva" : "Tu Consulta o Mensaje"}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <div className="absolute top-3.5 left-3.5 pointer-events-none text-stone-400">
@@ -277,7 +313,11 @@ export default function ContactQueryForm({
                 rows={4}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Escribe aquí tu consulta con todo detalle (horarios que buscas, si tienes alguna lesión o molestia previa, dudas sobre materiales o cualquier aspecto que quieras comentarnos)..."
+                placeholder={
+                  requestType === "reserva"
+                    ? "Indica tus preferencias (días, horarios disponibles, si es tu primera clase de prueba gratuita o cualquier detalle relevante para tu plaza)..."
+                    : "Escribe aquí tu consulta con todo detalle (horarios que buscas, si tienes alguna lesión o molestia previa, dudas sobre materiales o cualquier aspecto que quieras comentarnos)..."
+                }
                 className="w-full pl-10 pr-4 py-3 bg-[#FAF9F6] border border-[#C5A059]/30 rounded-xl text-sm text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-[#800020]/30 focus:border-[#800020] transition resize-y min-h-[110px]"
               />
             </div>
@@ -303,7 +343,7 @@ export default function ContactQueryForm({
                 >
                   política de privacidad
                 </a>{" "}
-                y el tratamiento responsable de mis datos personales conforme al RGPD exclusivamente para la resolución de mi consulta.
+                y el tratamiento responsable de mis datos personales conforme al RGPD exclusivamente para la resolución de mi petición.
               </span>
             </label>
           </div>
@@ -323,12 +363,20 @@ export default function ContactQueryForm({
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin text-[#C5A059]" />
-                  <span>Enviando consulta…</span>
+                  <span>
+                    {requestType === "reserva"
+                      ? "Enviando solicitud de reserva…"
+                      : "Enviando consulta…"}
+                  </span>
                 </>
               ) : (
                 <>
                   <Send className="w-4 h-4 text-[#C5A059]" />
-                  <span>Enviar Consulta por Email</span>
+                  <span>
+                    {requestType === "reserva"
+                      ? "Solicitar Reserva por Email"
+                      : "Enviar Consulta por Email"}
+                  </span>
                 </>
               )}
             </button>

@@ -9,13 +9,14 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, phone, serviceName, message } = body;
+    const { name, email, phone, serviceName, message, requestType } = body;
 
     const trimmedName = (name || "").trim();
     const trimmedEmail = (email || "").trim().toLowerCase();
     const trimmedPhone = (phone || "").trim();
     const trimmedMessage = (message || "").trim();
     const targetService = (serviceName || "").trim() || "Consulta General";
+    const targetRequestType = requestType === "reserva" ? "reserva" : "consulta";
 
     if (!trimmedName || !trimmedEmail || !trimmedMessage) {
       return NextResponse.json(
@@ -61,6 +62,7 @@ export async function POST(req: Request) {
           phone: trimmedPhone || undefined,
           serviceName: targetService,
           message: trimmedMessage,
+          requestType: targetRequestType,
         }),
         signal: controller.signal,
       });

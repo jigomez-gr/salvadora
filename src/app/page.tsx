@@ -804,17 +804,19 @@ export default async function Home() {
       </section>
 
       {/* 12. Formulario de Consulta / Contacto (Canal Email) */}
-      <section id="reserva" className="py-24 bg-[#FAF9F6] scroll-mt-24">
+      <section id="contacto" className="py-24 bg-[#FAF9F6] scroll-mt-24">
+        <span id="reserva" className="block -mt-24 pt-24 invisible pointer-events-none" />
+        <span id="consultas" className="block -mt-24 pt-24 invisible pointer-events-none" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-2">
               Atención Personalizada & Canal Email
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#800020]">
-              Envíanos tu Consulta
+              Consultas y Reservas por Email
             </h2>
             <p className="mt-3 text-xs sm:text-sm text-stone-600 max-w-xl mx-auto leading-relaxed">
-              ¿Quieres información detallada sobre nuestras clases de yoga, baños de gong, terapias o retiros? Escríbenos directamente y te responderemos por correo o teléfono a la mayor brevedad.
+              ¿Quieres consultar dudas o solicitar tu plaza para clases de yoga, baños de gong, terapias o retiros? Escríbenos directamente y gestionaremos tu solicitud por email de inmediato.
             </p>
           </div>
 
@@ -823,7 +825,7 @@ export default async function Home() {
       </section>
 
       {/* 13. Datos Directos de Contacto */}
-      <section id="contacto" className="py-24 bg-white border-t border-[#C5A059]/25 text-center font-sans scroll-mt-20">
+      <section id="atencion-directa" className="py-24 bg-white border-t border-[#C5A059]/25 text-center font-sans scroll-mt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="text-xs uppercase tracking-widest text-[#D4AF37] font-bold block mb-2">
             Atención Especializada & Contacto Directo
