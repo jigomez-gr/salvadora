@@ -170,7 +170,7 @@ const DAYS_DATA: DayItem[] = [
         category: "SORORIDAD Y RECONEXIÓN",
         description: "Espacios de cuidado mutuo, círculos de palabra y de escucha profunda en la naturaleza.",
         date: "Retiros Anuales",
-        image: "/imagenes/ayuno_terapeutico/ayunos_arreglados/201_ayuno_bienvenida_y_colores_1920x1080.jpg",
+        image: "/imagenes/encuentro_mujeres/01_encuentro_mujeres_movimiento_naturaleza.jpeg",
         videos: [
             {
                 title: "Círculo de Mujeres",
@@ -200,7 +200,7 @@ const DAYS_DATA: DayItem[] = [
         category: "ACTIVIDADES ESPECIALES",
         description: "Asesoramiento personalizado en longevidad, biohacking, nutrición y bienestar integral con especialistas colaboradores.",
         date: "Programación Abierta",
-        image: "/imagenes/centro/401_interior_centro_yoga_1920x1085.jpg",
+        image: "/imagenes/centro/401_interior_centro_yoga_1920x1080.jpg",
         videos: [
             {
                 title: "Bienestar Experience y Longevidad",
