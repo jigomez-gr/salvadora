@@ -46,6 +46,12 @@ video::cue {
   font-family: Georgia, serif;
 }
 
+/* Ensure video in fullscreen is always fully visible and never cropped */
+video:fullscreen,
+video:-webkit-full-screen {
+  object-fit: contain !important;
+}
+
 /* =========================================================================
    Laptop & Compact-Height Screens (does NOT touch mobile or large desktops)
    Ensures that on laptops (e.g. 1366x768, 1080p scaled), the hero section

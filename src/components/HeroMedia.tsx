@@ -28,6 +28,8 @@ export default function HeroMedia() {
             video.requestFullscreen();
         } else if ((video as any).webkitRequestFullscreen) {
             (video as any).webkitRequestFullscreen();
+        } else if ((video as any).webkitEnterFullscreen) {
+            (video as any).webkitEnterFullscreen();
         } else if ((video as any).msRequestFullscreen) {
             (video as any).msRequestFullscreen();
         }
@@ -47,7 +49,7 @@ export default function HeroMedia() {
     };
 
     return (
-        <div className="relative w-full aspect-video rounded-md overflow-hidden bg-black/5 border border-stone-200 group">
+        <div className="relative w-full aspect-video rounded-md overflow-hidden bg-black border border-stone-200 group">
             {/* Video Element */}
             <video
                 ref={videoRef}
@@ -55,7 +57,8 @@ export default function HeroMedia() {
                 loop
                 muted={isMuted}
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover select-none"
+                preload="auto"
+                className="absolute inset-0 w-full h-full object-contain select-none"
             >
                 <source src="/videos/hero.mp4" type="video/mp4" />
             </video>
