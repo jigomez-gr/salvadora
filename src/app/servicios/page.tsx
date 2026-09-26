@@ -567,12 +567,6 @@ function ServiciosContent() {
         <span className="bg-emerald-500 text-white px-2.5 py-0.5 rounded text-[11px] font-extrabold uppercase tracking-wide">
           💳 Pagos en el Centro · Sincronizado en tiempo real
         </span>
-        <button
-          onClick={() => setSimuladorOpen(true)}
-          className="inline-flex items-center gap-1 bg-amber-400 hover:bg-amber-300 text-stone-950 px-3 py-0.5 rounded-full text-xs font-bold transition shadow-xs cursor-pointer"
-        >
-          🔬 Simulador IA
-        </button>
         {showPorWassap && (
           <button
             onClick={() => setWaModalOpen(true)}
