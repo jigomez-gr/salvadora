@@ -69,6 +69,11 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
     return undefined;
   }, [videoSrc]);
 
+  const isInitialVertical = Boolean(
+    videoSrc && videoSrc.toLowerCase().includes("ayunoterapeuticoparticular")
+  );
+  const [isVertical, setIsVertical] = useState(isInitialVertical);
+
   // Inicialmente sacar siempre el vídeo (si existe) con su póster para identificarlo
   const [activeTab, setActiveTab] = useState<"video" | "flyer">(videoSrc ? "video" : "flyer");
   const [isZoomOpen, setIsZoomOpen] = useState(false);
@@ -120,18 +125,35 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
       {/* Visor Multimedia Principal: Vídeo por defecto si existe con su póster oficial, o Flyer */}
       {activeTab === "video" && videoSrc ? (
         <div className="relative group overflow-hidden rounded-2xl border border-stone-200 bg-stone-950 aspect-video w-full shadow-xs flex items-center justify-center">
+          {/* Fondo ambiental suave difuminado únicamente para vídeos verticales en portátil/pantallas grandes */}
+          {isVertical && videoPoster && (
+            <div
+              className="hidden md:block absolute inset-0 bg-cover bg-center filter blur-xl scale-125 opacity-40 pointer-events-none"
+              style={{ backgroundImage: `url(${videoPoster})` }}
+            />
+          )}
           <video
             src={videoSrc}
             poster={videoPoster}
             controls
             playsInline
             preload="metadata"
-            className="w-full h-full object-cover"
+            onLoadedMetadata={(e) => {
+              const { videoWidth, videoHeight } = e.currentTarget;
+              if (videoWidth && videoHeight) {
+                setIsVertical(videoHeight > videoWidth);
+              }
+            }}
+            className={`w-full h-full transition-all duration-300 ${
+              isVertical
+                ? "object-cover md:object-contain relative z-10"
+                : "object-cover"
+            }`}
           />
           <button
             type="button"
             onClick={() => openZoom("video")}
-            className="absolute bottom-2.5 right-2.5 bg-black/75 hover:bg-black/95 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur-xs flex items-center gap-1 shadow-sm transition opacity-90 group-hover:opacity-100 cursor-pointer z-10"
+            className="absolute bottom-2.5 right-2.5 bg-black/75 hover:bg-black/95 text-white text-[11px] font-medium px-2.5 py-1 rounded-lg backdrop-blur-xs flex items-center gap-1 shadow-sm transition opacity-90 group-hover:opacity-100 cursor-pointer z-20"
             title="Ampliar vídeo"
           >
             <Maximize2 className="w-3 h-3" /> Ampliar vídeo
