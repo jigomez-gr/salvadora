@@ -298,7 +298,7 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     id: "076c81be-6ce8-4f14-87a9-f507b01ba465",
     name: "Terapia Gestalt (Sesión Individual)",
     serviceType: "recurring",
-    description: "Sesión individual de psicoterapia Gestalt presencial u online. Enfoque humanista y toma de conciencia. Horario convenido individualmente entre terapeuta y alumno/paciente. Requiere aprobación previa por parte del terapeuta responsable (Jose Ignacio Gomez Raya). Precio: 35€ por sesión de 1 hora. Pago en el centro.",
+    description: "Sesión individual de psicoterapia Gestalt presencial u online. Enfoque humanista y toma de conciencia. Horario convenido individualmente entre terapeuta y alumno/paciente. Requiere aprobación previa por parte de la terapeuta y responsable (Salvadora Conesa Martinez). Precio: 35€ por sesión de 1 hora. Pago en el centro.",
     durationMinutes: 60,
     price: "35.00",
     currency: "EUR",
