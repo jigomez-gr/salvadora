@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Music, MapPin, Calendar, Clock, Utensils, CheckCircle, MessageSquare, Maximize2, X, Sparkles } from "lucide-react";
+import { Music, MapPin, Calendar, Clock, Utensils, CheckCircle, MessageSquare, Maximize2, X, Sparkles, PhoneCall } from "lucide-react";
 import { triggerCrmChat } from "@/components/ChatBubbleWidget";
+import { triggerVapiCall } from "@/components/VapiCallModal";
+import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
 
 interface TimelineDay {
     id: number;
@@ -518,10 +520,6 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
 
     const handleBookingTabClick = (dayId: number) => {
         setMode(dayId, "booking");
-        const bookingInfo = ACTIVITY_BOOKING_MESSAGES[dayId];
-        if (bookingInfo) {
-            triggerCrmChat(bookingInfo.queryMessage, true);
-        }
     };
 
     const getVideoKey = (dayId: number): keyof ItineraryTimelineProps["videosExist"] => {
@@ -798,26 +796,44 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                                     </div>
 
                                                     <div className="space-y-2 pt-2">
+                                                        {/* Primary button: VAPI Voice Assistant reservation with activity inquiry */}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => triggerVapiCall({
+                                                                inquiry: `Reserva para ${bookingInfo.title} (Itinerario ${day.id}): ${bookingInfo.queryMessage}`
+                                                            })}
+                                                            className="w-full py-2.5 px-3 bg-[#800020] hover:bg-[#6b001a] text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2 cursor-pointer active:scale-98 border border-[#C5A059]/40"
+                                                            title="Llamar con el Asistente de Voz IA (VAPI) para formalizar la reserva"
+                                                        >
+                                                            <PhoneCall className="w-4 h-4 text-[#E9C168]" />
+                                                            <span>Reservar por Teléfono / Asistente IA (VAPI)</span>
+                                                        </button>
+
+                                                        {/* Secondary button: Web text chat */}
                                                         <button
                                                             type="button"
                                                             onClick={() => triggerCrmChat(bookingInfo.queryMessage, true)}
-                                                            className="w-full py-2.5 px-3 bg-[#800020] hover:bg-[#800020]/90 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-sm flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                                                            className="w-full py-2 px-3 bg-white hover:bg-stone-50 text-[#800020] border border-[#800020]/25 rounded-lg text-xs font-semibold uppercase tracking-wider transition shadow-2xs flex items-center justify-center gap-2 cursor-pointer text-center active:scale-98"
                                                         >
-                                                            <MessageSquare className="w-4 h-4" />
-                                                            <span>Abrir Asistente IA para Reservar</span>
+                                                            <MessageSquare className="w-3.5 h-3.5" />
+                                                            <span>Consultar por Chat Web IA</span>
                                                         </button>
-                                                        <a
-                                                            href={`https://wa.me/34695172625?text=${encodeURIComponent(bookingInfo.queryMessage)}`}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="w-full py-2 px-3 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-xs flex items-center justify-center gap-2 cursor-pointer text-center active:scale-98"
-                                                        >
-                                                            <span>WhatsApp Directo (695 172 625)</span>
-                                                        </a>
+
+                                                        {/* WhatsApp button: Gated by feature flag for when YCloud administrative issues are resolved */}
+                                                        {isPorWassapEnabled() && (
+                                                            <a
+                                                                href={`https://wa.me/34695172625?text=${encodeURIComponent(bookingInfo.queryMessage)}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="w-full py-2 px-3 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-xs flex items-center justify-center gap-2 cursor-pointer text-center active:scale-98"
+                                                            >
+                                                                <span>WhatsApp Directo (695 172 625)</span>
+                                                            </a>
+                                                        )}
                                                     </div>
 
                                                     <p className="text-[9.5px] text-stone-400 text-center pt-1">
-                                                        Atención personalizada las 24 horas · Confirmación instantánea
+                                                        Atención telefónica por voz 24 horas con Asistente IA · Confirmación inmediata
                                                     </p>
                                                 </div>
                                             );
