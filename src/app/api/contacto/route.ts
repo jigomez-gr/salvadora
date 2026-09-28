@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
     // 2. Envío al backend del CRM (Canal Email)
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000);
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
     try {
       const res = await fetch(`${CRM_API_BASE_URL}/api/widget/contact-query`, {
