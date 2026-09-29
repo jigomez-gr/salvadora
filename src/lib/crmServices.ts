@@ -241,8 +241,9 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     id: "a1dde6cd-f1bf-4175-95ee-34a53f4838e9",
     name: "Constelaciones Familiares (Constelar / Asunto Propio)",
     serviceType: "event",
-    description: "Taller vivencial mensual de sanación de vínculos y patrones familiares. Modalidad para trabajar un asunto o síntoma personal propio. Próxima fecha: Domingo 27 de Septiembre de 2026 (10:00 a 14:00). Precio: 60€. Aforo: 25 personas. Pago en el centro.",
-    eventDatesText: "Domingo 27 de Septiembre de 2026 (10:00 a 14:00)",
+    description: "Taller vivencial mensual de sanación de vínculos y patrones familiares. Modalidad para trabajar un asunto o síntoma personal propio. Próxima fecha: Domingo 25 de Octubre de 2026 (10:00 a 14:00). Precio: 60€. Aforo: 25 personas. Pago en el centro.",
+    eventDatesText: "Domingo 25 de Octubre de 2026 (10:00 a 14:00)",
+    scheduleText: "Domingos intensivos de 10:00 a 14:00",
     durationMinutes: 240,
     price: "60.00",
     currency: "EUR",
@@ -259,8 +260,9 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     id: "2acd3c74-abae-47d0-9b67-147cbbe1a657",
     name: "Constelaciones Familiares (Participante / Representante)",
     serviceType: "event",
-    description: "Taller vivencial mensual de sanación de vínculos familiares. Modalidad para participar como representante u observador en el campo de trabajo. Próxima fecha: Domingo 27 de Septiembre de 2026 (10:00 a 14:00). Precio: 20€. Aforo: 25 personas. Pago en el centro.",
-    eventDatesText: "Domingo 27 de Septiembre de 2026 (10:00 a 14:00)",
+    description: "Taller vivencial mensual de sanación de vínculos familiares. Modalidad para participar como representante u observador en el campo de trabajo. Próxima fecha: Domingo 25 de Octubre de 2026 (10:00 a 14:00). Precio: 20€. Aforo: 25 personas. Pago en el centro.",
+    eventDatesText: "Domingo 25 de Octubre de 2026 (10:00 a 14:00)",
+    scheduleText: "Domingos intensivos de 10:00 a 14:00",
     durationMinutes: 240,
     price: "20.00",
     currency: "EUR",
@@ -524,7 +526,11 @@ export function formatServiceDate(service: CrmService): string {
   if (service.sinfechadefinitiva === "S") {
     return service.textosinfechadefinitiva || "Fecha por confirmar";
   }
-  return service.eventDatesText || service.scheduleText || "";
+  const dateText = service.eventDatesText || service.scheduleText || "";
+  if (/constelaci/i.test(service.name) && /27\s*de\s*septiembre/i.test(dateText)) {
+    return "Domingo 25 de Octubre de 2026 (10:00 a 14:00)";
+  }
+  return dateText;
 }
 
 /**
