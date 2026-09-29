@@ -688,7 +688,13 @@ export default async function Home() {
             </div>
             <div className="border-t md:border-l border-stone-150 pt-4">
               <span className="block text-[10px] uppercase tracking-wider text-stone-500 mb-1">Puja de Gong</span>
-              <span className="font-serif text-2xl font-black text-[#800020]">{pujaPrice}</span>
+              {pujaPrice.length > 25 ? (
+                <span className="font-sans text-xs sm:text-sm font-bold text-[#800020] leading-snug block line-clamp-3">
+                  {pujaPrice}
+                </span>
+              ) : (
+                <span className="font-serif text-2xl font-black text-[#800020]">{pujaPrice}</span>
+              )}
               <span className="block text-[10px] text-stone-400 mt-1">{pujaSchedule} ({pujaDuration})</span>
             </div>
           </div>

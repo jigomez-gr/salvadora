@@ -923,6 +923,7 @@ function ServiciosContent() {
                 const isBienestar = act.name.toLowerCase().includes("bienestar experience");
                 const priceDisplay = formatServicePrice(act);
                 const durationDisplay = formatDuration(act.durationMinutes);
+                const isLongPrice = Boolean(act.sinpreciodefinitivo === "S" || (priceDisplay && priceDisplay.length > 18));
 
                 return (
                   <div
@@ -944,7 +945,7 @@ function ServiciosContent() {
                             </span>
                           )}
                           {act.freeForYogaStudents && (
-                            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-900 border border-purple-300">
+                            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-950 border border-purple-300">
                               ✨ ¡Gratis Alumnos Yoga!
                             </span>
                           )}
@@ -1011,18 +1012,37 @@ function ServiciosContent() {
                         </div>
                       ) : (
                         <div>
-                          <div className="flex justify-between items-start mb-2 gap-2">
-                            <h4 className="font-serif text-lg sm:text-xl font-bold text-stone-900 group-hover:text-[#800020] transition-colors leading-snug">
-                              {act.name}
-                            </h4>
-                            <span className="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg text-xs border border-emerald-200 shrink-0 ml-2">
-                              {priceDisplay}
-                            </span>
-                          </div>
+                          {!isLongPrice ? (
+                            <div className="flex items-start justify-between gap-3 mb-2">
+                              <h4 className="font-serif text-lg sm:text-xl font-bold text-stone-900 group-hover:text-[#800020] transition-colors leading-snug flex-1 min-w-0">
+                                {act.name}
+                              </h4>
+                              {priceDisplay && (
+                                <span className="font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg text-xs border border-emerald-200 shrink-0 whitespace-nowrap self-start">
+                                  {priceDisplay}
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <div className="mb-2.5">
+                              <h4 className="font-serif text-lg sm:text-xl font-bold text-stone-900 group-hover:text-[#800020] transition-colors leading-snug">
+                                {act.name}
+                              </h4>
+                              {priceDisplay && (
+                                <div className="mt-2">
+                                  <span className="inline-block font-semibold text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-lg text-xs border border-emerald-200 leading-relaxed break-words max-w-full">
+                                    💰 {priceDisplay}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          )}
 
                           {(act.sinfechadefinitiva === "S" || act.eventDatesText) && (
-                            <div className="mb-2 inline-block bg-purple-100 text-purple-950 font-bold text-[11px] px-2.5 py-0.5 rounded-md">
-                              🗓️ {act.sinfechadefinitiva === "S" ? (act.textosinfechadefinitiva || "Fecha por confirmar") : act.eventDatesText}
+                            <div className="mb-2.5">
+                              <span className="inline-block bg-purple-100 text-purple-950 font-bold text-[11px] px-2.5 py-1 rounded-md leading-relaxed break-words max-w-full">
+                                🗓️ {act.sinfechadefinitiva === "S" ? (act.textosinfechadefinitiva || "Fecha por confirmar") : act.eventDatesText}
+                              </span>
                             </div>
                           )}
 
@@ -1038,7 +1058,7 @@ function ServiciosContent() {
                           <div className="text-xs font-bold text-[#800020] uppercase tracking-wider flex items-center gap-1.5">
                             <Clock className="w-4 h-4 text-[#0B4A72]" /> Horarios y Turnos Oficiales:
                           </div>
-                          <div className="text-xs text-stone-800">
+                          <div className="text-xs text-stone-800 leading-relaxed break-words">
                             {act.sinfechadefinitiva === "S"
                               ? (act.textosinfechadefinitiva || "Fecha por confirmar")
                               : (act.scheduleText || act.eventDatesText)}
@@ -1120,6 +1140,7 @@ function ServiciosContent() {
               const meta = getCategoryMeta(act);
               const priceDisplay = formatServicePrice(act);
               const durationDisplay = formatDuration(act.durationMinutes);
+              const isLongPrice = Boolean(act.sinpreciodefinitivo === "S" || (priceDisplay && priceDisplay.length > 18));
 
               return (
                 <div
@@ -1127,13 +1148,15 @@ function ServiciosContent() {
                   className="bg-white rounded-2xl border border-stone-200 p-5 shadow-xs hover:shadow-md transition flex flex-col justify-between hover:border-[#800020]/40"
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-1 mb-2.5">
+                    <div className="flex items-center justify-between gap-1 mb-2.5 flex-wrap">
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-stone-100 text-stone-700 flex items-center gap-1">
                         <span>{meta.icon}</span> {meta.label}
                       </span>
-                      <span className="text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                        {priceDisplay}
-                      </span>
+                      {!isLongPrice && priceDisplay && (
+                        <span className="text-[11px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 shrink-0">
+                          {priceDisplay}
+                        </span>
+                      )}
                     </div>
 
                     <ServiceMediaPreview act={act} />
@@ -1141,6 +1164,15 @@ function ServiciosContent() {
                     <h4 className="font-serif text-base font-bold text-stone-900 mb-1.5 leading-snug">
                       {act.name}
                     </h4>
+
+                    {isLongPrice && priceDisplay && (
+                      <div className="mb-2">
+                        <span className="inline-block font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md text-[11px] border border-emerald-200 leading-normal max-w-full break-words">
+                          💰 {priceDisplay}
+                        </span>
+                      </div>
+                    )}
+
                     <p className="text-xs text-stone-600 leading-relaxed mb-3 whitespace-pre-line">
                       {act.description}
                     </p>
@@ -1150,7 +1182,7 @@ function ServiciosContent() {
                         <div className="font-bold text-[#800020] text-[11px] uppercase flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5" /> Horario:
                         </div>
-                        <div className="text-[11px] text-stone-800">
+                        <div className="text-[11px] text-stone-800 leading-relaxed break-words">
                           {act.sinfechadefinitiva === "S"
                             ? (act.textosinfechadefinitiva || "Fecha por confirmar")
                             : (act.scheduleText || act.eventDatesText)}
