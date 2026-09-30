@@ -35,6 +35,26 @@ export interface CrmService {
   flyerParticularUrl?: string | null;
   videoParticularPath?: string | null;
   videoParticularUrl?: string | null;
+  videoPath?: string | null;
+  videoUrl?: string | null;
+  textoespecifico?: string | null;
+  editions?: Array<{
+    id: string;
+    title?: string;
+    isDateDefinite: boolean;
+    scheduledAt?: string;
+    startsAt?: string;
+    endsAt?: string;
+    tentativeDateText?: string;
+    isPriceDefinite: boolean;
+    price?: string;
+    tentativePriceText?: string;
+    minParticipants?: number;
+    maxCapacity?: number;
+    enrolledCount?: number;
+    quorumReached?: boolean;
+    status: string;
+  }>;
   fechaDesde?: string | null;
   fechaHasta?: string | null;
   displayOrder?: number;

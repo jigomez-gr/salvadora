@@ -40,7 +40,7 @@ import {
 } from "@/lib/crmServices";
 
 function ServiceMediaPreview({ act }: { act: CrmService }) {
-  const rawVideo = act.videoParticularUrl || act.videoParticularPath;
+  const rawVideo = act.videoUrl || act.videoParticularUrl || act.videoParticularPath || act.videoPath;
   const videoSrc = rawVideo
     ? (rawVideo.startsWith("/") || rawVideo.startsWith("http")
         ? rawVideo
@@ -985,6 +985,15 @@ function ServiciosContent() {
                             {act.description}
                           </p>
 
+                          {act.textoespecifico && (
+                            <div className="mb-3 rounded-xl border border-amber-300 bg-amber-50/90 p-3 text-xs text-amber-950 leading-relaxed whitespace-pre-line shadow-2xs">
+                              <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-800 mb-0.5">
+                                📌 Información Específica del Servicio:
+                              </span>
+                              {act.textoespecifico}
+                            </div>
+                          )}
+
                           <div className="pt-2">
                             <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#0B4A72] block mb-1.5">
                               🔬 Disciplinas y Áreas Incluidas:
@@ -1176,6 +1185,53 @@ function ServiciosContent() {
                     <p className="text-xs text-stone-600 leading-relaxed mb-3 whitespace-pre-line">
                       {act.description}
                     </p>
+
+                    {act.textoespecifico && (
+                      <div className="mb-3 rounded-xl border border-amber-300 bg-amber-50/90 p-3 text-xs text-amber-950 leading-relaxed whitespace-pre-line shadow-2xs">
+                        <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-800 mb-0.5">
+                          📌 Información Específica del Servicio:
+                        </span>
+                        {act.textoespecifico}
+                      </div>
+                    )}
+
+                    {act.editions && act.editions.length > 0 && (
+                      <div className="mb-3 space-y-2 rounded-xl border border-purple-200 bg-purple-50/40 p-3">
+                        <div className="text-[11px] font-bold text-purple-950 flex items-center justify-between">
+                          <span>📢 Próximas Convocatorias:</span>
+                          <span className="text-[10px] font-normal text-purple-700">{act.editions.length} disponible(s)</span>
+                        </div>
+                        {act.editions.map((ed) => (
+                          <div key={ed.id} className="rounded-lg bg-white p-2.5 border border-purple-100 shadow-2xs space-y-1.5 text-xs">
+                            <div className="flex items-center justify-between">
+                              <span className="font-semibold text-stone-900">
+                                {ed.title || (ed.isDateDefinite && ed.startsAt ? new Date(ed.startsAt).toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : (ed.tentativeDateText || "Fecha por confirmar"))}
+                              </span>
+                              <span className="text-[11px] font-bold text-purple-900 bg-purple-100 px-2 py-0.5 rounded">
+                                {ed.isPriceDefinite && ed.price ? `${ed.price} €` : (ed.tentativePriceText || "Precio a determinar")}
+                              </span>
+                            </div>
+                            {ed.minParticipants && (
+                              <div className="text-[11px] text-stone-600 flex items-center justify-between">
+                                <span>Quórum: <strong>{ed.enrolledCount ?? 0} / {ed.minParticipants} plazas mínimas</strong></span>
+                                {ed.quorumReached ? (
+                                  <span className="text-emerald-700 font-bold text-[10px]">✅ Quórum alcanzado</span>
+                                ) : (
+                                  <span className="text-amber-700 font-medium text-[10px]">⏳ Sujeto a quórum</span>
+                                )}
+                              </div>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => handleServiceSelect({ ...act, name: `${act.name} (${ed.title || ed.tentativeDateText || "Convocatoria"})` })}
+                              className="w-full py-1.5 px-2 bg-purple-700 hover:bg-purple-800 text-white rounded-md text-[11px] font-bold tracking-wide transition flex items-center justify-center gap-1 cursor-pointer"
+                            >
+                              <Calendar className="w-3 h-3" /> Solicitar Reserva Provisional
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                     {(act.sinfechadefinitiva === "S" || act.scheduleText || act.eventDatesText) && (
                       <div className="bg-[#FAF9F6] rounded-xl p-3 border border-stone-200 text-xs space-y-1 mb-3">
