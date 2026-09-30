@@ -921,6 +921,12 @@ export default function BookingForm({ initialServices, initialCategories }: Book
                                                                                     )}
                                                                                 </>
                                                                             )}
+                                                                            {svc.textoespecifico && (
+                                                                                <div className="mt-1.5 p-1.5 rounded-lg bg-amber-50 border border-amber-300 text-[10.5px] text-amber-950 leading-tight">
+                                                                                    <span className="font-bold text-amber-900 block text-[9.5px] uppercase">📌 Información Específica:</span>
+                                                                                    <span className="line-clamp-2">{svc.textoespecifico}</span>
+                                                                                </div>
+                                                                            )}
                                                                             {svc.maxCapacity && (
                                                                                 <span className="block text-[10px] text-stone-400 mt-0.5">
                                                                                     👥 Aforo: {svc.maxCapacity} plazas
@@ -937,6 +943,50 @@ export default function BookingForm({ initialServices, initialCategories }: Book
                                                     </div>
                                                 </div>
                                             ))}
+                                        </div>
+                                    )}
+
+                                    {/* AVISO DESTACADO DEL SERVICIO SELECCIONADO SI TIENE TEXTO ESPECÍFICO */}
+                                    {matchedService?.textoespecifico && (
+                                        <div className="rounded-xl border border-amber-300 bg-amber-50/95 p-3.5 text-xs text-amber-950 shadow-2xs leading-relaxed whitespace-pre-line animate-in fade-in">
+                                            <span className="block text-[11px] font-extrabold uppercase tracking-wider text-amber-900 mb-1 flex items-center gap-1.5">
+                                                <span>📌</span> Información Específica del Servicio Seleccionado ({matchedService.name}):
+                                            </span>
+                                            {matchedService.textoespecifico}
+                                        </div>
+                                    )}
+
+                                    {/* CONVOCATORIAS / EDICIONES SI LAS TIENE */}
+                                    {matchedService?.editions && matchedService.editions.length > 0 && (
+                                        <div className="rounded-xl border border-purple-200 bg-purple-50/50 p-3 space-y-2 animate-in fade-in">
+                                            <div className="text-[11px] font-bold text-purple-950 flex items-center justify-between">
+                                                <span>📢 Convocatorias para {matchedService.name}:</span>
+                                                <span className="text-[10px] text-purple-700">{matchedService.editions.length} disponible(s)</span>
+                                            </div>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                                {matchedService.editions.map((ed) => (
+                                                    <div key={ed.id} className="rounded-lg bg-white p-2.5 border border-purple-100 shadow-2xs space-y-1 text-xs">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="font-semibold text-stone-900">
+                                                                {ed.title || (ed.isDateDefinite && ed.startsAt ? new Date(ed.startsAt).toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" }) : (ed.tentativeDateText || "Fecha por confirmar"))}
+                                                            </span>
+                                                            <span className="text-[10px] font-bold text-purple-900 bg-purple-100 px-1.5 py-0.5 rounded">
+                                                                {ed.isPriceDefinite && ed.price ? `${ed.price} €` : (ed.tentativePriceText || "Precio a consultar")}
+                                                            </span>
+                                                        </div>
+                                                        {ed.minParticipants && (
+                                                            <div className="text-[10px] text-stone-500 flex items-center justify-between">
+                                                                <span>Quórum: {ed.enrolledCount ?? 0} / {ed.minParticipants} plazas</span>
+                                                                {ed.quorumReached ? (
+                                                                    <span className="text-emerald-700 font-bold">✅ Quórum alcanzado</span>
+                                                                ) : (
+                                                                    <span className="text-amber-700 font-medium">⏳ Sujeto a quórum</span>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                 </div>
