@@ -814,7 +814,7 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-2">
-              Atención Personalizada & Canal Email
+              Centro de Yoga Fuenlabrada (Salvadora Conesa) • Atención Personalizada
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#800020]">
               Consultas y Reservas por Email

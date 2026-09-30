@@ -163,6 +163,9 @@ export default function ContactQueryForm({
               <Mail className="w-3.5 h-3.5 text-[#C5A059]" />
               <span>Canal de Correo Electrónico Oficial</span>
             </div>
+            <div className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[#96680E] mb-1">
+              Centro de Yoga Fuenlabrada (Salvadora Conesa)
+            </div>
             <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#800020]">
               Consultas y Reservas por Email
             </h3>
