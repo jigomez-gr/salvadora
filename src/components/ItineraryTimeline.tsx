@@ -5,6 +5,7 @@ import { Music, MapPin, Calendar, Clock, Utensils, CheckCircle, MessageSquare, M
 import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { triggerVapiCall } from "@/components/VapiCallModal";
 import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
+import { fetchCrmServices, CrmService } from "@/lib/crmServices";
 
 interface TimelineDay {
     id: number;
@@ -470,6 +471,43 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
     });
 
     const [activeDay, setActiveDay] = useState(1);
+    const [crmServices, setCrmServices] = useState<CrmService[]>([]);
+
+    useEffect(() => {
+        fetchCrmServices()
+            .then((res) => {
+                if (res?.services) {
+                    setCrmServices(res.services);
+                }
+            })
+            .catch((err) => console.warn("Could not load crm services in ItineraryTimeline:", err));
+    }, []);
+
+    const getMatchingService = (dayId: number): CrmService | undefined => {
+        if (!crmServices || crmServices.length === 0) return undefined;
+        switch (dayId) {
+            case 1:
+                return crmServices.find(s => s.name.toLowerCase().includes("hatha yoga"));
+            case 2:
+                return crmServices.find(s => s.name.toLowerCase().includes("meditacion") || s.name.toLowerCase().includes("kundalini"));
+            case 3:
+                return crmServices.find(s => s.name.toLowerCase().includes("baño de gong"));
+            case 4:
+                return crmServices.find(s => s.name.toLowerCase().includes("puja"));
+            case 5:
+                return crmServices.find(s => s.name.toLowerCase().includes("gestalt"));
+            case 6:
+                return crmServices.find(s => s.name.toLowerCase().includes("constelacion"));
+            case 7:
+                return crmServices.find(s => s.name.toLowerCase().includes("mujeres"));
+            case 8:
+                return crmServices.find(s => s.name.toLowerCase().includes("ayuno"));
+            case 9:
+                return crmServices.find(s => s.name.toLowerCase().includes("bienestar") || s.name.toLowerCase().includes("longevidad"));
+            default:
+                return undefined;
+        }
+    };
 
     useEffect(() => {
         const handleHashChange = () => {
@@ -576,6 +614,9 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                 const videoKey = getVideoKey(day.id);
                 const hasVideo = videosExist?.[videoKey];
                 const thumb = DAY_THUMBNAILS[day.id];
+                const matchingService = getMatchingService(day.id);
+                const matchingVideoSrc = matchingService?.videoUrl || matchingService?.videoParticularUrl;
+                const effectiveVideoSrc = matchingVideoSrc || (hasVideo ? getVideoPath(day.id) : null);
 
                 return (
                     <div key={day.id} className="animate-fadeIn grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 sm:px-0 items-start">
@@ -596,6 +637,59 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                     </p>
                                 )}
                             </div>
+
+                            {matchingService?.textoespecifico && (
+                                <div className="rounded-xl border border-amber-300 bg-amber-50/95 p-3.5 text-xs text-amber-950 shadow-2xs leading-relaxed whitespace-pre-line">
+                                    <span className="block text-[11px] font-extrabold uppercase tracking-wider text-amber-900 mb-1 flex items-center gap-1.5">
+                                        <span>📌</span> Información Específica Actualizada:
+                                    </span>
+                                    {matchingService.textoespecifico}
+                                </div>
+                            )}
+
+                            {matchingService?.editions && matchingService.editions.length > 0 && (
+                                <div className="rounded-xl border border-purple-200 bg-purple-50/50 p-3.5 space-y-2.5">
+                                    <div className="text-[11px] font-bold text-purple-950 flex items-center justify-between">
+                                        <span className="flex items-center gap-1.5 font-serif">
+                                            <span>📢</span> Próximas Convocatorias y Fechas:
+                                        </span>
+                                        <span className="text-[10px] text-purple-700 font-sans font-medium">
+                                            {matchingService.editions.length} disponible(s)
+                                        </span>
+                                    </div>
+                                    <div className="space-y-2">
+                                        {matchingService.editions.map((ed) => (
+                                            <div key={ed.id} className="rounded-lg bg-white p-2.5 border border-purple-100 shadow-2xs space-y-1.5 text-xs">
+                                                <div className="flex flex-wrap items-center justify-between gap-1">
+                                                    <span className="font-semibold text-stone-900">
+                                                        {ed.title || (ed.isDateDefinite && ed.startsAt ? new Date(ed.startsAt).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }) : (ed.tentativeDateText || "Fecha por determinar"))}
+                                                    </span>
+                                                    <span className="text-[11px] font-bold text-purple-900 bg-purple-100 px-2 py-0.5 rounded">
+                                                        {ed.isPriceDefinite && ed.price ? `${ed.price} €` : (ed.tentativePriceText || "Precio a consultar")}
+                                                    </span>
+                                                </div>
+                                                {ed.minParticipants && (
+                                                    <div className="text-[11px] text-stone-600 flex items-center justify-between">
+                                                        <span>Quórum: <strong>{ed.enrolledCount ?? 0} / {ed.minParticipants} plazas mínimas</strong></span>
+                                                        {ed.quorumReached ? (
+                                                            <span className="text-emerald-700 font-bold text-[10px]">✅ Quórum alcanzado</span>
+                                                        ) : (
+                                                            <span className="text-amber-700 font-medium text-[10px]">⏳ Sujeto a quórum mínimo</span>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleBookingTabClick(day.id)}
+                                                    className="w-full py-1.5 px-2 bg-purple-700 hover:bg-purple-800 text-white rounded-md text-[11px] font-bold tracking-wide transition flex items-center justify-center gap-1 cursor-pointer"
+                                                >
+                                                    <Calendar className="w-3 h-3" /> Solicitar Reserva Provisional
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Events Vertical Timeline */}
                             <div className="relative border-l border-stone-200 ml-4 pl-6 sm:pl-8 py-3 space-y-6">
@@ -711,10 +805,10 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                 {/* Video or Summary Image or Flyer or Booking Box */}
                                 <div className="relative aspect-video rounded-md overflow-hidden bg-stone-100 border border-stone-200 shadow-sm">
                                     {currentMode === "summary" ? (
-                                        hasVideo ? (
+                                        effectiveVideoSrc ? (
                                             <div className="w-full h-full bg-[#1C1C1C] relative aspect-video">
                                                 <video
-                                                    src={getVideoPath(day.id)}
+                                                    src={effectiveVideoSrc}
                                                     poster={`/videos/itinerario-${day.id}-poster.jpg`}
                                                     controls
                                                     playsInline
@@ -754,7 +848,11 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                     ) : currentMode === "flyer" ? (
                                         /* FLYER DISPLAY */
                                         (() => {
-                                            const dayFlyers = ACTIVITY_FLYERS[day.id] || [];
+                                            const baseFlyers = ACTIVITY_FLYERS[day.id] || [];
+                                            const crmFlyer = matchingService?.flyerParticularUrl || matchingService?.flyerUrl;
+                                            const dayFlyers = crmFlyer
+                                                ? [{ title: `${day.dayName} (Flyer CRM)`, imagePath: crmFlyer }, ...baseFlyers]
+                                                : baseFlyers;
                                             const activeFIdx = activeFlyerIndexes[day.id] || 0;
                                             const currentFlyer = dayFlyers[activeFIdx] || dayFlyers[0] || { title: "Flyer", imagePath: "/flyers/yoga.jpeg" };
                                             return (
