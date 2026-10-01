@@ -259,6 +259,38 @@ const WEBMCP_INLINE_SCRIPT = `
 })();
 `;
 
+const localBusinessJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Centro de Yoga Salvadora Conesa",
+  alternateName: "Escuela de Yoga Salvadora Conesa",
+  url: "https://centrodeyogasalvadoraconesa.es",
+  logo: "https://centrodeyogasalvadoraconesa.es/imagenes/logo/logo.png",
+  image: "https://centrodeyogasalvadoraconesa.es/imagenes/salvadora/sobre_mi.jpg",
+  description:
+    "Clases de Hatha y Kundalini yoga, baños y puja de gong, meditación guiada y retiros de ayuno terapéutico en Fuenlabrada, dirigido por Salvadora Conesa.",
+  telephone: "+34695172625",
+  email: "salvadoraconesa@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Calle Holanda, 1 (Club Social Parque Granada)",
+    addressLocality: "Fuenlabrada",
+    postalCode: "28942",
+    addressRegion: "Madrid",
+    addressCountry: "ES",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 40.2858,
+    longitude: -3.7932,
+  },
+  sameAs: [
+    "https://www.facebook.com/salvadoraconesa",
+    "https://www.instagram.com/escuelayogasalvadoraconesa/",
+  ],
+  priceRange: "€",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -276,6 +308,13 @@ export default function RootLayout({
         <link rel="service-doc" href="/llms.txt" />
         <link rel="describedby" href="/.well-known/agent-card.json" />
         <link rel="oauth-protected-resource" href="/.well-known/oauth-protected-resource" />
+        <script
+          id="schema-localbusiness"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessJsonLd),
+          }}
+        />
         <script
           id="webmcp-init"
           dangerouslySetInnerHTML={{
