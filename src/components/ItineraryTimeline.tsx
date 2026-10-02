@@ -6,6 +6,7 @@ import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { triggerVapiCall } from "@/components/VapiCallModal";
 import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
 import { fetchCrmServices, CrmService } from "@/lib/crmServices";
+import { FormattedTextWithLinks } from "@/components/FormattedTextWithLinks";
 
 interface TimelineDay {
     id: number;
@@ -643,7 +644,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                     <span className="block text-[11px] font-extrabold uppercase tracking-wider text-amber-900 mb-1 flex items-center gap-1.5">
                                         <span>📌</span> Información Específica Actualizada:
                                     </span>
-                                    {matchingService.textoespecifico}
+                                    <FormattedTextWithLinks text={matchingService.textoespecifico} />
                                 </div>
                             )}
 

@@ -38,6 +38,7 @@ import {
   categorizeCrmServices,
   serviceMatchesCategory,
 } from "@/lib/crmServices";
+import { FormattedTextWithLinks } from "@/components/FormattedTextWithLinks";
 
 function ServiceMediaPreview({ act }: { act: CrmService }) {
   const rawVideo = act.videoUrl || act.videoParticularUrl || act.videoParticularPath || act.videoPath;
@@ -990,7 +991,7 @@ function ServiciosContent() {
                               <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-800 mb-0.5">
                                 📌 Información Específica del Servicio:
                               </span>
-                              {act.textoespecifico}
+                              <FormattedTextWithLinks text={act.textoespecifico} />
                             </div>
                           )}
 
@@ -1064,7 +1065,7 @@ function ServiciosContent() {
                               <span className="block text-[11px] font-extrabold uppercase tracking-wider text-amber-900 mb-1 flex items-center gap-1.5">
                                 <span>📌</span> Información Específica del Servicio:
                               </span>
-                              {act.textoespecifico}
+                              <FormattedTextWithLinks text={act.textoespecifico} />
                             </div>
                           )}
 
@@ -1238,7 +1239,7 @@ function ServiciosContent() {
                         <span className="block text-[10px] font-extrabold uppercase tracking-wider text-amber-800 mb-0.5">
                           📌 Información Específica del Servicio:
                         </span>
-                        {act.textoespecifico}
+                        <FormattedTextWithLinks text={act.textoespecifico} />
                       </div>
                     )}
 

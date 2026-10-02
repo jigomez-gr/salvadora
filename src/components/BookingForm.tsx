@@ -29,6 +29,7 @@ import {
     formatServicePrice,
     serviceMatchesCategory
 } from "@/lib/crmServices";
+import { FormattedTextWithLinks } from "@/components/FormattedTextWithLinks";
 
 interface UserSession {
     loggedIn: boolean;
@@ -924,7 +925,7 @@ export default function BookingForm({ initialServices, initialCategories }: Book
                                                                             {svc.textoespecifico && (
                                                                                 <div className="mt-1.5 p-1.5 rounded-lg bg-amber-50 border border-amber-300 text-[10.5px] text-amber-950 leading-tight">
                                                                                     <span className="font-bold text-amber-900 block text-[9.5px] uppercase">📌 Información Específica:</span>
-                                                                                    <span className="line-clamp-2">{svc.textoespecifico}</span>
+                                                                                    <span className="line-clamp-2"><FormattedTextWithLinks text={svc.textoespecifico} /></span>
                                                                                 </div>
                                                                             )}
                                                                             {svc.maxCapacity && (
@@ -952,7 +953,7 @@ export default function BookingForm({ initialServices, initialCategories }: Book
                                             <span className="block text-[11px] font-extrabold uppercase tracking-wider text-amber-900 mb-1 flex items-center gap-1.5">
                                                 <span>📌</span> Información Específica del Servicio Seleccionado ({matchedService.name}):
                                             </span>
-                                            {matchedService.textoespecifico}
+                                            <FormattedTextWithLinks text={matchedService.textoespecifico} />
                                         </div>
                                     )}
 
