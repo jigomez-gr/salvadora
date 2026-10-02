@@ -302,6 +302,7 @@ export default function RootLayout({
       className={`${cormorant.variable} ${outfit.variable} h-full antialiased`}
     >
       <head>
+        <meta name="google-site-verification" content="tDy3JsMgHcVOcuQl4H3TM3YkYgVT2bZYwYyCpdZwzHM" />
         <link rel="api-catalog" href="/.well-known/api-catalog" />
         <link rel="ai-catalog" href="/.well-known/ai-catalog.json" />
         <link rel="service-desc" href="/.well-known/mcp/server-card.json" />
