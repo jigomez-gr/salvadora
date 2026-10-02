@@ -28,6 +28,7 @@ import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { VapiVoiceBookingButton } from "@/components/VapiVoiceBookingButton";
 import { triggerVapiCall } from "@/components/VapiCallModal";
 import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
+import { GOOGLE_REVIEW_URL } from "@/lib/constants";
 import {
   CrmCategory,
   CrmService,
@@ -1371,8 +1372,8 @@ function ServiciosContent() {
         </div>
 
         <div className="max-w-6xl mx-auto px-4 pt-4 border-t border-stone-800 text-center space-y-3">
-          {/* Redes Sociales Oficiales */}
-          <div className="flex items-center justify-center gap-3">
+          {/* Redes Sociales Oficiales y Opiniones */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href="https://www.instagram.com/escuelayogasalvadoraconesa/"
               target="_blank"
@@ -1396,6 +1397,16 @@ function ServiciosContent() {
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
               <span>Facebook</span>
+            </a>
+            <a
+              href={GOOGLE_REVIEW_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Dejar una reseña en Google sobre Escuela Yoga Salvadora Conesa"
+              title="Opiniones en Google"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-300 hover:text-amber-200 hover:bg-amber-500/25 border border-amber-500/30 transition shadow-2xs group"
+            >
+              <span>⭐ Opiniones en Google</span>
             </a>
           </div>
 
