@@ -38,13 +38,16 @@ import {
   formatDuration,
   categorizeCrmServices,
   serviceMatchesCategory,
+  CRM_API_BASE_URL,
 } from "@/lib/crmServices";
 import { FormattedTextWithLinks } from "@/components/FormattedTextWithLinks";
 
 function ServiceMediaPreview({ act }: { act: CrmService }) {
   const rawVideo = act.videoUrl || act.videoParticularUrl || act.videoParticularPath || act.videoPath;
   const videoSrc = rawVideo
-    ? (rawVideo.startsWith("/") || rawVideo.startsWith("http")
+    ? (rawVideo.startsWith("/api/")
+        ? `${CRM_API_BASE_URL}${rawVideo}`
+        : rawVideo.startsWith("/") || rawVideo.startsWith("http")
         ? rawVideo
         : `/videos/${rawVideo.replace(/\\/g, "/").split("/").pop()}`)
     : null;
@@ -55,7 +58,9 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
     act.flyerUrl ||
     act.flyerPath;
   const flyerSrc = rawFlyer
-    ? (rawFlyer.startsWith("/") || rawFlyer.startsWith("http")
+    ? (rawFlyer.startsWith("/api/")
+        ? `${CRM_API_BASE_URL}${rawFlyer}`
+        : rawFlyer.startsWith("/") || rawFlyer.startsWith("http")
         ? rawFlyer
         : `/${rawFlyer.replace(/\\/g, "/").replace(/^public\//, "")}`)
     : null;

@@ -476,12 +476,27 @@ export async function fetchCrmServices(filters?: {
       const sortedCategories = [...rawCategories].sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
       const sortedServices = [...visibleServices].sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
+      const resolveUrl = (url?: string | null) => {
+        if (!url) return null;
+        if (url.startsWith("http://") || url.startsWith("https://")) return url;
+        if (url.startsWith("/api/")) return `${CRM_API_BASE_URL}${url}`;
+        return url;
+      };
+
+      const resolvedServices = sortedServices.map((s) => ({
+        ...s,
+        flyerUrl: resolveUrl(s.flyerUrl),
+        flyerParticularUrl: resolveUrl(s.flyerParticularUrl),
+        videoUrl: resolveUrl(s.videoUrl),
+        videoParticularUrl: resolveUrl(s.videoParticularUrl),
+      }));
+
       return {
         success: true,
         businessName: data.businessName || "Centro de Yoga y Bienestar Salvadora",
         whatsappNumber: data.whatsappNumber || "34695172625",
         categories: sortedCategories,
-        services: sortedServices,
+        services: resolvedServices,
       };
     }
 

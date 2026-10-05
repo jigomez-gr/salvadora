@@ -5,7 +5,7 @@ import { Music, MapPin, Calendar, Clock, Utensils, CheckCircle, MessageSquare, M
 import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { triggerVapiCall } from "@/components/VapiCallModal";
 import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
-import { fetchCrmServices, CrmService } from "@/lib/crmServices";
+import { fetchCrmServices, CrmService, CRM_API_BASE_URL } from "@/lib/crmServices";
 import { FormattedTextWithLinks } from "@/components/FormattedTextWithLinks";
 
 interface TimelineDay {
@@ -616,8 +616,32 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                 const hasVideo = videosExist?.[videoKey];
                 const thumb = DAY_THUMBNAILS[day.id];
                 const matchingService = getMatchingService(day.id);
-                const matchingVideoSrc = matchingService?.videoUrl || matchingService?.videoParticularUrl;
-                const effectiveVideoSrc = matchingVideoSrc || (hasVideo ? getVideoPath(day.id) : null);
+
+                const resolveMediaUrl = (url?: string | null) => {
+                    if (!url) return null;
+                    if (url.startsWith("http://") || url.startsWith("https://")) return url;
+                    if (url.startsWith("/api/")) return `${CRM_API_BASE_URL}${url}`;
+                    return url;
+                };
+
+                const crmVideoGeneral = resolveMediaUrl(matchingService?.videoUrl);
+                const crmVideoParticular = resolveMediaUrl(matchingService?.videoParticularUrl);
+                const localVideo = hasVideo ? getVideoPath(day.id) : null;
+
+                const dayVideos: { title: string; src: string; isParticular?: boolean }[] = [];
+                if (crmVideoGeneral) {
+                    dayVideos.push({ title: "Vídeo General", src: crmVideoGeneral, isParticular: false });
+                }
+                if (crmVideoParticular) {
+                    dayVideos.push({ title: "Vídeo Particular", src: crmVideoParticular, isParticular: true });
+                }
+                if (dayVideos.length === 0 && localVideo) {
+                    dayVideos.push({ title: "Vídeo Actividad", src: localVideo, isParticular: false });
+                }
+
+                const activeVIdx = activeVideoIndexes[day.id] || 0;
+                const currentVideoObj = dayVideos[activeVIdx] || dayVideos[0] || null;
+                const effectiveVideoSrc = currentVideoObj?.src || null;
 
                 return (
                     <div key={day.id} className="animate-fadeIn grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 sm:px-0 items-start">
@@ -809,6 +833,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                         effectiveVideoSrc ? (
                                             <div className="w-full h-full bg-[#1C1C1C] relative aspect-video">
                                                 <video
+                                                    key={effectiveVideoSrc}
                                                     src={effectiveVideoSrc}
                                                     poster={`/videos/itinerario-${day.id}-poster.jpg`}
                                                     controls
@@ -850,7 +875,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                         /* FLYER DISPLAY */
                                         (() => {
                                             const baseFlyers = ACTIVITY_FLYERS[day.id] || [];
-                                            const crmFlyer = matchingService?.flyerParticularUrl || matchingService?.flyerUrl;
+                                            const crmFlyer = resolveMediaUrl(matchingService?.flyerParticularUrl) || resolveMediaUrl(matchingService?.flyerUrl);
                                             const dayFlyers = crmFlyer
                                                 ? [{ title: `${day.dayName} (Flyer CRM)`, imagePath: crmFlyer }, ...baseFlyers]
                                                 : baseFlyers;
@@ -939,6 +964,34 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                         })()
                                     )}
                                 </div>
+
+                                {/* Multi-video selection buttons (e.g. Video General vs Video Particular) */}
+                                {currentMode === "summary" && dayVideos.length > 1 && (
+                                    <div className="mt-3 border-t border-stone-100 pt-3 select-none">
+                                        <span className="block text-[8.5px] uppercase tracking-wider text-stone-400 font-bold mb-1.5">
+                                            Seleccionar Vídeo de la Actividad:
+                                        </span>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {dayVideos.map((vd, vIdx) => {
+                                                const activeVIdx = activeVideoIndexes[day.id] || 0;
+                                                const isCur = activeVIdx === vIdx;
+                                                return (
+                                                    <button
+                                                        key={vIdx}
+                                                        type="button"
+                                                        onClick={() => setActiveVideoIndexes(prev => ({ ...prev, [day.id]: vIdx }))}
+                                                        className={`text-[9.5px] uppercase tracking-wider font-bold py-1 px-2.5 rounded-md transition cursor-pointer ${isCur
+                                                            ? "bg-[#800020] text-white shadow-xs"
+                                                            : "bg-[#FAF9F6] text-stone-600 hover:bg-[#800020]/10 hover:text-[#800020] border border-stone-200"
+                                                            }`}
+                                                    >
+                                                        {vd.title}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* Multi-flyer selection buttons (e.g. for Day 9: intenta, bienestar) */}
                                 {currentMode === "flyer" && (ACTIVITY_FLYERS[day.id]?.length || 0) > 1 && (
