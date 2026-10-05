@@ -43,7 +43,7 @@ import {
 import { FormattedTextWithLinks } from "@/components/FormattedTextWithLinks";
 
 function ServiceMediaPreview({ act }: { act: CrmService }) {
-  const rawVideo = act.videoUrl || act.videoParticularUrl || act.videoParticularPath || act.videoPath;
+  const rawVideo = act.videoParticularUrl || act.videoParticularPath || act.videoUrl || act.videoPath;
   const videoSrc = rawVideo
     ? (rawVideo.startsWith("/api/")
         ? `${CRM_API_BASE_URL}${rawVideo}`

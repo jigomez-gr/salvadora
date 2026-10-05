@@ -627,16 +627,14 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                 const crmVideoGeneral = resolveMediaUrl(matchingService?.videoUrl);
                 const crmVideoParticular = resolveMediaUrl(matchingService?.videoParticularUrl);
                 const localVideo = hasVideo ? getVideoPath(day.id) : null;
+                const generalVideo = crmVideoGeneral || localVideo;
 
                 const dayVideos: { title: string; src: string; isParticular?: boolean }[] = [];
-                if (crmVideoGeneral) {
-                    dayVideos.push({ title: "Vídeo General", src: crmVideoGeneral, isParticular: false });
+                if (generalVideo) {
+                    dayVideos.push({ title: "Vídeo General", src: generalVideo, isParticular: false });
                 }
                 if (crmVideoParticular) {
                     dayVideos.push({ title: "Vídeo Particular", src: crmVideoParticular, isParticular: true });
-                }
-                if (dayVideos.length === 0 && localVideo) {
-                    dayVideos.push({ title: "Vídeo Actividad", src: localVideo, isParticular: false });
                 }
 
                 const activeVIdx = activeVideoIndexes[day.id] || 0;
@@ -883,9 +881,9 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                         /* FLYER DISPLAY */
                                         (() => {
                                             const baseFlyers = ACTIVITY_FLYERS[day.id] || [];
-                                            const crmFlyer = resolveMediaUrl(matchingService?.flyerParticularUrl) || resolveMediaUrl(matchingService?.flyerUrl);
+                                            const crmFlyer = resolveMediaUrl(matchingService?.flyerUrl) || resolveMediaUrl(matchingService?.flyerParticularUrl);
                                             const dayFlyers = crmFlyer
-                                                ? [{ title: `${day.dayName} (Flyer CRM)`, imagePath: crmFlyer }, ...baseFlyers]
+                                                ? [{ title: `${day.dayName} (Flyer General)`, imagePath: crmFlyer }, ...baseFlyers]
                                                 : baseFlyers;
                                             const activeFIdx = activeFlyerIndexes[day.id] || 0;
                                             const currentFlyer = dayFlyers[activeFIdx] || dayFlyers[0] || { title: "Flyer", imagePath: "/flyers/yoga.jpeg" };
