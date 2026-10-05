@@ -841,6 +841,14 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                                     preload="metadata"
                                                     muted={false}
                                                     className="w-full h-full object-cover"
+                                                    onError={(e) => {
+                                                        const target = e.currentTarget;
+                                                        const fallback = `/videos/itinerario-${day.id}.mp4`;
+                                                        if (target.src && !target.src.endsWith(fallback)) {
+                                                            target.src = fallback;
+                                                            target.load();
+                                                        }
+                                                    }}
                                                 />
                                             </div>
                                         ) : (
