@@ -130,7 +130,7 @@ export function WebMcpProvider() {
                       },
                       {
                         class: "Meditaciones Guiadas",
-                        days: "Martes y Jueves 09:15 - 09:45",
+                        days: "Lunes y Jueves 09:15 - 09:45",
                         duration: "30 min",
                       },
                       {

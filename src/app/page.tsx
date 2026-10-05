@@ -80,7 +80,7 @@ export default async function Home() {
     : "el precio se determinara en funcion de las caracteristicas del viaje y alojamiento";
   const meditacionPrice = meditacionSvc?.price ? `${parseFloat(meditacionSvc.price).toFixed(0)} €` : "15 €";
 
-  const meditacionSchedule = meditacionSvc?.scheduleText || "Martes y Jueves de 09:15 a 09:45";
+  const meditacionSchedule = meditacionSvc?.scheduleText || "Lunes y Jueves de 09:15 a 09:45";
   const meditacionCapacity = meditacionSvc?.maxCapacity || 28;
   const gongSchedule = gongSvc?.eventDatesText || gongSvc?.scheduleText || "Un sábado al mes";
   const gongDuration = gongSvc ? formatDuration(gongSvc.durationMinutes) : "2 horas";
