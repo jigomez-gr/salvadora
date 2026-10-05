@@ -82,7 +82,11 @@ export default async function Home() {
 
   const meditacionSchedule = meditacionSvc?.scheduleText || "Lunes y Jueves de 09:15 a 09:45";
   const meditacionCapacity = meditacionSvc?.maxCapacity || 28;
-  const gongSchedule = gongSvc?.eventDatesText || gongSvc?.scheduleText || "Un sábado al mes";
+  const gongSchedule = gongSvc
+    ? (gongSvc.sinfechadefinitiva === "S"
+        ? (gongSvc.textosinfechadefinitiva || "Fecha por confirmar")
+        : (gongSvc.eventDatesText || gongSvc.scheduleText || "Un sábado al mes (18:00 a 20:00)"))
+    : "Un sábado al mes (18:00 a 20:00)";
   const gongDuration = gongSvc ? formatDuration(gongSvc.durationMinutes) : "2 horas";
   const pujaSchedule = pujaSvc
     ? (pujaSvc.sinfechadefinitiva === "S"

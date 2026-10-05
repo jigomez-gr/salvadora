@@ -135,7 +135,7 @@ export function WebMcpProvider() {
                       },
                       {
                         class: "Baños de Gong",
-                        days: "Un sábado al mes a finales de mes 18:00 - 20:00",
+                        days: "Un sábado al mes 18:00 - 20:00",
                         duration: "120 min",
                       },
                       {

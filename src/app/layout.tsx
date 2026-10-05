@@ -78,7 +78,7 @@ const WEBMCP_INLINE_SCRIPT = `
               schedule: [
                 { class: "Hatha Yoga Terapéutico", days: "Martes: 09:45, 11:15, 17:00, 18:30, 20:00 | Miércoles: 20:15 | Jueves: 09:45, 11:15, 16:00, 17:30, 19:00", duration: "90 min" },
                 { class: "Meditaciones Guiadas", days: "Lunes y Jueves 09:15 - 09:45", duration: "30 min" },
-                { class: "Baños de Gong", days: "Un sábado al mes a finales de mes 18:00 - 20:00", duration: "120 min" },
+                { class: "Baños de Gong", days: "Un sábado al mes 18:00 - 20:00", duration: "120 min" },
                 { class: "Puja de Gongs", days: "Evento anual nocturno 21:00 - 08:00", duration: "11 horas" }
               ],
               pricing: {
