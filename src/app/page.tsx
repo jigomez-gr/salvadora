@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 import Navbar from "@/components/Navbar";
 import ItineraryTimeline from "@/components/ItineraryTimeline";
@@ -18,6 +19,12 @@ import Footer from "@/components/Footer";
 import { fetchCrmServices, findServiceByCodeOrId, formatDuration } from "@/lib/crmServices";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://salvadoraconesa.es/",
+  },
+};
 import {
   Calendar, MapPin, Shield, Compass, FileText, CheckCircle2,
   HelpCircle, Mail, Phone, Clock, Award, Users, Music,
