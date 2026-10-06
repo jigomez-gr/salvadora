@@ -613,8 +613,11 @@ function ServiciosContent() {
             <span className="text-[10px] tracking-widest text-[#0B4A72] uppercase font-extrabold">
               CENTRO DE YOGA & BIENESTAR INTEGRAL
             </span>
-            <h1 className="font-serif text-xl sm:text-2xl font-bold text-[#800020] tracking-wide uppercase">
+            <span className="block font-serif text-xl sm:text-2xl font-bold text-[#800020] tracking-wide uppercase">
               Salvadora Conesa
+            </span>
+            <h1 className="text-xs sm:text-sm font-medium text-stone-600 mt-0.5">
+              Actividades y servicios de yoga en Fuenlabrada
             </h1>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
