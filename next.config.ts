@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
     PORVAPI: process.env.PORVAPI || process.env.NEXT_PUBLIC_PORVAPI || "S",
     NEXT_PUBLIC_PORVAPI: process.env.NEXT_PUBLIC_PORVAPI || process.env.PORVAPI || "S",
   },
+  async redirects() {
+    return [
+      {
+        source: "/banos__gong.html",
+        destination: "/servicios",
+        statusCode: 301,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
