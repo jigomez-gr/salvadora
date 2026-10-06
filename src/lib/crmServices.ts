@@ -329,6 +329,7 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     currency: "EUR",
     maxCapacity: 1,
     allowedModalities: ["in_person", "virtual"],
+    scheduleText: "Lunes y algún Miércoles (con aprobación previa)",
     requiresApproval: true,
     firstClassFree: false,
     freeForYogaStudents: false,
