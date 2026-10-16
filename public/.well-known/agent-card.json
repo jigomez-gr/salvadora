@@ -1,0 +1,34 @@
+{
+  "name": "Centro de Yoga Salvadora Conesa Assistant",
+  "version": "1.0.0",
+  "description": "Agente autónomo para reservas de clases, talleres de yoga y baños de gong en Fuenlabrada.",
+  "url": "https://centrodeyogasalvadoraconesa.es",
+  "supportedInterfaces": [
+    {
+      "url": "https://centrodeyogasalvadoraconesa.es/api/vapi/call",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "yoga-class-booking",
+      "name": "Yoga Class Booking",
+      "description": "Permite consultar disponibilidad y reservar clases de Kundalini Yoga y Nagna Yoga."
+    },
+    {
+      "id": "gong-bath-reservation",
+      "name": "Gong Bath Reservation",
+      "description": "Permite reservar sesiones de baños y puja de gong terapéuticos."
+    },
+    {
+      "id": "studio-information",
+      "name": "Studio Information",
+      "description": "Ofrece información detallada de horarios, precios, ubicación y disciplinas del centro."
+    }
+  ]
+}

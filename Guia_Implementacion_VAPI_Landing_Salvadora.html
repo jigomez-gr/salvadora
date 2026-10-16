@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guía de Integración VAPI - Landing Web & CRM Salvadora</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 12mm 12mm;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1f2937;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+      font-size: 11.5px;
+      line-height: 1.4;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #800020;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .title-area h1 {
+      font-size: 17.5px;
+      font-weight: 800;
+      color: #800020;
+      margin: 0 0 2px 0;
+      letter-spacing: -0.3px;
+    }
+    .title-area .subtitle {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #4b5563;
+      margin: 0;
+    }
+    .badge-area {
+      text-align: right;
+    }
+    .badge {
+      display: inline-block;
+      background: #800020;
+      color: #ffffff;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .meta {
+      font-size: 9.5px;
+      color: #6b7280;
+      margin-top: 3px;
+    }
+    h2 {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #111827;
+      margin: 10px 0 5px 0;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    h2 .num {
+      background: #800020;
+      color: white;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9.5px;
+      font-weight: bold;
+    }
+    p {
+      margin: 0 0 5px 0;
+      color: #374151;
+    }
+    .alert-box {
+      background: #fdf2f2;
+      border-left: 4px solid #800020;
+      padding: 7px 10px;
+      border-radius: 0 4px 4px 0;
+      margin: 6px 0 8px 0;
+      font-size: 11px;
+    }
+    .alert-box strong {
+      color: #991b1b;
+    }
+    .alert-info {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+    }
+    .alert-info strong {
+      color: #1e40af;
+    }
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin: 8px 0 10px 0;
+    }
+    .step-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 5px;
+      padding: 7px;
+      text-align: center;
+    }
+    .step-card .step-num {
+      font-size: 9px;
+      font-weight: 700;
+      color: #800020;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+    .step-card .step-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+    .step-card .step-desc {
+      font-size: 9px;
+      color: #6b7280;
+      line-height: 1.25;
+    }
+    .endpoint-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #111827;
+      color: #f3f4f6;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      margin: 5px 0 6px 0;
+    }
+    .method-post {
+      background: #10b981;
+      color: #ffffff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 9px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5px 0 8px 0;
+      font-size: 10.5px;
+    }
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 4px 7px;
+      text-align: left;
+    }
+    th {
+      background: #f9fafb;
+      font-weight: 700;
+      color: #374151;
+    }
+    .required {
+      color: #dc2626;
+      font-weight: 700;
+    }
+    .optional {
+      color: #6b7280;
+    }
+    pre {
+      background: #1e1e2e;
+      color: #dcdfe4;
+      padding: 6px 9px;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 9px;
+      line-height: 1.35;
+      overflow-x: auto;
+      margin: 3px 0 6px 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+    .footer {
+      margin-top: 10px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 4px;
+      font-size: 9px;
+      color: #9ca3af;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PÁGINA 1 ==================== -->
+  <div class="header">
+    <div class="title-area">
+      <h1>Guía de Integración: Botón "Pedir por Teléfono" (VAPI)</h1>
+      <div class="subtitle">Centro de Yoga y Bienestar Salvadora Conesa — Integración Web & CRM</div>
+    </div>
+    <div class="badge-area">
+      <span class="badge">PRODUCCIÓN v1.0</span>
+      <div class="meta">Actualizado: Septiembre 2026</div>
+    </div>
+  </div>
+
+  <div class="alert-box">
+    <strong>Principio de Seguridad Arquitectónica:</strong> La API Key privada de VAPI y los IDs de asistente residen exclusivamente en el servidor del CRM Salvadora. La landing web realiza la petición al CRM mediante el endpoint habilitado, y el CRM se encarga de contactar con VAPI, registrar el lead en base de datos interna y abrir la llamada hacia el móvil del cliente.
+  </div>
+
+  <h2><span class="num">1</span> Flujo de Ejecución Paso a Paso</h2>
+  <div class="flow-steps">
+    <div class="step-card">
+      <div class="step-num">Paso 1</div>
+      <div class="step-title">Usuario Web</div>
+      <div class="step-desc">Introduce su teléfono en el modal de la landing y pulsa "Llamar Ahora".</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Paso 2</div>
+      <div class="step-title">Landing → CRM</div>
+      <div class="step-desc">La web hace POST a <code>/api/widget/vapi/call</code> del CRM.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Paso 3</div>
+      <div class="step-title">CRM → Vapi.ai</div>
+      <div class="step-desc">El CRM registra el contacto y ordena a VAPI iniciar la llamada saliente.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Paso 4</div>
+      <div class="step-title">Vapi → Teléfono</div>
+      <div class="step-desc">Suena el móvil del cliente inmediatamente con la voz del asistente.</div>
+    </div>
+  </div>
+
+  <h2><span class="num">2</span> Endpoint del CRM Salvadora</h2>
+  <div class="endpoint-badge">
+    <span class="method-post">POST</span>
+    <span>https://crm-salvadoraconesa.jigretera.com/api/widget/vapi/call</span>
+  </div>
+  <p style="font-size: 10px; color: #6b7280; margin-bottom: 3px;">En desarrollo local: <code>http://localhost:3001/api/widget/vapi/call</code></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 20%;">Campo</th>
+        <th style="width: 13%;">Tipo</th>
+        <th style="width: 17%;">Presencia</th>
+        <th>Descripción y Formato</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>phoneNumber</code></td>
+        <td>string</td>
+        <td><span class="required">Obligatorio</span></td>
+        <td>Teléfono de destino en formato internacional <strong>E.164</strong> (Ej: <code>+34600112233</code>).</td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td>string</td>
+        <td><span class="optional">Opcional</span></td>
+        <td>Nombre del cliente para saludo personalizado en la llamada (Ej: <code>"María García"</code>).</td>
+      </tr>
+      <tr>
+        <td><code>agentKey</code></td>
+        <td>string</td>
+        <td><span class="optional">Opcional</span></td>
+        <td>Identificador del agente CRM. Por defecto: <code>"booking"</code>.</td>
+      </tr>
+      <tr>
+        <td><code>sessionId</code></td>
+        <td>string</td>
+        <td><span class="optional">Opcional</span></td>
+        <td>ID de sesión del chat para vincular la llamada al hilo conversacional en la bandeja CRM.</td>
+      </tr>
+      <tr>
+        <td><code>inquiry</code></td>
+        <td>string</td>
+        <td><span class="optional">Opcional</span></td>
+        <td>Motivo o contexto de la consulta (Ej: <code>"Reserva clase Hatha Yoga y Baño de Gong"</code>).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">3</span> Formato de Respuestas HTTP del Servidor</h2>
+  <div class="grid-2">
+    <div>
+      <strong style="color: #059669; font-size: 10.5px;">✅ Respuesta Exitosa (200 OK):</strong>
+      <pre>{
+  "success": true,
+  "message": "Llamada iniciada con éxito.",
+  "callId": "c62a84d2-f542-4911-...",
+  "phoneNumber": "+34600112233"
+}</pre>
+    </div>
+    <div>
+      <strong style="color: #dc2626; font-size: 10.5px;">❌ Error de Validación (400 Bad Request):</strong>
+      <pre>{
+  "success": false,
+  "error": "El número de teléfono es obligatorio y debe tener formato E.164 (+34...)"
+}</pre>
+    </div>
+  </div>
+  <div style="margin-top: 2px;">
+    <strong style="color: #d97706; font-size: 10.5px;">⚠️ Error de Conexión / Gateway VAPI (502 Bad Gateway):</strong>
+    <pre>{
+  "success": false,
+  "error": "Error al contactar con VAPI"
+}</pre>
+  </div>
+
+  <div class="footer">
+    <span>Centro de Yoga y Bienestar Salvadora Conesa · Integración CRM & Landing</span>
+    <span>Página 1 de 3</span>
+  </div>
+
+  <!-- ==================== PÁGINA 2 ==================== -->
+  <div class="page-break"></div>
+
+  <div class="header">
+    <div class="title-area">
+      <h1>Implementación de Referencia en la Landing (Next.js / TypeScript)</h1>
+      <div class="subtitle">Código listo para usar en el frontend de la landing web</div>
+    </div>
+    <div class="badge-area">
+      <span class="badge">FRONTEND CODE</span>
+    </div>
+  </div>
+
+  <h2><span class="num">4</span> Código de la Ruta API Proxy (Server-side)</h2>
+  <p>Archivo <code>src/app/api/vapi/call/route.ts</code> en el proyecto de la landing:</p>
+  <pre>import { NextResponse } from "next/server";
+
+export async function POST(req: Request) {
+  try {
+    const { phoneNumber, name, agentKey = "booking", sessionId, inquiry } = await req.json();
+    if (!phoneNumber) {
+      return NextResponse.json({ success: false, error: "El número de teléfono es obligatorio." }, { status: 400 });
+    }
+
+    const CRM_API_URL = process.env.NEXT_PUBLIC_CRM_API_URL || "https://crm-salvadoraconesa.jigretera.com";
+
+    const crmRes = await fetch(`${CRM_API_URL}/api/widget/vapi/call`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phoneNumber,
+        name: name || "Visitante Web",
+        agentKey,
+        sessionId: sessionId || "web_guest",
+        inquiry,
+      }),
+    });
+
+    const crmData = await crmRes.json();
+    return NextResponse.json(crmData, { status: crmRes.status });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message || "Error interno al procesar llamada." }, { status: 500 });
+  }
+}</pre>
+
+  <h2><span class="num">5</span> Manejador en el Modal / Componente de la Landing</h2>
+  <p>Función de disparo con autoformato E.164 (añade prefijo <code>+34</code> a teléfonos españoles automáticamente):</p>
+  <pre>const handleVapiCall = async (phoneInput: string, clientName?: string, inquiryText?: string) => {
+  let phone = phoneInput.trim();
+  if (!phone) return;
+
+  // Auto-formateo a prefijo internacional si el visitante omitió el '+'
+  if (/^[6789]\d{8}$/.test(phone)) {
+    phone = `+34${phone}`;
+  } else if (!phone.startsWith("+")) {
+    phone = `+${phone}`;
+  }
+
+  const res = await fetch("/api/vapi/call", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      phoneNumber: phone,
+      name: clientName?.trim() || undefined,
+      inquiry: inquiryText || "Consulta general desde la web",
+      sessionId: "web_sess_" + Math.random().toString(36).substring(2, 9),
+    }),
+  });
+
+  const data = await res.json();
+  if (!res.ok || !data.success) {
+    throw new Error(data.error || "No se pudo iniciar la llamada.");
+  }
+  return data; // { success: true, message: "Llamada iniciada con éxito.", callId: "..." }
+};</pre>
+
+  <div class="footer">
+    <span>Centro de Yoga y Bienestar Salvadora Conesa · Integración CRM & Landing</span>
+    <span>Página 2 de 3</span>
+  </div>
+
+  <!-- ==================== PÁGINA 3 ==================== -->
+  <div class="page-break"></div>
+
+  <div class="header">
+    <div class="title-area">
+      <h1>Webhook de Cierre, Pruebas y Checklist de Despliegue</h1>
+      <div class="subtitle">Validación operativa y soporte para el pase a producción</div>
+    </div>
+    <div class="badge-area">
+      <span class="badge">OPERATIVA Y QA</span>
+    </div>
+  </div>
+
+  <h2><span class="num">6</span> Webhook de Cierre de Llamada (Automático)</h2>
+  <div class="alert-box alert-info">
+    El CRM tiene habilitado el webhook en <code>POST /api/widget/vapi/webhook</code>. Cuando el usuario cuelga la llamada, VAPI envía de forma automática el evento <code>end-of-call-report</code> con la grabación en MP3, la transcripción completa y el resumen de acuerdos. <strong>El equipo de la landing no tiene que programar nada para este webhook</strong>, el CRM lo procesa y guarda internamente.
+  </div>
+
+  <h2><span class="num">7</span> Ejemplo de Prueba con cURL</h2>
+  <p>Comando para verificar el endpoint desde terminal o consola:</p>
+  <pre>curl -X POST https://crm-salvadoraconesa.jigretera.com/api/widget/vapi/call \
+  -H "Content-Type: application/json" \
+  -d '{
+    "phoneNumber": "+34600112233",
+    "name": "María García",
+    "agentKey": "booking",
+    "sessionId": "test_curl_001",
+    "inquiry": "Consulta precios y horarios de Hatha Yoga"
+  }'</pre>
+
+  <h2><span class="num">8</span> Checklist de Verificación para el Equipo de Landing</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 8%;">Estado</th>
+        <th style="width: 30%;">Elemento</th>
+        <th>Comprobación esperada</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: center;">✔</td>
+        <td><strong>Prefijo E.164</strong></td>
+        <td>El número enviado al endpoint siempre empieza con <code>+</code> (ej. <code>+34600112233</code>). Si el usuario escribe <code>600112233</code>, el frontend lo transforma antes de enviar.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">✔</td>
+        <td><strong>Nombre del Usuario</strong></td>
+        <td>Campo opcional en el formulario. Si se envía, la voz de la IA saluda al cliente por su nombre: <em>"¡Hola María! Te llamo desde Salvadora Conesa..."</em>.</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">✔</td>
+        <td><strong>Feedback Visual</strong></td>
+        <td>Mostrar estado de carga ("Conectando llamada...") mientras se ejecuta la petición, y estado de éxito con cuenta atrás de cierre ("¡Llamada en curso! Tu teléfono sonará en segundos").</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">✔</td>
+        <td><strong>Fallback Telefónico</strong></td>
+        <td>Si la petición falla o no hay conexión, mostrar enlace directo para llamada manual: <code>tel:+34695172625</code> (695 172 625).</td>
+      </tr>
+      <tr>
+        <td style="text-align: center;">✔</td>
+        <td><strong>Trazabilidad CRM</strong></td>
+        <td>El lead queda creado en el CRM con la etiqueta <code>lead_landing_vapi</code> y la llamada registrada en el historial del CRM.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">9</span> Canales de Soporte Técnico</h2>
+  <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 5px; padding: 8px; font-size: 10.5px;">
+    <p style="margin: 0 0 3px 0;"><strong>Soporte Backend CRM:</strong> dev@jigretera.com · Equipo de Integración</p>
+    <p style="margin: 0;"><strong>Servidor CRM en Producción:</strong> <code>https://crm-salvadoraconesa.jigretera.com</code></p>
+  </div>
+
+  <div class="footer">
+    <span>Centro de Yoga y Bienestar Salvadora Conesa · Integración CRM & Landing</span>
+    <span>Página 3 de 3 · Versión 1.0 (PROD)</span>
+  </div>
+
+</body>
+</html>

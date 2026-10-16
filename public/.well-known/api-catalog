@@ -1,0 +1,28 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://centrodeyogasalvadoraconesa.es/api/reservas",
+      "service-doc": [
+        {
+          "href": "https://centrodeyogasalvadoraconesa.es/llms.txt",
+          "type": "text/plain"
+        }
+      ],
+      "service-desc": [
+        {
+          "href": "https://centrodeyogasalvadoraconesa.es/.well-known/mcp/server-card.json",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://centrodeyogasalvadoraconesa.es/api/mcp",
+      "service-desc": [
+        {
+          "href": "https://centrodeyogasalvadoraconesa.es/.well-known/mcp/server-card.json",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

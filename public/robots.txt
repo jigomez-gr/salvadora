@@ -1,0 +1,79 @@
+# Robots.txt for Centro de Yoga y Bienestar Salvadora Conesa
+# Conforming to RFC 9309 and Content Signals specification (contentsignals.org)
+
+User-agent: *
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+# OpenAI AI Crawlers and Search
+User-agent: GPTBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+User-agent: OAI-SearchBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+# Anthropic AI Crawlers
+User-agent: Claude-Web
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+User-agent: ClaudeBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+User-agent: anthropic-ai
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+# Google AI Crawlers
+User-agent: Google-Extended
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+# Amazon AI Crawlers
+User-agent: Amazonbot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+# ByteDance AI Crawlers
+User-agent: Bytespider
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+# Common Crawl & Other AI Crawlers
+User-agent: CCBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+User-agent: Applebot-Extended
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+User-agent: PerplexityBot
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Disallow: /api/
+
+# Sitemap & Agentmap
+Sitemap: https://centrodeyogasalvadoraconesa.es/sitemap.xml
+Agentmap: https://centrodeyogasalvadoraconesa.es/.well-known/ai-catalog.json
+Agentmap: https://centrodeyogasalvadoraconesa.es/ai-catalog.json
+

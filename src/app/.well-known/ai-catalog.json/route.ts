@@ -1,0 +1,77 @@
+import { NextResponse } from "next/server";
+
+const aiCatalog = {
+  specVersion: "1.0",
+  host: {
+    displayName: "Centro de Yoga y Bienestar Salvadora Conesa",
+    identifier: "did:web:centrodeyogasalvadoraconesa.es",
+  },
+  entries: [
+    {
+      identifier: "urn:air:centrodeyogasalvadoraconesa.es:server:mcp",
+      displayName: "Salvadora Conesa MCP Server",
+      type: "application/mcp-server-card+json",
+      url: "https://centrodeyogasalvadoraconesa.es/.well-known/mcp/server-card.json",
+      representativeQueries: [
+        "clases de yoga en Fuenlabrada",
+        "reservar sesion de bano de gong",
+        "horarios y precios de kundalini yoga",
+      ],
+    },
+    {
+      identifier: "urn:air:centrodeyogasalvadoraconesa.es:agent:a2a",
+      displayName: "Salvadora Conesa A2A Booking Agent",
+      type: "application/a2a-agent-card+json",
+      url: "https://centrodeyogasalvadoraconesa.es/.well-known/agent-card.json",
+      representativeQueries: [
+        "agente para reservar clase de nagna yoga",
+        "contactar con el asistente del centro de yoga",
+        "consultar retiros de ayuno terapeutico",
+      ],
+    },
+    {
+      identifier: "urn:air:centrodeyogasalvadoraconesa.es:skill:studio-info",
+      displayName: "Studio Information Skill",
+      type: "text/markdown",
+      url: "https://centrodeyogasalvadoraconesa.es/.well-known/agent-skills/studio-info/SKILL.md",
+      representativeQueries: [
+        "donde esta el centro de yoga de salvadora conesa",
+        "que disciplinas de yoga se imparten",
+      ],
+    },
+    {
+      identifier: "urn:air:centrodeyogasalvadoraconesa.es:skill:booking-assistant",
+      displayName: "Booking Assistant Skill",
+      type: "text/markdown",
+      url: "https://centrodeyogasalvadoraconesa.es/.well-known/agent-skills/booking-assistant/SKILL.md",
+      representativeQueries: [
+        "reservar clase de kundalini yoga",
+        "asistente de reservas para clases y banos de gong",
+        "como apuntarse a los talleres de yoga",
+      ],
+    },
+  ],
+};
+
+export async function GET() {
+  return new NextResponse(JSON.stringify(aiCatalog, null, 2), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+}

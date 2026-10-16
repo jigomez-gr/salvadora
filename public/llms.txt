@@ -1,0 +1,35 @@
+# Centro de Yoga y Bienestar Salvadora Conesa
+
+> Centro de yoga, sonido terapéutico y bienestar integral en Fuenlabrada (Madrid), dirigido por Salvadora Conesa. Especialistas en Nagna Yoga, Kundalini Yoga, baños y puja de gong, meditación guiada y retiros de ayuno terapéutico.
+
+Centro con más de 15 años de trayectoria dedicado a la reconexión mente-cuerpo mediante disciplinas tradicionales de yoga, vibración sonora profunda y experiencias de inmersión consciente.
+
+## Servicios Principales
+
+- [Servicios y Actividades](https://centrodeyogasalvadoraconesa.es/servicios): Catálogo completo de clases regulares, talleres y sesiones de bienestar.
+- [Reserva de Clases y Sesiones](https://centrodeyogasalvadoraconesa.es/reserva): Plataforma de reserva online para clases de yoga, baños de gong y retiros.
+- [Nagna Yoga](https://centrodeyogasalvadoraconesa.es/nagna-yoga): Práctica de yoga desnudo consciente enfocada en la aceptación corporal, autenticidad y liberación emocional.
+- [Taller Mejorar Asanas](https://centrodeyogasalvadoraconesa.es/mejorar-asanas): Taller especializado para el perfeccionamiento postural, alineación y fluidez en la práctica.
+
+## Experiencias Especiales
+
+- **Baños de Gong**: Sesiones de relajación profunda y armonización celular mediante cuencos tibetanos y gongs sinfónicos.
+- **Puja de Gong**: Ceremonia nocturna inmersiva de sonido sanador continuo de varias horas (celebrada periódicamente).
+- **Retiros de Ayuno Terapéutico**: Encuentros en entornos naturales junto al mar y la montaña con caminatas en silencio, masajes conscientes y depuración orgánica.
+
+## Información Legal y RGPD
+
+- [Política de Privacidad](https://centrodeyogasalvadoraconesa.es/politica-de-privacidad): Cumplimiento con RGPD (UE 2016/679) y LOPDGDD 3/2018.
+- [Política de Cookies](https://centrodeyogasalvadoraconesa.es/politica-de-cookies): Tratamiento técnico y preferencias de cookies.
+- [Ley de Protección de Datos](https://centrodeyogasalvadoraconesa.es/ley-de-proteccion-de-datos): Derechos de los usuarios (ARCO-POL) y seguridad de la información.
+
+## Contacto y Ubicación
+
+- Ubicación: Fuenlabrada, Madrid, España
+- Email: salvadora@centrodeyogasalvadoraconesa.es
+- Teléfono / WhatsApp: +34 695 17 26 25
+- Instagram: [@escuelayogasalvadoraconesa](https://www.instagram.com/escuelayogasalvadoraconesa/)
+
+## Archivo Completo
+
+- [Versión Extendida llms-full.txt](https://centrodeyogasalvadoraconesa.es/llms-full.txt): Contenido exhaustivo de servicios, horarios, filosofía y metodologías del centro para modelos de IA.

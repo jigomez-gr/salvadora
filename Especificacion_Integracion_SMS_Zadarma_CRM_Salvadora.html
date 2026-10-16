@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Especificación Técnica - Integración SMS Zadarma en CRM Salvadora</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 12mm 12mm;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1f2937;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+      font-size: 11.5px;
+      line-height: 1.4;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #800020;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .title-area h1 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #800020;
+      margin: 0 0 2px 0;
+      letter-spacing: -0.3px;
+    }
+    .title-area .subtitle {
+      font-size: 11px;
+      font-weight: 600;
+      color: #4b5563;
+      margin: 0;
+    }
+    .badge-area {
+      text-align: right;
+    }
+    .badge {
+      display: inline-block;
+      background: #800020;
+      color: #ffffff;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-tech {
+      background: #1f2937;
+    }
+    .meta {
+      font-size: 9px;
+      color: #6b7280;
+      margin-top: 3px;
+    }
+    h2 {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #111827;
+      margin: 10px 0 5px 0;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    h2 .num {
+      background: #800020;
+      color: white;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9.5px;
+      font-weight: bold;
+    }
+    h3 {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #374151;
+      margin: 7px 0 3px 0;
+    }
+    p {
+      margin: 0 0 5px 0;
+      color: #374151;
+    }
+    .alert-box {
+      background: #fdf2f2;
+      border-left: 4px solid #800020;
+      padding: 7px 10px;
+      border-radius: 0 4px 4px 0;
+      margin: 6px 0 8px 0;
+      font-size: 11px;
+    }
+    .alert-box strong {
+      color: #991b1b;
+    }
+    .alert-info {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+    }
+    .alert-info strong {
+      color: #1e40af;
+    }
+    .alert-success {
+      background: #ecfdf5;
+      border-left: 4px solid #10b981;
+    }
+    .alert-success strong {
+      color: #065f46;
+    }
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin: 8px 0 10px 0;
+    }
+    .step-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 5px;
+      padding: 7px;
+      text-align: center;
+    }
+    .step-card .step-num {
+      font-size: 9px;
+      font-weight: 700;
+      color: #800020;
+      text-transform: uppercase;
+      margin-bottom: 1px;
+    }
+    .step-card .step-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+    .step-card .step-desc {
+      font-size: 9px;
+      color: #6b7280;
+      line-height: 1.25;
+    }
+    .endpoint-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #111827;
+      color: #f3f4f6;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 10.5px;
+      margin: 5px 0 6px 0;
+    }
+    .method-post {
+      background: #10b981;
+      color: #ffffff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 9px;
+    }
+    .method-get {
+      background: #3b82f6;
+      color: #ffffff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 9px;
+    }
+    .method-patch {
+      background: #f59e0b;
+      color: #ffffff;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: bold;
+      font-size: 9px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5px 0 8px 0;
+      font-size: 10.5px;
+    }
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 4px 7px;
+      text-align: left;
+    }
+    th {
+      background: #f9fafb;
+      font-weight: 700;
+      color: #374151;
+    }
+    .required {
+      color: #dc2626;
+      font-weight: 700;
+    }
+    .optional {
+      color: #6b7280;
+    }
+    pre {
+      background: #1e1e2e;
+      color: #dcdfe4;
+      padding: 6px 9px;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 8.8px;
+      line-height: 1.35;
+      overflow-x: auto;
+      margin: 3px 0 6px 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+    .footer {
+      position: fixed;
+      bottom: 6mm;
+      left: 12mm;
+      right: 12mm;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 4px;
+      font-size: 8.5px;
+      color: #9ca3af;
+    }
+    code {
+      background: #f3f4f6;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 9.5px;
+      color: #800020;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PÁGINA 1 ==================== -->
+  <div class="header">
+    <div class="title-area">
+      <h1>Especificación Técnica: Integración Zadarma SMS</h1>
+      <div class="subtitle">Módulo de Notificación Post-Llamada y Captura de Email para CRM Salvadora</div>
+    </div>
+    <div class="badge-area">
+      <span class="badge">CRM Salvadora</span>
+      <span class="badge badge-tech">v1.0 Producción</span>
+      <div class="meta">Fecha: Septiembre 2026 | Arquitectura: NestJS + C# + PostgreSQL</div>
+    </div>
+  </div>
+
+  <div class="alert-info">
+    <strong>Propósito del Documento:</strong> Definir la arquitectura, el modelo de datos, la criptografía de firma de API y el flujo de integración de Zadarma SMS en el proyecto CRM Salvadora (<code>d:\tmp\antigraviti\crm_salvadora</code>). Permite confirmar reservas telefónicas realizadas por el agente de voz VAPI y solicitar el correo del cliente de manera no intrusiva.
+  </div>
+
+  <h2><span class="num">1</span> Flujo Operativo y Captura Post-Llamada</h2>
+  <p>
+    Durante la llamada telefónica gestionada por VAPI, la reserva se ejecuta limpiamente con nombre y teléfono. Tras la confirmación, el agente de voz formula una pregunta contextual suave para el email. Simultáneamente, el CRM emite un SMS automático que actúa como canal de confirmación y captura secundaria:
+  </p>
+
+  <div class="flow-steps">
+    <div class="step-card">
+      <div class="step-num">Paso 1: Llamada</div>
+      <div class="step-title">Reserva Telefónica</div>
+      <div class="step-desc">El usuario llama y VAPI ejecuta <code>reservar_cita</code> registrando contacto y cita en CRM.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Paso 2: Voz</div>
+      <div class="step-title">Email Opcional</div>
+      <div class="step-desc">La IA ofrece enviar el resumen por correo. Si el cliente duda, no bloquea la cita.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Paso 3: Disparo</div>
+      <div class="step-title">Trigger Zadarma SMS</div>
+      <div class="step-desc">El CRM dispara SMS vía Zadarma API con los detalles y mensaje de captura.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">Paso 4: Auditoría</div>
+      <div class="step-title">Registro en DB</div>
+      <div class="step-desc">Se audita el costo, mensaje, teléfono y estado en tabla <code>zadarma_sms_respuesta</code>.</div>
+    </div>
+  </div>
+
+  <div class="alert-box">
+    <strong>Plantilla de SMS Recomendada:</strong><br/>
+    <em>"¡Hola! Tu reserva de Yoga en Centro Salvadora está confirmada. Si deseas recibir los detalles de acceso y recordatorios por correo, respóndenos con tu email a este SMS o infórmalo en la recepción. ¡Te esperamos!"</em>
+  </div>
+
+  <h2><span class="num">2</span> Algoritmo Criptográfico de Zadarma API</h2>
+  <p>
+    La API de Zadarma exige autenticación mediante firma HMAC-SHA1 de los parámetros de consulta ordenados alfabéticamente y procesados con hash MD5 previo:
+  </p>
+  
+  <div class="grid-2">
+    <div>
+      <h3>Especificaciones del Endpoint</h3>
+      <table>
+        <tr><th>URL Base</th><td><code>https://api.zadarma.com</code></td></tr>
+        <tr><th>Ruta API</th><td><code>/v1/sms/send/</code></td></tr>
+        <tr><th>Método</th><td><code>POST</code> (URL Encoded)</td></tr>
+        <tr><th>Cabecera Auth</th><td><code>Authorization: {api_key}:{signature}</code></td></tr>
+      </table>
+      <p style="font-size: 10px; color: #4b5563;">
+        <strong>Eliminación de dependencias obsoletas:</strong> Se prescindió por completo de la tabla <code>accionescomplementarias</code> del script original. Los envíos se parametrizan directamente por llamada o por endpoints REST.
+      </p>
+    </div>
+    <div>
+      <h3>Algoritmo de Firma Criptográfica</h3>
+      <pre>
+1. Ordenar claves de params alfabéticamente:
+   params = { message: "...", number: "34611..." }
+2. Generar QueryString: "message=...&number=..."
+3. MD5 de QueryString: md5_str = md5(queryString)
+4. Cadena a firmar:
+   toSign = "/v1/sms/send/" + queryString + md5_str
+5. HMAC-SHA1 con api_secret:
+   hmac_hex = hmac_sha1(toSign, api_secret).toHex()
+6. Base64 de la cadena hexadecimal:
+   signature = base64(hmac_hex)
+7. Header: "Authorization: {api_key}:{signature}"</pre>
+    </div>
+  </div>
+
+  <h2><span class="num">3</span> Modelo de Datos PostgreSQL</h2>
+  <p>El CRM registra cada envío para control de costes, auditoría y trazabilidad en dos scripts DDL:</p>
+
+  <div class="grid-2">
+    <div>
+      <h3>Tabla <code>zadarma_sms_respuesta</code></h3>
+      <pre>
+CREATE TABLE IF NOT EXISTS zadarma_sms_respuesta (
+  id SERIAL PRIMARY KEY,
+  fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  status VARCHAR(20) NOT NULL,       -- success / error
+  messages INT DEFAULT 1,            -- cant. fragmentos
+  cost NUMERIC(10, 4) DEFAULT 0,     -- coste en EUR
+  currency VARCHAR(10) DEFAULT 'EUR',
+  raw_response TEXT,                 -- JSON crudo devuelto
+  phone VARCHAR(30) NOT NULL,
+  message TEXT NOT NULL,
+  contact_id UUID REFERENCES contacts(id),
+  call_id UUID REFERENCES calls(id),
+  appointment_id UUID REFERENCES appointments(id)
+);</pre>
+    </div>
+    <div>
+      <h3>Parametrización de API Keys (DDL)</h3>
+      <pre>
+-- 1. Extensión para vapi_accounts (CRM Voice settings):
+ALTER TABLE vapi_accounts 
+ADD COLUMN IF NOT EXISTS "zadarmaApiKey" VARCHAR(100) 
+    DEFAULT '45dc42d6f22439899024',
+ADD COLUMN IF NOT EXISTS "zadarmaApiSecret" VARCHAR(100) 
+    DEFAULT '34061190a934a453aa99',
+ADD COLUMN IF NOT EXISTS "zadarmaSenderId" VARCHAR(50) 
+    DEFAULT NULL,
+ADD COLUMN IF NOT EXISTS "zadarmaSmsEnabled" BOOLEAN 
+    DEFAULT TRUE;
+
+-- 2. Variables de entorno de respaldo (.env):
+-- ZADARMA_API_KEY=45dc42d6f22439899024
+-- ZADARMA_API_SECRET=34061190a934a453aa99</pre>
+    </div>
+  </div>
+
+  <!-- ==================== PÁGINA 2 ==================== -->
+  <div class="page-break"></div>
+
+  <div class="header">
+    <div class="title-area">
+      <h1>Especificación Técnica: Integración Zadarma SMS</h1>
+      <div class="subtitle">Módulos de Código Entregados & Contratos de API</div>
+    </div>
+    <div class="badge-area">
+      <span class="badge">CRM Salvadora</span>
+      <span class="badge badge-tech">Página 2</span>
+    </div>
+  </div>
+
+  <h2><span class="num">4</span> Contenido del Paquete de Código Entregado</h2>
+  <p>Todos los archivos listos para producción se encuentran en la carpeta <code>salvadora/caso1/integracion_sms_zadarma_crm/</code>:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Directorio / Archivo</th>
+        <th style="width: 35%;">Descripción</th>
+        <th style="width: 40%;">Destino o Modo de Uso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>csharp/Program.cs</code><br/><code>csharp/ZadarmaSms.csproj</code></td>
+        <td>Programa .NET adaptado (compatible con .NET 8 / 9 / 10). Admite argumentos por línea de comandos o servidor HTTP autónomo en puerto 5005.</td>
+        <td>Ejecutable CLI / Microservicio:<br/><code>dotnet run -- 34611... "Mensaje"</code> o <code>POST :5005/api/sms/send</code></td>
+      </tr>
+      <tr>
+        <td><code>nest_backend/zadarma-sms.service.ts</code></td>
+        <td>Servicio TypeScript nativo para NestJS. Implementa firma criptográfica, llamada Axios a Zadarma y persistencia en TypeORM.</td>
+        <td>Copiar a <code>crm_salvadora/backend/src/sms/</code></td>
+      </tr>
+      <tr>
+        <td><code>nest_backend/zadarma-sms.controller.ts</code></td>
+        <td>Controlador REST con endpoints de envío (<code>/api/sms/send</code>), consulta de logs (<code>/api/sms/logs</code>) y parametrización de keys (<code>/api/sms/config</code>).</td>
+        <td>Copiar a <code>crm_salvadora/backend/src/sms/</code></td>
+      </tr>
+      <tr>
+        <td><code>nest_backend/zadarma-sms-log.entity.ts</code></td>
+        <td>Entidad TypeORM mapeada a la tabla <code>zadarma_sms_respuesta</code> con relaciones a Contacto y Cita.</td>
+        <td>Copiar a <code>crm_salvadora/backend/src/sms/</code></td>
+      </tr>
+      <tr>
+        <td><code>nest_backend/vapi-hook-integration.snippet.ts</code></td>
+        <td>Código de ejemplo para inyectar el envío automático en <code>vapi-webhook.service.ts</code> al confirmar cita o en <code>end-of-call-report</code>.</td>
+        <td>Referencia para el desarrollador del CRM</td>
+      </tr>
+      <tr>
+        <td><code>sql/*.sql</code></td>
+        <td>Scripts DDL para creación de tablas y adición de columnas de configuración.</td>
+        <td>Ejecutar en la base de datos PostgreSQL de Salvadora</td>
+      </tr>
+      <tr>
+        <td><code>tests/*.sh</code> / <code>tests/*.ps1</code></td>
+        <td>Scripts de prueba automáticos mediante curl y PowerShell para verificar el funcionamiento.</td>
+        <td>Pruebas de humo e integración local</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="num">5</span> Contratos de la API REST de Envío SMS</h2>
+
+  <div class="endpoint-badge">
+    <span class="method-post">POST</span>
+    <span>/api/sms/send</span>
+    <span style="margin-left: auto; font-size: 9.5px; color: #9ca3af;">Envío de SMS puntual o masivo</span>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <p><strong>Cuerpo de la Solicitud (JSON):</strong></p>
+      <pre>
+{
+  "number": "34611223344",           // Requerido (con o sin +)
+  "message": "Tu reserva de Yoga...", // Requerido
+  "sender": "Salvadora",             // Opcional (ID alfanumérico)
+  "contactId": "uuid-del-contacto",  // Opcional para auditoría
+  "callId": "uuid-de-llamada",       // Opcional
+  "appointmentId": "uuid-de-cita"    // Opcional
+}</pre>
+    </div>
+    <div>
+      <p><strong>Respuesta de Éxito (HTTP 200):</strong></p>
+      <pre>
+{
+  "success": true,
+  "status": "success",
+  "messages": 1,
+  "cost": 0.045,
+  "currency": "EUR",
+  "rawResponse": {
+    "status": "success",
+    "messages": 1,
+    "cost": "0.045",
+    "currency": "EUR"
+  },
+  "logId": 142
+}</pre>
+    </div>
+  </div>
+
+  <div class="endpoint-badge">
+    <span class="method-patch">PATCH</span>
+    <span>/api/sms/config</span>
+    <span style="margin-left: auto; font-size: 9.5px; color: #9ca3af;">Parametrización dinámica de Credenciales</span>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <p><strong>Cuerpo para Actualizar API Keys (JSON):</strong></p>
+      <pre>
+{
+  "zadarmaApiKey": "45dc42d6f22439899024",
+  "zadarmaApiSecret": "34061190a934a453aa99",
+  "zadarmaSenderId": "Salvadora",
+  "zadarmaSmsEnabled": true
+}</pre>
+    </div>
+    <div>
+      <p><strong>Respuesta (HTTP 200):</strong></p>
+      <pre>
+{
+  "success": true,
+  "message": "Zadarma SMS configuration updated successfully"
+}</pre>
+    </div>
+  </div>
+
+  <div class="endpoint-badge">
+    <span class="method-get">GET</span>
+    <span>/api/sms/logs?limit=50</span>
+    <span style="margin-left: auto; font-size: 9.5px; color: #9ca3af;">Auditoría histórica de SMS enviados</span>
+  </div>
+
+  <!-- ==================== PÁGINA 3 ==================== -->
+  <div class="page-break"></div>
+
+  <div class="header">
+    <div class="title-area">
+      <h1>Especificación Técnica: Integración Zadarma SMS</h1>
+      <div class="subtitle">Integración con VAPI & Guía de Despliegue en CRM</div>
+    </div>
+    <div class="badge-area">
+      <span class="badge">CRM Salvadora</span>
+      <span class="badge badge-tech">Página 3</span>
+    </div>
+  </div>
+
+  <h2><span class="num">6</span> Integración con los Webhooks de VAPI en el CRM</h2>
+  <p>
+    En el backend del CRM (<code>src/vapi/vapi-webhook.service.ts</code>), el envío del SMS se vincula al ciclo de vida de la reserva telefónica. Se recomiendan dos estrategias no excluyentes:
+  </p>
+
+  <div class="grid-2">
+    <div>
+      <h3>Estrategia Inmediata (Herramienta <code>reservar_cita</code>)</h3>
+      <p style="font-size: 10px;">
+        En cuanto la herramienta de función responde afirmativamente, se dispara el SMS de manera asíncrona (sin bloquear el audio de respuesta de VAPI).
+      </p>
+      <pre>
+// En vapi-webhook.service.ts -> executeReservarCita():
+if (appointmentCreated && customerPhone) {
+  this.zadarmaSms.sendSms({
+    number: customerPhone,
+    message: `Centro Salvadora: Confirmamos tu cita de ` +
+             `${serviceName} para el ${fechaLegible}. ` +
+             `Respóndenos con tu email para enviarte el acceso.`,
+    contactId: contact.id,
+    appointmentId: appointment.id,
+    callId: call.id,
+  }).catch(err => this.logger.error('Error SMS:', err));
+}</pre>
+    </div>
+    <div>
+      <h3>Estrategia Post-Llamada (Evento <code>end-of-call-report</code>)</h3>
+      <p style="font-size: 10px;">
+        Cuando el cliente cuelga el teléfono, VAPI envía el webhook de fin de llamada con el análisis y la duración. Es el momento idóneo para el SMS de bienvenida.
+      </p>
+      <pre>
+// En vapi-webhook.service.ts -> handleEndOfCallReport():
+const call = await this.callsRepo.findOne({ where: { vapiCallId } });
+if (call?.appointmentCreated && call.customerNumber) {
+  await this.zadarmaSms.sendSms({
+    number: call.customerNumber,
+    message: `¡Gracias por tu llamada a Centro Salvadora! ` +
+             `Tu cita está confirmada. Si deseas recibir ` +
+             `el comprobante por email, respóndenos a este SMS.`,
+    callId: call.id,
+    contactId: call.contactId,
+  });
+}</pre>
+    </div>
+  </div>
+
+  <h2><span class="num">7</span> Guía Paso a Paso de Despliegue para el Desarrollador</h2>
+  
+  <div class="alert-success">
+    <strong>Verificación completada:</strong> El módulo C# fue compilado y verificado con .NET 10.0 con envío real exitoso hacia la API de Zadarma (HTTP 200). El backend de NestJS compila con 0 errores.
+  </div>
+
+  <ol style="margin: 0; padding-left: 18px; font-size: 11px; line-height: 1.5;">
+    <li>
+      <strong>Aplicar la migración SQL en PostgreSQL:</strong><br/>
+      Ejecutar <code>01_create_zadarmasmsrespuesta.sql</code> y <code>02_alter_settings_and_vapi_accounts.sql</code> en la base de datos de producción o desarrollo del CRM.
+    </li>
+    <li>
+      <strong>Incorporar el módulo en NestJS:</strong><br/>
+      Copiar la carpeta <code>nest_backend/</code> como <code>src/sms/</code> en <code>d:\tmp\antigraviti\crm_salvadora\backend\</code>.<br/>
+      Registrar <code>ZadarmaSmsModule</code> en <code>app.module.ts</code> o <code>vapi.module.ts</code>.
+    </li>
+    <li>
+      <strong>Parametrizar las Credenciales de Zadarma:</strong><br/>
+      Acceder a <code>PATCH /api/sms/config</code> o configurar las variables de entorno <code>ZADARMA_API_KEY</code> y <code>ZADARMA_API_SECRET</code> en el archivo <code>.env</code>.
+    </li>
+    <li>
+      <strong>Conectar el Trigger en VapiWebhookService:</strong><br/>
+      Seguir las instrucciones de <code>vapi-hook-integration.snippet.ts</code> para disparar el SMS tras reservas de clases o llamadas entrantes finalizadas.
+    </li>
+    <li>
+      <strong>Ejecutar la suite de pruebas:</strong><br/>
+      Correr <code>./tests/test_sms.ps1</code> o <code>./tests/test_sms.curl.sh</code> indicando el número móvil de prueba.
+    </li>
+  </ol>
+
+  <div style="margin-top: 15px; border-top: 1px dashed #d1d5db; padding-top: 8px; font-size: 10px; color: #6b7280; display: flex; justify-content: space-between;">
+    <span>Centro Salvadora — Sistema Integral de Telefonía Inteligente & CRM</span>
+    <span>Documento Técnico de Entrega de Integración</span>
+  </div>
+
+</body>
+</html>

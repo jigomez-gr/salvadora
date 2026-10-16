@@ -1,0 +1,60 @@
+# dependencies
+node_modules
+/.pnpm-store
+
+# next.js
+/.next/
+/out/
+
+# production/build
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# databases
+/prisma/dev.db
+/prisma/dev.db-journal
+
+# vercel
+.vercel
+
+# typescript compiler cache
+*.tsbuildinfo
+next-env.d.ts
+
+# system files
+.DS_Store
+Thumbs.db
+
+# raw audio folder
+/sonidos_mp3
+
+# build and scripts
+/scripts/
+!/scripts/sync_media.js
+.media_manifest.json
+**/bin/
+**/obj/
+
+# Media blobs decoupled from Git (stored in media_base outside repository)
+*.mp4
+*.zip
+/video_hero/
+/viajesprevios/
+/videos_itinerario/
+/videos_interpretes/
+/auxiliares/
+/media_base/
+/database_dump/
+*.sql
+*.dump

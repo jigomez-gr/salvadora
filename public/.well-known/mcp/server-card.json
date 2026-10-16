@@ -1,0 +1,18 @@
+{
+  "serverInfo": {
+    "name": "Centro de Yoga Salvadora Conesa MCP Server",
+    "version": "1.0.0"
+  },
+  "description": "Herramientas de consulta de servicios, horarios, clases de yoga (Kundalini, Nagna) y gestion de reservas para el Centro de Yoga y Bienestar Salvadora Conesa.",
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://centrodeyogasalvadoraconesa.es/api/mcp"
+  },
+  "endpoint": "https://centrodeyogasalvadoraconesa.es/api/mcp",
+  "url": "https://centrodeyogasalvadoraconesa.es/api/mcp",
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": false
+  }
+}

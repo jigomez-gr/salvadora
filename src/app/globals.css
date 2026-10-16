@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  --background: #FAF9F6;
+  --foreground: #1C1C1C;
+}
+
+@theme {
+  --color-marfil: #FAF9F6;
+  --color-albero: #E9C168;
+  --color-burdeos: #800020;
+  --color-dorado: #96680E;
+  --color-jardin: #2E5A44;
+  --color-carbon: #1C1C1C;
+
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FAF9F6;
+}
+::-webkit-scrollbar-thumb {
+  background: #C5A059;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #800020;
+}
+
+/* Custom closed captions styling */
+video::cue {
+  background: transparent;
+  color: #FAF9F6; /* marfil/crema */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  font-family: Georgia, serif;
+}
+
+/* Ensure video in fullscreen is always fully visible and never cropped */
+video:fullscreen,
+video:-webkit-full-screen {
+  object-fit: contain !important;
+}
+
+/* =========================================================================
+   Laptop & Compact-Height Screens (does NOT touch mobile or large desktops)
+   Ensures that on laptops (e.g. 1366x768, 1080p scaled), the hero section
+   fits entirely in the viewport so that the top title is NOT hidden behind
+   the navbar and the 4 action buttons are fully visible without scrolling.
+   ========================================================================= */
+@media (min-width: 768px) and (max-height: 840px) {
+  .hero-compact-laptop {
+    padding-top: 4.5rem !important; /* ~72px, clear navbar comfortably */
+    padding-bottom: 0.75rem !important;
+  }
+  .hero-compact-laptop .hero-tag {
+    margin-bottom: 0.25rem !important;
+    font-size: 10px !important;
+  }
+  .hero-compact-laptop .hero-title {
+    font-size: 1.85rem !important; /* ~30px */
+    line-height: 1.15 !important;
+    margin-bottom: 0.25rem !important;
+  }
+  .hero-compact-laptop .hero-desc {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    margin-bottom: 0.5rem !important;
+    max-width: 48rem !important;
+  }
+  .hero-compact-laptop .hero-video-frame {
+    width: min(90vw, calc((100vh - 280px) * 16 / 9)) !important;
+    margin-bottom: 0.5rem !important;
+    padding: 0.375rem !important;
+  }
+  .hero-compact-laptop .hero-cta-btn {
+    height: 2.5rem !important; /* 40px */
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    font-size: 11px !important;
+  }
+}
+
+@media (min-width: 768px) and (max-height: 720px) {
+  .hero-compact-laptop {
+    padding-top: 4rem !important; /* ~64px */
+    padding-bottom: 0.5rem !important;
+  }
+  .hero-compact-laptop .hero-title {
+    font-size: 1.55rem !important; /* ~25px */
+    margin-bottom: 0.2rem !important;
+  }
+  .hero-compact-laptop .hero-desc {
+    font-size: 10px !important;
+    margin-bottom: 0.35rem !important;
+    line-height: 1.25 !important;
+  }
+  .hero-compact-laptop .hero-video-frame {
+    width: min(90vw, calc((100vh - 250px) * 16 / 9)) !important;
+    margin-bottom: 0.35rem !important;
+  }
+  .hero-compact-laptop .hero-cta-btn {
+    height: 2.25rem !important; /* 36px */
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    font-size: 10px !important;
+  }
+}
+

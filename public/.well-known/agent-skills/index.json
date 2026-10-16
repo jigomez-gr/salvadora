@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "studio-info",
+      "type": "skill-md",
+      "description": "Retrieve information about classes, therapy sessions, workshops, schedules, and location for Centro de Yoga y Bienestar Salvadora Conesa.",
+      "url": "/.well-known/agent-skills/studio-info/SKILL.md",
+      "digest": "sha256:2067ee00c61715a2a77ec687b571006bb8c76f70312fedd8e2ea370e653144c5"
+    },
+    {
+      "name": "booking-assistant",
+      "type": "skill-md",
+      "description": "Facilitate class bookings and reservations for yoga classes, sound bath sessions, and retreats at Centro de Yoga y Bienestar Salvadora Conesa.",
+      "url": "/.well-known/agent-skills/booking-assistant/SKILL.md",
+      "digest": "sha256:2a0358a27f50b8e1afd9d6d8544a152b5bcbeea706c157d9304e348f63c8ab06"
+    }
+  ]
+}

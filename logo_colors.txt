@@ -1,0 +1,9 @@
+File: 01_logo_antiguo.png -> Color: #c278af
+File: 02_logo_opcion_1_base.png -> Color: #cd94aa
+File: 03_logo_opcion_2.png -> Color: #f2e7e4
+File: 04_logo_opcion_3.png -> Color: #e1b2bc
+File: 05_logo_opcion_4.png -> Color: #b58399
+File: 06_prototipo_circular_actividades_1.png -> Color: #d2a0ae
+File: 07_prototipo_circular_actividades_2.png -> Color: #e0a8ba
+File: logo.png -> Color: #e0a8ba
+File: logopequenio.png -> Color: #eac7d3
