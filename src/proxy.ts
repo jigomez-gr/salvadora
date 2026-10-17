@@ -163,6 +163,11 @@ Facilitate class bookings and reservations for yoga classes, sound bath sessions
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
+  // 301 Permanente: /banos__gong.html -> https://salvadoraconesa.es/servicios
+  if (pathname === "/banos__gong.html") {
+    return NextResponse.redirect("https://salvadoraconesa.es/servicios", 301);
+  }
+
   // Web Bot Auth (draft-meunier-http-message-signatures-directory / IETF WebBotAuth)
   if (
     pathname === "/.well-known/http-message-signatures-directory" ||

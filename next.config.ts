@@ -11,8 +11,8 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/banos__gong.html",
-        destination: "/servicios",
-        statusCode: 301,
+        destination: "https://salvadoraconesa.es/servicios",
+        permanent: true,
       },
     ];
   },
