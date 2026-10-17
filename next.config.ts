@@ -8,13 +8,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_PORVAPI: process.env.NEXT_PUBLIC_PORVAPI || process.env.PORVAPI || "S",
   },
   async redirects() {
-    return [
-      {
-        source: "/banos__gong.html",
-        destination: "https://salvadoraconesa.es/servicios",
-        permanent: true,
-      },
-    ];
+    return [];
   },
   async rewrites() {
     return [

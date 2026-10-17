@@ -164,7 +164,7 @@ export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   // 301 Permanente: /banos__gong.html -> https://salvadoraconesa.es/servicios
-  if (pathname === "/banos__gong.html") {
+  if (pathname === "/banos__gong.html" || pathname === "/banos__gong.html/") {
     return NextResponse.redirect("https://salvadoraconesa.es/servicios", 301);
   }
 
