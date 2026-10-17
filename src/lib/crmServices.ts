@@ -220,9 +220,9 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     id: "3886172f-4a00-4af7-9d5f-5c4015e07f9c",
     name: "Baño de Gong y Meditación Sonora",
     serviceType: "event",
-    description: "Un sábado al mes (a finales de mes). Sesión completa de 2 horas: preparación, baño de sonido envolvente con gongs y meditación integradora. Próxima sesión: Sábado 26 de Septiembre de 2026 (18:00 a 20:00). Aforo máximo: 30 personas. Precio: 16€. Pago en el centro.",
-    scheduleText: "Un sábado al mes (18:00 a 20:00)",
-    eventDatesText: "Sábado 26 de Septiembre de 2026",
+    description: "Un sábado al mes. Sesión completa de 2 horas: preparación, baño de sonido envolvente con gongs y meditación integradora. Próxima sesión: Sábado 17 de Octubre de 2026 (18:00 a 20:00). Aforo máximo: 30 personas. Precio: 16€. Pago en el centro.",
+    scheduleText: "Sábado 17 de Octubre (18:00 a 20:00)",
+    eventDatesText: "Sábado 17 de Octubre de 2026 (18:00 a 20:00)",
     durationMinutes: 120,
     price: "16.00",
     currency: "EUR",
@@ -230,7 +230,8 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     allowedModalities: ["in_person"],
     firstClassFree: false,
     freeForYogaStudents: false,
-    flyerUrl: "/flyers/banogong.jpeg",
+    flyerUrl: "/flyers/banogong.jpg",
+    flyerParticularUrl: "/flyers/banogong_particular.jpg",
     videoParticularUrl: "/videos/itinerario-3.mp4",
     videoParticularPath: "media_base/videos/itinerario-3.mp4",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Ba%C3%B1o%20de%20Gong%20y%20Meditaci%C3%B3n%20Sonora.",
@@ -455,7 +456,7 @@ export async function fetchCrmServices(filters?: {
 
     const res = await fetch(endpointUrl, {
       signal: controller.signal,
-      next: { revalidate: 60 },
+      cache: "no-store",
       headers: {
         Accept: "application/json",
       },
@@ -486,13 +487,44 @@ export async function fetchCrmServices(filters?: {
         return url;
       };
 
-      const resolvedServices = sortedServices.map((s) => ({
-        ...s,
-        flyerUrl: resolveUrl(s.flyerUrl),
-        flyerParticularUrl: resolveUrl(s.flyerParticularUrl),
-        videoUrl: resolveUrl(s.videoUrl),
-        videoParticularUrl: resolveUrl(s.videoParticularUrl),
-      }));
+      const resolvedServices = sortedServices.map((s) => {
+        const isGong = /baño de gong/i.test(s.name) || /baños de gong/i.test(s.name) || s.id === "3886172f-4a00-4af7-9d5f-5c4015e07f9c";
+        let eventDatesText = s.eventDatesText;
+        let scheduleText = s.scheduleText;
+        let description = s.description;
+        let flyerUrl = resolveUrl(s.flyerUrl);
+        let flyerParticularUrl = resolveUrl(s.flyerParticularUrl);
+        let flyerPath = s.flyerPath;
+        let flyerParticularPath = s.flyerParticularPath;
+
+        if (isGong) {
+          eventDatesText = "Sábado 17 de Octubre de 2026 (18:00 a 20:00)";
+          scheduleText = "Sábado 17 de Octubre (18:00 a 20:00)";
+          if (description) {
+            description = description
+              .replace(/31\s*de\s*octubre/gi, "17 de Octubre")
+              .replace(/26\s*de\s*septiembre/gi, "17 de Octubre");
+          }
+          // Siempre servir los flyers actualizados con fecha 17 de Octubre en formato JPG
+          flyerUrl = "/flyers/banogong.jpg";
+          flyerParticularUrl = "/flyers/banogong_particular.jpg";
+          flyerPath = "public/flyers/banogong.jpg";
+          flyerParticularPath = "public/flyers/banogong_particular.jpg";
+        }
+
+        return {
+          ...s,
+          eventDatesText,
+          scheduleText,
+          description,
+          flyerUrl,
+          flyerParticularUrl,
+          flyerPath,
+          flyerParticularPath,
+          videoUrl: resolveUrl(s.videoUrl),
+          videoParticularUrl: resolveUrl(s.videoParticularUrl),
+        };
+      });
 
       return {
         success: true,
@@ -568,6 +600,9 @@ export function formatServiceDate(service: CrmService): string {
   const dateText = service.eventDatesText || service.scheduleText || "";
   if (/constelaci/i.test(service.name) && /27\s*de\s*septiembre/i.test(dateText)) {
     return "Domingo 25 de Octubre de 2026 (10:00 a 14:00)";
+  }
+  if (/baño de gong|gong/i.test(service.name)) {
+    return "Sábado 17 de Octubre de 2026 (18:00 a 20:00)";
   }
   return dateText;
 }

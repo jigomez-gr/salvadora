@@ -16,7 +16,7 @@ const ACTIVITY_FLYERS: { [key: number]: ActivityFlyer[] } = {
         { title: "Flyer Kundalini Yoga & Meditación", imagePath: "/flyers/meditacion.jpeg" }
     ],
     3: [
-        { title: "Flyer Baños de Gong", imagePath: "/flyers/banogong.jpeg" }
+        { title: "Flyer Baños de Gong", imagePath: "/flyers/banogong.jpg" }
     ],
     4: [
         { title: "Flyer Puja de Gong", imagePath: "/flyers/banogong.jpeg" }
