@@ -579,6 +579,117 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* 7.5 Sección Informativa: Baño de Gong en Fuenlabrada */}
+      <section id="bano-de-gong" className="py-24 bg-[#FAF9F6] border-b border-[#C5A059]/20 scroll-mt-24">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-2">
+              Sonido y Meditación
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#800020]">
+              Baño de Gong en Fuenlabrada
+            </h2>
+            <p className="text-base sm:text-lg text-stone-600 font-medium mt-3 max-w-2xl mx-auto">
+              Una experiencia de sonido, relajación y atención plena
+            </p>
+          </div>
+
+          <div className="bg-white p-6 sm:p-10 rounded-2xl border border-[#C5A059]/25 shadow-sm space-y-5 text-stone-700 leading-relaxed font-sans text-sm sm:text-base">
+            <p>
+              El baño de gong es una sesión de escucha profunda en la que el sonido
+              de gongs y otros instrumentos armónicos crea un ambiente envolvente y pausado.
+            </p>
+            <p>
+              En el Centro de Yoga Salvadora Conesa organizamos encuentros de
+              Baño de Gong y Meditación Sonora en Fuenlabrada, pensados como un espacio
+              para detenerse, relajarse y disfrutar de una experiencia diferente
+              a través del sonido.
+            </p>
+            <p>
+              Durante la sesión se combinan momentos de preparación y relajación
+              con una inmersión sonora de gongs, cuencos y otros instrumentos.
+            </p>
+            <p>
+              No es necesario tener experiencia previa en yoga o meditación.
+            </p>
+            <p className="font-medium text-stone-800">
+              Las sesiones se realizan en fechas concretas y con plazas limitadas.
+            </p>
+
+            <div className="pt-6 mt-6 border-t border-stone-100 grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                <Calendar className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                <div>
+                  <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                    Próxima sesión
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                    consultar programación
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                <MapPin className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                <div>
+                  <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                    Lugar
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                    Centro de Yoga Salvadora Conesa, Fuenlabrada
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                <Clock className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                <div>
+                  <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                    Duración aproximada
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                    2 horas
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-4 text-center">
+              <a
+                href="#contacto"
+                className="inline-flex items-center justify-center px-8 py-3.5 bg-[#800020] hover:bg-[#800020]/90 text-white text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl shadow-md shadow-[#800020]/15 hover:scale-102 active:scale-98 transition duration-200 cursor-pointer"
+              >
+                Consultar próxima fecha / Reservar plaza
+              </a>
+            </div>
+          </div>
+
+          {/* Vídeo de Baños de Gong (debajo del texto) */}
+          <div className="mt-10">
+            <div className="bg-white p-2.5 sm:p-3 rounded-xl border border-[#C5A059]/25 shadow-xl shadow-[#800020]/5 hover:shadow-2xl transition duration-500 font-sans w-full">
+              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black/5 border border-stone-200">
+                <video
+                  src="/videos/itinerario-3.mp4"
+                  poster="/videos/itinerario-3-poster.jpg"
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover select-none"
+                />
+              </div>
+              <div className="mt-4 text-center space-y-1 select-none border-t border-[#C5A059]/10 pt-4">
+                <p className="font-serif italic font-bold text-[#800020] text-sm sm:text-base">
+                  &ldquo;Inmersión sonora de gongs y cuencos armónicos&rdquo;
+                </p>
+                <p className="tracking-widest uppercase text-[9px] sm:text-[10px] text-stone-500 font-semibold">
+                  Baño de Gong en Fuenlabrada · Centro de Yoga Salvadora Conesa
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 8. Galería / Atmósfera Visual */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
