@@ -195,6 +195,8 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     firstClassFree: false,
     freeForYogaStudents: false,
     flyerUrl: "/flyers/bienestar.png",
+    flyerParticularUrl: "/flyers/flyer13nov2026vivemasparticular.jpeg",
+    flyerParticularPath: "public/flyers/flyer13nov2026vivemasparticular.jpeg",
     videoParticularUrl: "/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4",
     videoParticularPath: "media_base/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20reservar%20para%20Bienestar%20Experience%202026%20M%C3%A1s%20All%C3%A1%20del%20Tumor.",
@@ -522,6 +524,8 @@ export async function fetchCrmServices(filters?: {
           scheduleText = "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)";
           flyerUrl = "/flyers/bienestar.png";
           flyerPath = "public/flyers/bienestar.png";
+          flyerParticularUrl = "/flyers/flyer13nov2026vivemasparticular.jpeg";
+          flyerParticularPath = "public/flyers/flyer13nov2026vivemasparticular.jpeg";
           videoParticularUrl = "/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4";
           videoParticularPath = "media_base/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4";
         }

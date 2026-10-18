@@ -412,8 +412,9 @@ const ACTIVITY_FLYERS: { [key: number]: ActivityFlyer[] } = {
         { title: "Flyer Ayuno Terapéutico", imagePath: "/flyers/ayuno.jpeg" }
     ],
     9: [
-        { title: "Actividades Especiales", imagePath: "/flyers/flyer_actividades_especiales.jpg" },
-        { title: "Bienestar", imagePath: "/flyers/bienestar.png" }
+        { title: "Flyer General", imagePath: "/flyers/bienestar.png" },
+        { title: "Flyer Particular", imagePath: "/flyers/flyer13nov2026vivemasparticular.jpeg" },
+        { title: "Actividades Especiales", imagePath: "/flyers/flyer_actividades_especiales.jpg" }
     ]
 };
 
@@ -1388,25 +1389,56 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                         </div>
                                     </div>
 
-                                    {/* Vídeo promocional del evento */}
-                                    <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#C5A059]/25 shadow-md">
-                                        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-stone-200">
-                                            <video
-                                                src="/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4"
-                                                poster="/videos/Promo_Bienestar-Experience-2026_1920x1080-poster.jpg"
-                                                controls
-                                                playsInline
-                                                preload="metadata"
-                                                className="w-full h-full object-cover"
-                                            />
+                                    {/* Flyer Particular y Vídeo Promocional del evento */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                                        {/* Flyer Particular */}
+                                        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#C5A059]/25 shadow-md flex flex-col justify-between">
+                                            <div
+                                                onClick={() => setModalFlyer({ src: "/flyers/flyer13nov2026vivemasparticular.jpeg", title: "Bienestar Experience 2026 · Flyer Particular" })}
+                                                className="relative aspect-[3/4] rounded-xl overflow-hidden bg-stone-900 border border-stone-200 cursor-pointer group flex items-center justify-center"
+                                                title="Haz clic para ampliar el flyer particular"
+                                            >
+                                                <img
+                                                    src="/flyers/flyer13nov2026vivemasparticular.jpeg"
+                                                    alt="Flyer Particular Bienestar Experience 2026 Más allá del tumor"
+                                                    className="w-full h-full object-contain group-hover:scale-103 transition duration-500"
+                                                />
+                                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/35 transition-all duration-300 flex items-center justify-center pointer-events-none">
+                                                    <span className="opacity-0 group-hover:opacity-100 bg-stone-950/85 text-white text-[11px] font-bold px-3.5 py-1.5 rounded-full backdrop-blur-xs flex items-center gap-1.5 transition-all shadow-lg border border-white/20">
+                                                        <Maximize2 className="w-3.5 h-3.5 text-[#E9C168]" /> Ampliar Flyer Particular
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="mt-3 text-center">
+                                                <p className="font-serif italic font-bold text-[#800020] text-sm">
+                                                    Flyer Particular del Encuentro
+                                                </p>
+                                                <p className="text-[10px] text-stone-500 uppercase tracking-wider font-semibold mt-0.5">
+                                                    13 de Noviembre 2026 · Impact Hub Gobernador
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="mt-3 text-center">
-                                            <p className="font-serif italic font-bold text-[#800020] text-sm">
-                                                &ldquo;Bienestar Experience 2026 · Más allá del tumor&rdquo;
-                                            </p>
-                                            <p className="text-[10px] text-stone-500 uppercase tracking-wider font-semibold mt-0.5">
-                                                Vídeo Promocional Oficial · Viernes 13 de Noviembre en Impact Hub Gobernador, Madrid
-                                            </p>
+
+                                        {/* Vídeo promocional del evento */}
+                                        <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#C5A059]/25 shadow-md flex flex-col justify-between">
+                                            <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-black border border-stone-200 flex items-center justify-center">
+                                                <video
+                                                    src="/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4"
+                                                    poster="/videos/Promo_Bienestar-Experience-2026_1920x1080-poster.jpg"
+                                                    controls
+                                                    playsInline
+                                                    preload="metadata"
+                                                    className="w-full h-full object-contain bg-black"
+                                                />
+                                            </div>
+                                            <div className="mt-3 text-center">
+                                                <p className="font-serif italic font-bold text-[#800020] text-sm">
+                                                    &ldquo;Bienestar Experience 2026 · Más allá del tumor&rdquo;
+                                                </p>
+                                                <p className="text-[10px] text-stone-500 uppercase tracking-wider font-semibold mt-0.5">
+                                                    Vídeo Promocional Oficial
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

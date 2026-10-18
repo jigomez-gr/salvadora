@@ -33,10 +33,16 @@ export const metadata: Metadata = {
     siteName: "Centro de Yoga Salvadora Conesa",
     images: [
       {
-        url: "https://salvadoraconesa.es/flyers/bienestar.png",
+        url: "https://salvadoraconesa.es/flyers/flyer13nov2026vivemasparticular.jpeg",
         width: 1200,
         height: 630,
         alt: "Bienestar Experience 2026 Más allá del tumor en Madrid",
+      },
+      {
+        url: "https://salvadoraconesa.es/flyers/bienestar.png",
+        width: 1200,
+        height: 630,
+        alt: "Bienestar Experience 2026 Encuentro de Salud y Bienestar Integral",
       },
     ],
     locale: "es_ES",
@@ -47,7 +53,10 @@ export const metadata: Metadata = {
     title: "Bienestar Experience 2026 · Más allá del tumor",
     description:
       "Una mirada integrativa sobre el cáncer y el bienestar. 13 de noviembre de 2026 en Madrid.",
-    images: ["https://salvadoraconesa.es/flyers/bienestar.png"],
+    images: [
+      "https://salvadoraconesa.es/flyers/flyer13nov2026vivemasparticular.jpeg",
+      "https://salvadoraconesa.es/flyers/bienestar.png",
+    ],
   },
 };
 
@@ -79,6 +88,7 @@ export default function MasAllaDelTumorPage() {
       },
     },
     image: [
+      "https://salvadoraconesa.es/flyers/flyer13nov2026vivemasparticular.jpeg",
       "https://salvadoraconesa.es/flyers/bienestar.png",
       "https://salvadoraconesa.es/videos/Promo_Bienestar-Experience-2026_1920x1080-poster.jpg",
     ],
@@ -194,22 +204,22 @@ export default function MasAllaDelTumorPage() {
 
           {/* Flyer Principal & Ficha Rápida */}
           <section aria-labelledby="informacion-resumen" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Imagen principal / Flyer */}
+            {/* Imagen principal / Flyer Particular */}
             <div className="lg:col-span-5">
               <div className="bg-white p-3 rounded-2xl border border-[#C5A059]/25 shadow-md">
-                <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-xl overflow-hidden bg-stone-100">
+                <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-xl overflow-hidden bg-stone-900 flex items-center justify-center">
                   <Image
-                    src="/flyers/bienestar.png"
+                    src="/flyers/flyer13nov2026vivemasparticular.jpeg"
                     alt="Bienestar Experience 2026 Más allá del tumor en Madrid"
-                    width={800}
-                    height={1000}
+                    width={1080}
+                    height={1350}
                     priority
                     className="w-full h-full object-contain"
                   />
                 </div>
                 <div className="mt-3 text-center">
-                  <span className="text-[11px] uppercase tracking-wider text-stone-500 font-bold block">
-                    Flyer Oficial Bienestar Experience 2026
+                  <span className="text-[11px] uppercase tracking-wider text-stone-600 font-bold block">
+                    Flyer Particular · Más allá del tumor (13 Nov 2026)
                   </span>
                 </div>
               </div>
@@ -513,29 +523,62 @@ export default function MasAllaDelTumorPage() {
             </div>
           </section>
 
-          {/* Vídeo Promocional Oficial */}
-          <section aria-labelledby="video-promo-heading" className="bg-white p-6 sm:p-8 rounded-2xl border border-[#C5A059]/25 shadow-md space-y-4">
+          {/* Multimedia Oficial: Flyer General y Vídeo Promocional Oficial */}
+          <section aria-labelledby="video-promo-heading" className="bg-white p-6 sm:p-8 rounded-2xl border border-[#C5A059]/25 shadow-md space-y-6">
             <div>
               <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-1">
                 Multimedia Oficial
               </span>
               <h3 id="video-promo-heading" className="font-serif text-2xl font-bold text-[#800020]">
-                Vídeo promocional · Bienestar Experience 2026
+                Material Oficial · Bienestar Experience 2026
               </h3>
             </div>
-            <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-stone-200">
-              <video
-                src="/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4"
-                poster="/videos/Promo_Bienestar-Experience-2026_1920x1080-poster.jpg"
-                controls
-                playsInline
-                preload="metadata"
-                className="w-full h-full object-cover"
-              />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+              {/* Flyer General Bienestar Experience */}
+              <div className="bg-[#FAF9F6] p-4 rounded-xl border border-stone-200 flex flex-col justify-between">
+                <div className="relative aspect-[3/4] rounded-lg overflow-hidden bg-stone-100 flex items-center justify-center">
+                  <Image
+                    src="/flyers/bienestar.png"
+                    alt="Bienestar Experience Salud, Consciencia y Bienestar Integral Flyer Oficial"
+                    width={800}
+                    height={1000}
+                    loading="lazy"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="mt-3 text-center">
+                  <span className="text-xs font-bold text-stone-800 block">
+                    Flyer General Bienestar Experience
+                  </span>
+                  <span className="text-[10px] text-stone-500 uppercase tracking-wider">
+                    Espacio de Salud, Consciencia y Bienestar Integral
+                  </span>
+                </div>
+              </div>
+
+              {/* Vídeo Promocional */}
+              <div className="bg-[#FAF9F6] p-4 rounded-xl border border-stone-200 flex flex-col justify-between">
+                <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden bg-black flex items-center justify-center">
+                  <video
+                    src="/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4"
+                    poster="/videos/Promo_Bienestar-Experience-2026_1920x1080-poster.jpg"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-contain bg-black"
+                  />
+                </div>
+                <div className="mt-3 text-center">
+                  <span className="text-xs font-bold text-[#800020] block">
+                    Vídeo Promocional Oficial
+                  </span>
+                  <span className="text-[10px] text-stone-500 uppercase tracking-wider">
+                    Bienestar Experience 2026 · Más allá del tumor
+                  </span>
+                </div>
+              </div>
             </div>
-            <p className="text-xs text-stone-500 text-center">
-              Promo Bienestar Experience 2026 · Más allá del tumor. Viernes 13 de noviembre de 2026 en Impact Hub Gobernador, Madrid.
-            </p>
           </section>
 
           {/* Bloque CTA Final */}

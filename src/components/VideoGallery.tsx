@@ -34,8 +34,9 @@ const ACTIVITY_FLYERS: { [key: number]: ActivityFlyer[] } = {
         { title: "Flyer Ayuno Terapéutico", imagePath: "/flyers/ayuno.jpeg" }
     ],
     9: [
-        { title: "Actividades Especiales", imagePath: "/flyers/flyer_actividades_especiales.jpg" },
-        { title: "Bienestar Experience 2026", imagePath: "/flyers/bienestar.png" }
+        { title: "Flyer Particular", imagePath: "/flyers/flyer13nov2026vivemasparticular.jpeg" },
+        { title: "Bienestar Experience 2026", imagePath: "/flyers/bienestar.png" },
+        { title: "Actividades Especiales", imagePath: "/flyers/flyer_actividades_especiales.jpg" }
     ]
 };
 
