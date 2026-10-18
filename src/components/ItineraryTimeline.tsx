@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Music, MapPin, Calendar, Clock, Utensils, CheckCircle, MessageSquare, Maximize2, X, Sparkles, PhoneCall } from "lucide-react";
+import Link from "next/link";
+import { Music, MapPin, Calendar, Clock, Utensils, CheckCircle, MessageSquare, Maximize2, X, Sparkles, PhoneCall, ArrowUpRight } from "lucide-react";
 import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { triggerVapiCall } from "@/components/VapiCallModal";
 import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
@@ -223,16 +224,16 @@ const ITIN_DATA: TimelineDay[] = [
     {
         id: 9,
         date: "Act. Especiales",
-        dayName: "Bienestar Experience & Longevidad",
-        title: "Actividades Especiales y Longevidad Integral",
-        desc: "",
+        dayName: "Bienestar Experience",
+        title: "Bienestar Experience · Salud, Consciencia y Bienestar Integral",
+        desc: "Bienestar Experience es un espacio de encuentro dedicado al bienestar integral, el autoconocimiento y el cuidado de cuerpo y mente. A través de diferentes encuentros reunimos profesionales, propuestas y experiencias que nos ayudan a mirar la salud desde una perspectiva más amplia, humana y consciente. Cada edición de Bienestar Experience aborda una temática diferente combinando conocimiento, reflexión y experiencias prácticas.",
         events: [
             {
-                time: "Asesoramiento",
-                title: "Longevidad y Hábitos Saludables",
-                description: "Sesiones y talleres sobre longevidad activa, biohacking, nutrición celular, ritmos circadianos y bienestar integral con especialistas colaboradores.",
+                time: "Bienestar",
+                title: "Espacio de Encuentro y Salud Integral",
+                description: "Bienestar Experience es un espacio de encuentro dedicado al bienestar integral, el autoconocimiento y el cuidado de cuerpo y mente. A través de diferentes encuentros reunimos profesionales, propuestas y experiencias que nos ayudan a mirar la salud desde una perspectiva más amplia, humana y consciente. Cada edición de Bienestar Experience aborda una temática diferente combinando conocimiento, reflexión y experiencias prácticas.",
                 type: "visit",
-                venue: "Auditorio de Madrid / Presencial",
+                venue: "Impact Hub Gobernador · Madrid",
             },
         ],
     },
@@ -342,10 +343,10 @@ const DAY_OVERLAY_DETAILS: { [key: number]: { title: string; category: string; d
         date: "Retiros Anuales"
     },
     9: {
-        title: "Bienestar Experience & Longevidad",
-        category: "ACTIVIDADES ESPECIALES",
-        description: "Asesoramiento personalizado en longevidad, biohacking, nutrición y bienestar integral",
-        date: "Programación Abierta"
+        title: "Bienestar Experience",
+        category: "SALUD, CONSCIENCIA Y BIENESTAR INTEGRAL",
+        description: "Espacio de encuentro dedicado al bienestar integral, el autoconocimiento y el cuidado de cuerpo y mente",
+        date: "Viernes 13 Nov 2026"
     }
 };
 
@@ -458,9 +459,9 @@ const ACTIVITY_BOOKING_MESSAGES: { [key: number]: { title: string; subtitle: str
         queryMessage: "Hola, me gustaría consultar disponibilidad y reservar plaza para el Retiro de Ayuno Terapéutico."
     },
     9: {
-        title: "Bienestar Experience (Longevidad & Salud Integral)",
-        subtitle: "Programa integral de hábitos saludables, longevidad, biohacking y vitalidad.",
-        queryMessage: "Hola, me gustaría consultar y reservar para Bienestar Experience (Longevidad & Salud Integral)."
+        title: "Bienestar Experience 2026 · Más allá del tumor",
+        subtitle: "Una mirada integrativa sobre el cáncer. 13 de noviembre de 2026, Impact Hub Gobernador, Madrid.",
+        queryMessage: "Hola, me gustaría consultar y reservar plaza para Bienestar Experience 2026 · Más allá del tumor."
     }
 };
 
@@ -1172,6 +1173,240 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                                 <Calendar className="w-4 h-4" />
                                                 Consultar próxima fecha / Reservar plaza
                                             </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Bloque Informativo exclusivo de Bienestar Experience (Primer Evento: Más Allá del Tumor) */}
+                        {day.id === 9 && (
+                            <div className="lg:col-span-12 mt-6 pt-8 border-t border-[#C5A059]/25">
+                                <div className="max-w-4xl mx-auto space-y-8">
+                                    <div className="text-center">
+                                        <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-2">
+                                            Bienestar Experience · Primer Evento 2026
+                                        </span>
+                                        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#800020]">
+                                            BIENESTAR EXPERIENCE 2026 · MÁS ALLÁ DEL TUMOR
+                                        </h2>
+                                        <p className="text-base sm:text-lg text-[#C5A059] font-serif italic mt-2 max-w-2xl mx-auto font-medium">
+                                            Una mirada integrativa sobre el cáncer
+                                        </p>
+                                    </div>
+
+                                    {/* Card principal con texto del evento y detalles */}
+                                    <div className="bg-white p-6 sm:p-10 rounded-2xl border border-[#C5A059]/25 shadow-sm space-y-6 text-stone-700 leading-relaxed font-sans text-sm sm:text-base">
+                                        <div className="space-y-4">
+                                            <p className="font-medium text-stone-900 text-base sm:text-lg leading-relaxed">
+                                                Una tarde para mirar la salud de una manera más amplia y poner a la persona en el centro.
+                                            </p>
+                                            <p>
+                                                Bienestar Experience 2026 propone una mirada integrativa sobre el cáncer, relacionando diferentes dimensiones que influyen en nuestro bienestar: lo que comemos, cómo descansamos, lo que sentimos, lo que pensamos y la forma en la que vivimos.
+                                            </p>
+                                            <p>
+                                                A menudo observamos por separado aspectos de nuestra vida que están profundamente relacionados.
+                                            </p>
+                                            <p>
+                                                Durante este encuentro iremos uniendo esas piezas para acercarnos al bienestar desde una perspectiva más global y consciente.
+                                            </p>
+                                            <p className="font-medium text-stone-800">
+                                                No se trata únicamente de hablar de enfermedad. Se trata de hablar de personas, de salud y de vida.
+                                            </p>
+                                            <p>
+                                                A lo largo de la tarde diferentes profesionales compartirán conocimientos, reflexiones y experiencias para ayudarnos a comprender la importancia del cuidado integral.
+                                            </p>
+                                        </div>
+
+                                        {/* Fila de detalles: Fecha, Horario, Lugar, Precio */}
+                                        <div className="pt-6 border-t border-stone-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                            <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                                                <Calendar className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                                                        Fecha
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                                                        Viernes 13 de noviembre de 2026
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                                                <Clock className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                                                        Horario
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                                                        16:30 a 21:30 h
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                                                <MapPin className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                                                        Lugar
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                                                        Impact Hub Gobernador
+                                                    </span>
+                                                    <span className="block text-[11px] text-stone-500">
+                                                        C/ del Gobernador, 26, Madrid (Metro Antón Martín)
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                                                <Sparkles className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                                                        Precio Entrada
+                                                    </span>
+                                                    <span className="text-sm sm:text-base font-extrabold text-[#800020]">
+                                                        19,99 €
+                                                    </span>
+                                                    <span className="block text-[11px] text-stone-500">
+                                                        Aforo limitado
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Botones de Acción */}
+                                        <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                                            <a
+                                                href="https://txikisoto.com/bienestarexperience/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#800020] hover:bg-[#800020]/90 text-white text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl shadow-md shadow-[#800020]/15 hover:scale-102 active:scale-98 transition duration-200 cursor-pointer text-center"
+                                            >
+                                                <span>RESERVAR ENTRADA</span>
+                                                <ArrowUpRight className="w-4 h-4" />
+                                            </a>
+                                            <Link
+                                                href="/bienestar-experience/mas-alla-del-tumor"
+                                                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white hover:bg-[#FAF9F6] text-[#800020] border-2 border-[#800020]/30 hover:border-[#800020] text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl transition duration-200 cursor-pointer text-center"
+                                            >
+                                                <span>Ver Dossier Completo del Evento</span>
+                                                <span>→</span>
+                                            </Link>
+                                        </div>
+                                    </div>
+
+                                    {/* Bloque Visual de Participantes */}
+                                    <div className="space-y-4">
+                                        <div className="text-center">
+                                            <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-1">
+                                                Ponentes y Profesionales
+                                            </span>
+                                            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#800020]">
+                                                Participantes
+                                            </h3>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            {/* Txiki Soto */}
+                                            <div className="bg-white p-6 rounded-2xl border border-[#C5A059]/25 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                                                <div className="space-y-3">
+                                                    <div className="w-12 h-12 rounded-full bg-[#800020]/10 text-[#800020] flex items-center justify-center font-serif text-xl font-bold">
+                                                        TS
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-serif text-xl font-bold text-stone-900">
+                                                            Txiki Soto
+                                                        </h4>
+                                                        <span className="block text-xs uppercase tracking-wider text-[#96680E] font-extrabold mt-0.5">
+                                                            Más allá del tumor · Una mirada integrativa sobre el cáncer
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans">
+                                                        Una aproximación a la salud que invita a ampliar la mirada y comprender a la persona más allá de un diagnóstico.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Giulliana Gabaldoni */}
+                                            <div className="bg-white p-6 rounded-2xl border border-[#C5A059]/25 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                                                <div className="space-y-3">
+                                                    <div className="w-12 h-12 rounded-full bg-[#800020]/10 text-[#800020] flex items-center justify-center font-serif text-xl font-bold">
+                                                        GG
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-serif text-xl font-bold text-stone-900">
+                                                            Giulliana Gabaldoni
+                                                        </h4>
+                                                        <span className="block text-xs uppercase tracking-wider text-[#96680E] font-extrabold mt-0.5">
+                                                            Diseña tu vida
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans">
+                                                        Una invitación a reflexionar sobre nuestras decisiones, nuestra forma de vivir y la posibilidad de participar de manera más consciente en la construcción de nuestra propia vida.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* María Salvadora Conesa */}
+                                            <div className="bg-white p-6 rounded-2xl border border-[#C5A059]/25 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                                                <div className="space-y-3">
+                                                    <div className="w-12 h-12 rounded-full bg-[#800020]/10 text-[#800020] flex items-center justify-center font-serif text-xl font-bold">
+                                                        SC
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-serif text-xl font-bold text-stone-900">
+                                                            María Salvadora Conesa
+                                                        </h4>
+                                                        <span className="block text-xs uppercase tracking-wider text-[#96680E] font-extrabold mt-0.5">
+                                                            Baño de Gong
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans">
+                                                        María Salvadora Conesa cerrará la jornada con un{" "}
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => setActiveDay(3)}
+                                                            className="text-[#800020] font-bold underline hover:text-[#96680E] cursor-pointer"
+                                                        >
+                                                            Baño de Gong
+                                                        </button>
+                                                        , una experiencia sonora orientada a favorecer la relajación, la pausa, la escucha y la conexión con uno mismo.
+                                                    </p>
+                                                </div>
+                                                <div className="pt-3 border-t border-stone-100 mt-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setActiveDay(3)}
+                                                        className="inline-flex items-center gap-1 text-[11px] font-bold text-[#800020] hover:underline cursor-pointer"
+                                                    >
+                                                        <span>Ver actividad Baños de Gong en el centro</span>
+                                                        <span>→</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Vídeo promocional del evento */}
+                                    <div className="bg-white p-4 sm:p-6 rounded-2xl border border-[#C5A059]/25 shadow-md">
+                                        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black/5 border border-stone-200">
+                                            <video
+                                                src="/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4"
+                                                poster="/videos/Promo_Bienestar-Experience-2026_1920x1080-poster.jpg"
+                                                controls
+                                                playsInline
+                                                preload="metadata"
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                        <div className="mt-3 text-center">
+                                            <p className="font-serif italic font-bold text-[#800020] text-sm">
+                                                &ldquo;Bienestar Experience 2026 · Más allá del tumor&rdquo;
+                                            </p>
+                                            <p className="text-[10px] text-stone-500 uppercase tracking-wider font-semibold mt-0.5">
+                                                Vídeo Promocional Oficial · Viernes 13 de Noviembre en Impact Hub Gobernador, Madrid
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

@@ -34,7 +34,8 @@ const ACTIVITY_FLYERS: { [key: number]: ActivityFlyer[] } = {
         { title: "Flyer Ayuno Terapéutico", imagePath: "/flyers/ayuno.jpeg" }
     ],
     9: [
-        { title: "Actividades Especiales", imagePath: "/flyers/flyer_actividades_especiales.jpg" }
+        { title: "Actividades Especiales", imagePath: "/flyers/flyer_actividades_especiales.jpg" },
+        { title: "Bienestar Experience 2026", imagePath: "/flyers/bienestar.png" }
     ]
 };
 
@@ -205,6 +206,11 @@ const DAYS_DATA: DayItem[] = [
                 title: "Bienestar Experience y Longevidad",
                 description: "Pautas, sesiones y demostraciones de salud integrativa, nutrición celular y biohacking.",
                 filePath: "/videos/itinerario-9.mp4"
+            },
+            {
+                title: "Promo Bienestar Experience 2026",
+                description: "Más allá del tumor · Una mirada integrativa sobre el cáncer en Madrid (13 Noviembre 2026).",
+                filePath: "/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4"
             }
         ]
     }

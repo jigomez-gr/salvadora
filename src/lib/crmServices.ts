@@ -182,21 +182,22 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
   {
     id: "469fa9b9-227d-4168-bda7-cac5cf3e7f46",
     name: "Bienestar Experience (Longevidad y Bienestar Integral)",
-    serviceType: "recurring",
-    description: "Este evento forma parte de un programa de actividades de la escuela de yoga con sesiones de asesoramiento personalizado presencial en longevidad, bienestar integral, nutrición, biohacking, meditación y psicología positiva. En este caso se trata de una exposición que tendrá lugar en un Auditorio de Madrid (que se comunicará con carácter próximo). Precio: 19.99€ por sesión de 1 hora. Pago en el centro.",
-    scheduleText: "Se comunicará la fecha en Octubre",
-    durationMinutes: 60,
+    serviceType: "event",
+    description: "Bienestar Experience es un espacio de encuentro dedicado al bienestar integral, el autoconocimiento y el cuidado de cuerpo y mente. Primer evento: Bienestar Experience 2026 · Más allá del tumor en Impact Hub Gobernador (Madrid). Una mirada integrativa sobre el cáncer con Txiki Soto, Giulliana Gabaldoni y María Salvadora Conesa (Baño de Gong). Precio: 19,99 €.",
+    scheduleText: "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)",
+    eventDatesText: "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)",
+    durationMinutes: 300,
     price: "19.99",
     currency: "EUR",
-    maxCapacity: 1,
+    maxCapacity: 100,
     allowedModalities: ["in_person"],
     requiresApproval: false,
     firstClassFree: false,
     freeForYogaStudents: false,
     flyerUrl: "/flyers/bienestar.png",
-    videoParticularUrl: "/videos/bienestar_madrid.mp4",
-    videoParticularPath: "media_base/videos/bienestar_madrid.mp4",
-    whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Bienestar%20Experience%20(Longevidad%20y%20Bienestar%20Integral).",
+    videoParticularUrl: "/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4",
+    videoParticularPath: "media_base/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4",
+    whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20reservar%20para%20Bienestar%20Experience%202026%20M%C3%A1s%20All%C3%A1%20del%20Tumor.",
   },
   {
     id: "8d243111-8e4c-40e3-ac5a-b4301fe6cfb9",
@@ -512,6 +513,19 @@ export async function fetchCrmServices(filters?: {
           flyerParticularPath = "public/flyers/banogong_particular.jpg";
         }
 
+        const isBienestar = /bienestar experience/i.test(s.name) || s.id === "469fa9b9-227d-4168-bda7-cac5cf3e7f46";
+        let videoParticularUrl = resolveUrl(s.videoParticularUrl);
+        let videoParticularPath = s.videoParticularPath;
+
+        if (isBienestar) {
+          eventDatesText = "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)";
+          scheduleText = "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)";
+          flyerUrl = "/flyers/bienestar.png";
+          flyerPath = "public/flyers/bienestar.png";
+          videoParticularUrl = "/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4";
+          videoParticularPath = "media_base/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4";
+        }
+
         return {
           ...s,
           eventDatesText,
@@ -522,7 +536,8 @@ export async function fetchCrmServices(filters?: {
           flyerPath,
           flyerParticularPath,
           videoUrl: resolveUrl(s.videoUrl),
-          videoParticularUrl: resolveUrl(s.videoParticularUrl),
+          videoParticularUrl,
+          videoParticularPath,
         };
       });
 

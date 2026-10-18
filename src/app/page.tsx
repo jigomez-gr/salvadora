@@ -209,12 +209,13 @@ export default async function Home() {
     },
     {
       dayNum: 9,
-      title: "Otras Disciplinas",
-      subtitle: "Salud y colaboradores",
-      href: "#itinerario",
+      title: "Bienestar Experience & Otras Disciplinas",
+      subtitle: "Salud, consciencia y bienestar integral",
+      href: "#dia-9",
       mainImage: "/flyers/flyer_actividades_especiales.jpg",
       subImages: [
-        "/flyers/flyer_actividades_especiales.jpg"
+        "/flyers/flyer_actividades_especiales.jpg",
+        "/flyers/bienestar.png"
       ]
     }
   ];
@@ -570,9 +571,9 @@ export default async function Home() {
               <div className="w-12 h-12 bg-[#800020]/10 flex items-center justify-center rounded-full text-[#800020] mx-auto mb-4">
                 <Award className="w-6 h-6" />
               </div>
-              <h4 className="font-serif text-lg font-bold text-[#800020] mb-2">Colaboradores y Otras Disciplinas</h4>
+              <h4 className="font-serif text-lg font-bold text-[#800020] mb-2">Bienestar Experience & Especiales</h4>
               <p className="text-xs sm:text-sm text-[#1C1C1C]/70 leading-relaxed">
-                orientadas a la salud integral de la mano de expertos.
+                Espacios de salud, consciencia y bienestar integral con ponentes y especialistas colaboradores.
               </p>
             </div>
           </div>

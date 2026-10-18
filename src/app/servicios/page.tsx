@@ -69,7 +69,7 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
 
   const videoPoster = useMemo(() => {
     if (!videoSrc) return undefined;
-    const match = videoSrc.match(/(itinerario-\d+|ayunoterapeuticoparticular|previo_ayunos|prologo|bienestar_madrid)/i);
+    const match = videoSrc.match(/(itinerario-\d+|ayunoterapeuticoparticular|previo_ayunos|prologo|bienestar_madrid|Promo_Bienestar-Experience-2026_1920x1080)/i);
     if (match) {
       return `/videos/${match[1]}-poster.jpg`;
     }
@@ -1026,6 +1026,41 @@ function ServiciosContent() {
                                   • {t}
                                 </span>
                               ))}
+                            </div>
+                          </div>
+
+                          {/* Enlace destacado al primer evento oficial */}
+                          <div className="pt-3 border-t border-amber-200/60 mt-3 bg-amber-50/70 p-3 rounded-xl border border-amber-300">
+                            <div className="flex items-center justify-between gap-2 flex-wrap mb-1">
+                              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#800020]">
+                                🌟 Próximo Evento Oficial:
+                              </span>
+                              <span className="text-[10px] font-bold text-stone-600 bg-white px-2 py-0.5 rounded border border-amber-200">
+                                13 Nov 2026 · Madrid
+                              </span>
+                            </div>
+                            <h5 className="font-serif text-sm font-bold text-stone-900">
+                              Bienestar Experience 2026 · Más allá del tumor
+                            </h5>
+                            <p className="text-[11px] text-stone-600 mt-0.5">
+                              Una mirada integrativa sobre el cáncer con Txiki Soto, Giulliana Gabaldoni y María Salvadora Conesa (Baño de Gong).
+                            </p>
+                            <div className="mt-2.5 flex items-center gap-2 flex-wrap">
+                              <Link
+                                href="/bienestar-experience/mas-alla-del-tumor"
+                                className="inline-flex items-center gap-1 text-[11px] font-bold text-[#800020] hover:underline"
+                              >
+                                Ver dossier y detalles del evento →
+                              </Link>
+                              <a
+                                href="https://txikisoto.com/bienestarexperience/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 px-2.5 py-1 rounded-md transition"
+                              >
+                                Entradas (19,99 €)
+                                <ArrowUpRight className="w-3 h-3" />
+                              </a>
                             </div>
                           </div>
                         </div>
