@@ -223,9 +223,9 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     id: "3886172f-4a00-4af7-9d5f-5c4015e07f9c",
     name: "Baño de Gong y Meditación Sonora",
     serviceType: "event",
-    description: "Un sábado al mes. Sesión completa de 2 horas: preparación, baño de sonido envolvente con gongs y meditación integradora. Próxima sesión: Sábado 17 de Octubre de 2026 (18:00 a 20:00). Aforo máximo: 30 personas. Precio: 16€. Pago en el centro.",
-    scheduleText: "Sábado 17 de Octubre (18:00 a 20:00)",
-    eventDatesText: "Sábado 17 de Octubre de 2026 (18:00 a 20:00)",
+    description: "Un sábado al mes (el último sábado de cada mes). Sesión completa de 2 horas: preparación, baño de sonido envolvente con gongs y meditación integradora. Próxima sesión: Sábado 21 de Noviembre de 2026 (18:00 a 20:00). Aforo máximo: 30 personas. Precio: 16€. Pago en el centro.",
+    scheduleText: "Sábado 21 de Noviembre (18:00 a 20:00)",
+    eventDatesText: "Sábado 21 de Noviembre de 2026 (18:00 a 20:00)",
     durationMinutes: 120,
     price: "16.00",
     currency: "EUR",
@@ -233,8 +233,9 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     allowedModalities: ["in_person"],
     firstClassFree: false,
     freeForYogaStudents: false,
-    flyerUrl: "/flyers/banogong.jpg",
-    flyerParticularUrl: "/flyers/banogong_particular.jpg",
+    textoespecifico: "Próxima sesión confirmada: Sábado 21 de Noviembre de 2026 de 18:00 a 20:00 h. Mejoraremos el Hígado. Precio: 16 € (14 € si vienes acompañado/acompañada).",
+    flyerUrl: "/flyers/banogongparticular.jpg",
+    flyerParticularUrl: "/flyers/banogongparticular.jpg",
     videoParticularUrl: "/videos/itinerario-3.mp4",
     videoParticularPath: "media_base/videos/itinerario-3.mp4",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Ba%C3%B1o%20de%20Gong%20y%20Meditaci%C3%B3n%20Sonora.",
@@ -500,19 +501,22 @@ export async function fetchCrmServices(filters?: {
         let flyerPath = s.flyerPath;
         let flyerParticularPath = s.flyerParticularPath;
 
+        let textoespecifico = s.textoespecifico;
         if (isGong) {
-          eventDatesText = "Sábado 17 de Octubre de 2026 (18:00 a 20:00)";
-          scheduleText = "Sábado 17 de Octubre (18:00 a 20:00)";
+          eventDatesText = s.eventDatesText || "Sábado 21 de Noviembre de 2026 (18:00 a 20:00)";
+          scheduleText = s.scheduleText || "Sábado 21 de Noviembre (18:00 a 20:00)";
+          textoespecifico = "Próxima sesión confirmada: Sábado 21 de Noviembre de 2026 de 18:00 a 20:00 h. Mejoraremos el Hígado. Precio: 16 € (14 € si vienes acompañado/acompañada).";
           if (description) {
             description = description
-              .replace(/31\s*de\s*octubre/gi, "17 de Octubre")
-              .replace(/26\s*de\s*septiembre/gi, "17 de Octubre");
+              .replace(/31\s*de\s*octubre/gi, "21 de Noviembre")
+              .replace(/26\s*de\s*septiembre/gi, "21 de Noviembre")
+              .replace(/17\s*de\s*octubre/gi, "21 de Noviembre");
           }
-          // Siempre servir los flyers actualizados con fecha 17 de Octubre en formato JPG
-          flyerUrl = "/flyers/banogong.jpg";
-          flyerParticularUrl = "/flyers/banogong_particular.jpg";
-          flyerPath = "public/flyers/banogong.jpg";
-          flyerParticularPath = "public/flyers/banogong_particular.jpg";
+          // Siempre servir los flyers actualizados con fecha 21 de Noviembre
+          flyerUrl = "/flyers/banogongparticular.jpg";
+          flyerParticularUrl = "/flyers/banogongparticular.jpg";
+          flyerPath = "public/flyers/banogongparticular.jpg";
+          flyerParticularPath = "public/flyers/banogongparticular.jpg";
         }
 
         const isBienestar = /bienestar experience/i.test(s.name) || s.id === "469fa9b9-227d-4168-bda7-cac5cf3e7f46";
@@ -535,6 +539,7 @@ export async function fetchCrmServices(filters?: {
           eventDatesText,
           scheduleText,
           description,
+          textoespecifico,
           flyerUrl,
           flyerParticularUrl,
           flyerPath,
@@ -621,7 +626,7 @@ export function formatServiceDate(service: CrmService): string {
     return "Domingo 25 de Octubre de 2026 (10:00 a 14:00)";
   }
   if (/baño de gong|gong/i.test(service.name)) {
-    return "Sábado 17 de Octubre de 2026 (18:00 a 20:00)";
+    return service.eventDatesText || "Sábado 21 de Noviembre de 2026 (18:00 a 20:00)";
   }
   return dateText;
 }

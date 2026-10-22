@@ -1135,7 +1135,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                                         Próxima sesión
                                                     </span>
                                                     <span className="text-xs sm:text-sm font-semibold text-stone-800">
-                                                        Sábado 17 de Octubre de 2026 (18:00 a 20:00)
+                                                        Sábado 21 de Noviembre de 2026 (18:00 a 20:00)
                                                     </span>
                                                 </div>
                                             </div>
@@ -1168,7 +1168,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                         <div className="pt-4 text-center">
                                             <button
                                                 type="button"
-                                                onClick={() => triggerCrmChat("Hola, me gustaría consultar y reservar plaza para el Baño de Gong de hoy Sábado 17 de Octubre (18:00 a 20:00).", true)}
+                                                onClick={() => triggerCrmChat("Hola, me gustaría consultar y reservar plaza para el Baño de Gong del Sábado 21 de Noviembre de 2026 (18:00 a 20:00).", true)}
                                                 className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#800020] hover:bg-[#800020]/90 text-white text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl shadow-md shadow-[#800020]/15 hover:scale-102 active:scale-98 transition duration-200 cursor-pointer"
                                             >
                                                 <Calendar className="w-4 h-4" />
