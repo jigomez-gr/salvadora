@@ -69,12 +69,19 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
 
   const videoPoster = useMemo(() => {
     if (!videoSrc) return undefined;
-    const match = videoSrc.match(/(itinerario-\d+|ayunoterapeuticoparticular|previo_ayunos|prologo|bienestar_madrid|Promo_Bienestar-Experience-2026_1920x1080)/i);
+    const match = videoSrc.match(/(itinerario-\d+|ayunoterapeuticoparticular|previo_ayunos|prologo|bienestar_madrid|Promo_Bienestar-Experience-2026_1920x1080|Bano-de-Gong_particular|banogongparticular)/i);
     if (match) {
       return `/videos/${match[1]}-poster.jpg`;
     }
+    const mp4Match = videoSrc.match(/\/([^/?#]+)\.mp4/i);
+    if (mp4Match) {
+      return `/videos/${mp4Match[1]}-poster.jpg`;
+    }
+    if (flyerSrc) {
+      return flyerSrc;
+    }
     return undefined;
-  }, [videoSrc]);
+  }, [videoSrc, flyerSrc]);
 
   const isInitialVertical = Boolean(
     videoSrc && videoSrc.toLowerCase().includes("ayunoterapeuticoparticular")

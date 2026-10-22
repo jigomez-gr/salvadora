@@ -236,8 +236,8 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     textoespecifico: "Próxima sesión confirmada: Sábado 21 de Noviembre de 2026 de 18:00 a 20:00 h. Mejoraremos el Hígado. Precio: 16 € (14 € si vienes acompañado/acompañada).",
     flyerUrl: "/flyers/banogongparticular.jpg",
     flyerParticularUrl: "/flyers/banogongparticular.jpg",
-    videoParticularUrl: "/videos/itinerario-3.mp4",
-    videoParticularPath: "media_base/videos/itinerario-3.mp4",
+    videoParticularUrl: "/videos/Bano-de-Gong_particular.mp4",
+    videoParticularPath: "media_base/videos/Bano-de-Gong_particular.mp4",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Ba%C3%B1o%20de%20Gong%20y%20Meditaci%C3%B3n%20Sonora.",
   },
   {
@@ -398,8 +398,8 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     freeForYogaStudents: false,
     flyerUrl: "/flyers/banogong.jpeg",
     flyerPath: "public/flyers/banogong.jpeg",
-    videoParticularUrl: "/videos/itinerario-3.mp4",
-    videoParticularPath: "media_base/videos/itinerario-3.mp4",
+    videoParticularUrl: "/videos/Bano-de-Gong_particular.mp4",
+    videoParticularPath: "media_base/videos/Bano-de-Gong_particular.mp4",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Sesi%C3%B3n%20Mensual%20de%20Fin%20de%20Semana%20(Ba%C3%B1o%20de%20Gong%20%2F%20Talleres).",
   },
 ];
