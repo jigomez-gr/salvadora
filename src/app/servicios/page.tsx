@@ -961,7 +961,7 @@ function ServiciosContent() {
                               Prueba Gratis
                             </span>
                           )}
-                          {act.freeForYogaStudents && (
+                          {act.freeForYogaStudents && /meditaci/i.test(act.name) && !/gong|sonor/i.test(act.name) && (
                             <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-950 border border-purple-300">
                               ✨ ¡Gratis Alumnos Yoga!
                             </span>
