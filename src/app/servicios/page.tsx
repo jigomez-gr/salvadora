@@ -96,6 +96,18 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [zoomMedia, setZoomMedia] = useState<"video" | "flyer">(videoSrc ? "video" : "flyer");
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play().catch(() => {});
+    } else {
+      videoRef.current.pause();
+    }
+  };
+
   const openZoom = (type: "video" | "flyer") => {
     setZoomMedia(type);
     setIsZoomOpen(true);
@@ -150,11 +162,15 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
             />
           )}
           <video
+            ref={videoRef}
             src={videoSrc}
             poster={videoPoster}
             controls
             playsInline
             preload="metadata"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onEnded={() => setIsPlaying(false)}
             onLoadedMetadata={(e) => {
               const { videoWidth, videoHeight } = e.currentTarget;
               if (videoWidth && videoHeight) {
@@ -167,6 +183,18 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
                 : "object-cover"
             }`}
           />
+          {/* Botón central de reproducción grande e intuitivo para activar el vídeo */}
+          {!isPlaying && (
+            <button
+              type="button"
+              onClick={togglePlay}
+              className="absolute inset-0 m-auto w-16 h-16 rounded-full bg-black/60 hover:bg-[#800020] text-white flex items-center justify-center shadow-xl transition-all duration-200 hover:scale-110 cursor-pointer z-20 backdrop-blur-xs border-2 border-white/80 group-hover:scale-105"
+              aria-label="Reproducir vídeo"
+              title="Reproducir vídeo"
+            >
+              <Play className="w-8 h-8 fill-white ml-1" />
+            </button>
+          )}
           <button
             type="button"
             onClick={() => openZoom("video")}
