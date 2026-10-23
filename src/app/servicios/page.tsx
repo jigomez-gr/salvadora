@@ -69,6 +69,9 @@ function ServiceMediaPreview({ act }: { act: CrmService }) {
 
   const videoPoster = useMemo(() => {
     if (!videoSrc) return undefined;
+    if (videoSrc.toLowerCase().includes("constelacionesparticular")) {
+      return `/videos/poster_constelacionesparticular.jpg`;
+    }
     const match = videoSrc.match(/(itinerario-\d+|ayunoterapeuticoparticular|previo_ayunos|prologo|bienestar_madrid|Promo_Bienestar-Experience-2026_1920x1080|Bano-de-Gong_particular|banogongparticular)/i);
     if (match) {
       return `/videos/${match[1]}-poster.jpg`;

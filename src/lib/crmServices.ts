@@ -266,9 +266,9 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     id: "a1dde6cd-f1bf-4175-95ee-34a53f4838e9",
     name: "Constelaciones Familiares (Constelar / Asunto Propio)",
     serviceType: "event",
-    description: "Taller vivencial mensual de sanación de vínculos y patrones familiares. Modalidad para trabajar un asunto o síntoma personal propio. Próxima fecha: Domingo 25 de Octubre de 2026 (10:00 a 14:00). Precio: 60€. Aforo: 25 personas. Pago en el centro.",
-    eventDatesText: "Domingo 25 de Octubre de 2026 (10:00 a 14:00)",
-    scheduleText: "Domingos intensivos de 10:00 a 14:00",
+    description: "Taller vivencial mensual de sanación de vínculos y patrones familiares. Modalidad para trabajar un asunto o síntoma personal propio. Próxima fecha: Sábado 14 de Noviembre de 2026 (10:00 a 14:00). Precio: 60€. Aforo: 25 personas. Pago en el centro.",
+    eventDatesText: "Sábado 14 de Noviembre de 2026 (10:00 a 14:00)",
+    scheduleText: "Sábado 14 de Noviembre (10:00 a 14:00)",
     durationMinutes: 240,
     price: "60.00",
     currency: "EUR",
@@ -276,18 +276,21 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     allowedModalities: ["in_person"],
     firstClassFree: false,
     freeForYogaStudents: false,
-    flyerUrl: "/flyers/constalaciones.jpeg",
-    videoParticularUrl: "/videos/itinerario-6.mp4",
-    videoParticularPath: "media_base/videos/itinerario-6.mp4",
+    flyerUrl: "/flyers/constelaciones_familiares_particular.jpg",
+    flyerParticularUrl: "/flyers/constelaciones_familiares_particular.jpg",
+    flyerParticularPath: "public/flyers/constelaciones_familiares_particular.jpg",
+    videoParticularUrl: "/videos/constelacionesparticular.mp4",
+    videoParticularPath: "media_base/videos/constelacionesparticular.mp4",
+    textoespecifico: "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro.",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Constelaciones%20Familiares%20(Constelar).",
   },
   {
     id: "2acd3c74-abae-47d0-9b67-147cbbe1a657",
     name: "Constelaciones Familiares (Participante / Representante)",
     serviceType: "event",
-    description: "Taller vivencial mensual de sanación de vínculos familiares. Modalidad para participar como representante u observador en el campo de trabajo. Próxima fecha: Domingo 25 de Octubre de 2026 (10:00 a 14:00). Precio: 20€. Aforo: 25 personas. Pago en el centro.",
-    eventDatesText: "Domingo 25 de Octubre de 2026 (10:00 a 14:00)",
-    scheduleText: "Domingos intensivos de 10:00 a 14:00",
+    description: "Taller vivencial mensual de sanación de vínculos familiares. Modalidad para participar como representante u observador en el campo de trabajo. Próxima fecha: Sábado 14 de Noviembre de 2026 (10:00 a 14:00). Precio: 20€. Aforo: 25 personas. Pago en el centro.",
+    eventDatesText: "Sábado 14 de Noviembre de 2026 (10:00 a 14:00)",
+    scheduleText: "Sábado 14 de Noviembre (10:00 a 14:00)",
     durationMinutes: 240,
     price: "20.00",
     currency: "EUR",
@@ -295,9 +298,12 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     allowedModalities: ["in_person"],
     firstClassFree: false,
     freeForYogaStudents: false,
-    flyerUrl: "/flyers/constalaciones.jpeg",
-    videoParticularUrl: "/videos/itinerario-6.mp4",
-    videoParticularPath: "media_base/videos/itinerario-6.mp4",
+    flyerUrl: "/flyers/constelaciones_familiares_particular.jpg",
+    flyerParticularUrl: "/flyers/constelaciones_familiares_particular.jpg",
+    flyerParticularPath: "public/flyers/constelaciones_familiares_particular.jpg",
+    videoParticularUrl: "/videos/constelacionesparticular.mp4",
+    videoParticularPath: "media_base/videos/constelacionesparticular.mp4",
+    textoespecifico: "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro.",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Constelaciones%20Familiares%20(Participante).",
   },
   {
@@ -519,9 +525,23 @@ export async function fetchCrmServices(filters?: {
           flyerParticularPath = "public/flyers/banogongparticular.jpg";
         }
 
-        const isBienestar = /bienestar experience/i.test(s.name) || s.id === "469fa9b9-227d-4168-bda7-cac5cf3e7f46";
         let videoParticularUrl = resolveUrl(s.videoParticularUrl);
         let videoParticularPath = s.videoParticularPath;
+
+        const isConstelaciones = /constelaci/i.test(s.name);
+        if (isConstelaciones) {
+          eventDatesText = "Sábado 14 de Noviembre de 2026 (10:00 a 14:00)";
+          scheduleText = "Sábado 14 de Noviembre (10:00 a 14:00)";
+          textoespecifico = "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro.";
+          flyerUrl = "/flyers/constelaciones_familiares_particular.jpg";
+          flyerParticularUrl = "/flyers/constelaciones_familiares_particular.jpg";
+          flyerPath = "public/flyers/constelaciones_familiares_particular.jpg";
+          flyerParticularPath = "public/flyers/constelaciones_familiares_particular.jpg";
+          videoParticularUrl = "/videos/constelacionesparticular.mp4";
+          videoParticularPath = "media_base/videos/constelacionesparticular.mp4";
+        }
+
+        const isBienestar = /bienestar experience/i.test(s.name) || s.id === "469fa9b9-227d-4168-bda7-cac5cf3e7f46";
 
         if (isBienestar) {
           eventDatesText = "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)";
