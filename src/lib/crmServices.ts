@@ -279,9 +279,10 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     flyerUrl: "/flyers/constelaciones_familiares_particular.jpg",
     flyerParticularUrl: "/flyers/constelaciones_familiares_particular.jpg",
     flyerParticularPath: "public/flyers/constelaciones_familiares_particular.jpg",
+    videoUrl: "/videos/itinerario-6.mp4",
     videoParticularUrl: "/videos/constelacionesparticular.mp4",
     videoParticularPath: "media_base/videos/constelacionesparticular.mp4",
-    textoespecifico: "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro.",
+    textoespecifico: "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro. Precio: 60 € (Constelar / Asunto propio) o 20 € (Participar / Representar).",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Constelaciones%20Familiares%20(Constelar).",
   },
   {
@@ -301,9 +302,10 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     flyerUrl: "/flyers/constelaciones_familiares_particular.jpg",
     flyerParticularUrl: "/flyers/constelaciones_familiares_particular.jpg",
     flyerParticularPath: "public/flyers/constelaciones_familiares_particular.jpg",
+    videoUrl: "/videos/itinerario-6.mp4",
     videoParticularUrl: "/videos/constelacionesparticular.mp4",
     videoParticularPath: "media_base/videos/constelacionesparticular.mp4",
-    textoespecifico: "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro.",
+    textoespecifico: "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro. Precio: 20 € (Participar / Representante) o 60 € (Constelar / Asunto propio).",
     whatsappBookingUrl: "https://wa.me/34695172625?text=Hola%2C%20me%20gustar%C3%ADa%20informaci%C3%B3n%20y%20disponibilidad%20para%20Constelaciones%20Familiares%20(Participante).",
   },
   {
@@ -532,7 +534,7 @@ export async function fetchCrmServices(filters?: {
         if (isConstelaciones) {
           eventDatesText = "Sábado 14 de Noviembre de 2026 (10:00 a 14:00)";
           scheduleText = "Sábado 14 de Noviembre (10:00 a 14:00)";
-          textoespecifico = "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro.";
+          textoespecifico = "Próxima fecha confirmada: Sábado 14 de Noviembre de 2026 de 10:00 a 14:00 h en el centro. Precio: 60 € (Constelar / Asunto propio) o 20 € (Participar / Representar).";
           flyerUrl = "/flyers/constelaciones_familiares_particular.jpg";
           flyerParticularUrl = "/flyers/constelaciones_familiares_particular.jpg";
           flyerPath = "public/flyers/constelaciones_familiares_particular.jpg";

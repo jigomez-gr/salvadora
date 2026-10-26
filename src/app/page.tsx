@@ -21,6 +21,8 @@ import { fetchCrmServices, findServiceByCodeOrId, formatDuration } from "@/lib/c
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
+  title: "Centro de Yoga Fuenlabrada | Clases, Baños de Gong y Constelaciones Familiares",
+  description: "Centro de Yoga Salvadora Conesa en Fuenlabrada: Hatha y Kundalini yoga, baños y puja de gong, talleres de constelaciones familiares, meditación guiada y retiros de ayuno terapéutico.",
   alternates: {
     canonical: "https://salvadoraconesa.es/",
   },

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Music, MapPin, Calendar, Clock, Utensils, CheckCircle, MessageSquare, Maximize2, X, Sparkles, PhoneCall, ArrowUpRight } from "lucide-react";
+import { Music, MapPin, Calendar, Clock, Utensils, CheckCircle, MessageSquare, Maximize2, X, Sparkles, PhoneCall, ArrowUpRight, Star } from "lucide-react";
 import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { triggerVapiCall } from "@/components/VapiCallModal";
 import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
@@ -350,7 +350,7 @@ const DAY_OVERLAY_DETAILS: { [key: number]: { title: string; category: string; d
     }
 };
 
-const ITINERARY_VIDEOS: { [key: number]: { title: string; filePath: string; youtubeUrl?: string }[] } = {
+const ITINERARY_VIDEOS: { [key: number]: { title: string; filePath: string; youtubeUrl?: string; isParticular?: boolean }[] } = {
     1: [
         { title: "Vídeo Nagna Yoga", filePath: "/videos/itinerario-1.mp4" }
     ],
@@ -358,7 +358,8 @@ const ITINERARY_VIDEOS: { [key: number]: { title: string; filePath: string; yout
         { title: "Vídeo Kundalini", filePath: "/videos/itinerario-2.mp4" }
     ],
     3: [
-        { title: "Vídeo Baño Gong", filePath: "/videos/itinerario-3.mp4" }
+        { title: "Vídeo General", filePath: "/videos/itinerario-3.mp4", isParticular: false },
+        { title: "Vídeo Particular", filePath: "/videos/Bano-de-Gong_particular.mp4", isParticular: true }
     ],
     4: [
         { title: "Vídeo Puja Gong", filePath: "/videos/itinerario-4.mp4" }
@@ -367,7 +368,8 @@ const ITINERARY_VIDEOS: { [key: number]: { title: string; filePath: string; yout
         { title: "Vídeo Gestalt", filePath: "/videos/itinerario-5.mp4" }
     ],
     6: [
-        { title: "Vídeo Constelaciones", filePath: "/videos/itinerario-6.mp4" }
+        { title: "Vídeo General", filePath: "/videos/itinerario-6.mp4", isParticular: false },
+        { title: "Vídeo Particular", filePath: "/videos/constelacionesparticular.mp4", isParticular: true }
     ],
     7: [
         { title: "Vídeo Encuentros", filePath: "/videos/itinerario-7.mp4" }
@@ -403,7 +405,8 @@ const ACTIVITY_FLYERS: { [key: number]: ActivityFlyer[] } = {
         { title: "Flyer Gestalt", imagePath: "/flyers/gestalt.jpeg" }
     ],
     6: [
-        { title: "Flyer Constelaciones", imagePath: "/flyers/constalaciones.jpeg" }
+        { title: "Flyer General", imagePath: "/flyers/constalaciones.jpeg" },
+        { title: "Flyer Particular", imagePath: "/flyers/constelaciones_familiares_particular.jpg" }
     ],
     7: [
         { title: "Flyer Encuentros", imagePath: "/flyers/encuentros_mujeres.jpeg" }
@@ -630,7 +633,8 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                 const crmVideoGeneral = resolveMediaUrl(matchingService?.videoUrl);
                 const crmVideoParticular = resolveMediaUrl(matchingService?.videoParticularUrl);
                 const localVideo = hasVideo ? getVideoPath(day.id) : null;
-                const generalVideo = crmVideoGeneral || localVideo;
+                const fallbackGeneral = ITINERARY_VIDEOS[day.id]?.[0]?.filePath || null;
+                const generalVideo = crmVideoGeneral || localVideo || fallbackGeneral;
 
                 const dayVideos: { title: string; src: string; isParticular?: boolean }[] = [];
                 if (generalVideo) {
@@ -638,6 +642,11 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                 }
                 if (crmVideoParticular) {
                     dayVideos.push({ title: "Vídeo Particular", src: crmVideoParticular, isParticular: true });
+                } else if (ITINERARY_VIDEOS[day.id]?.length > 1) {
+                    const fallbackPart = ITINERARY_VIDEOS[day.id].find(v => v.isParticular);
+                    if (fallbackPart) {
+                        dayVideos.push({ title: fallbackPart.title, src: fallbackPart.filePath, isParticular: true });
+                    }
                 }
 
                 const activeVIdx = activeVideoIndexes[day.id] || 0;
@@ -836,7 +845,19 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                                 <video
                                                     key={effectiveVideoSrc}
                                                     src={effectiveVideoSrc}
-                                                    poster={`/videos/itinerario-${day.id}-poster.jpg`}
+                                                    poster={
+                                                        currentVideoObj?.isParticular
+                                                            ? (day.id === 6 || (currentVideoObj.src && currentVideoObj.src.includes("constelaciones"))
+                                                                ? "/videos/poster_constelacionesparticular.jpg"
+                                                                : (day.id === 3 || (currentVideoObj.src && (currentVideoObj.src.includes("Bano-de-Gong") || currentVideoObj.src.includes("banogong"))))
+                                                                ? "/videos/Bano-de-Gong_particular-poster.jpg"
+                                                                : (day.id === 8 || (currentVideoObj.src && currentVideoObj.src.includes("ayuno")))
+                                                                ? "/videos/ayunoterapeuticoparticular-poster.jpg"
+                                                                : (day.id === 9 || (currentVideoObj.src && currentVideoObj.src.includes("Bienestar")))
+                                                                ? "/videos/Promo_Bienestar-Experience-2026_1920x1080-poster.jpg"
+                                                                : `/videos/itinerario-${day.id}-poster.jpg`)
+                                                            : `/videos/itinerario-${day.id}-poster.jpg`
+                                                    }
                                                     controls
                                                     playsInline
                                                     preload="metadata"
@@ -884,10 +905,11 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                         /* FLYER DISPLAY */
                                         (() => {
                                             const baseFlyers = ACTIVITY_FLYERS[day.id] || [];
-                                            const crmFlyer = resolveMediaUrl(matchingService?.flyerUrl) || resolveMediaUrl(matchingService?.flyerParticularUrl);
-                                            const dayFlyers = crmFlyer
-                                                ? [{ title: `${day.dayName} (Flyer General)`, imagePath: crmFlyer }, ...baseFlyers]
-                                                : baseFlyers;
+                                            const dayFlyers = baseFlyers.length > 0
+                                                ? baseFlyers
+                                                : (resolveMediaUrl(matchingService?.flyerUrl)
+                                                    ? [{ title: `${day.dayName} (Flyer General)`, imagePath: resolveMediaUrl(matchingService?.flyerUrl)! }]
+                                                    : [{ title: "Flyer", imagePath: "/flyers/yoga.jpeg" }]);
                                             const activeFIdx = activeFlyerIndexes[day.id] || 0;
                                             const currentFlyer = dayFlyers[activeFIdx] || dayFlyers[0] || { title: "Flyer", imagePath: "/flyers/yoga.jpeg" };
                                             return (
@@ -1181,6 +1203,168 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                         )}
 
                         {/* Bloque Informativo exclusivo de Bienestar Experience (Primer Evento: Más Allá del Tumor) */}
+                        {/* Bloque Informativo exclusivo de la Actividad 6: Constelaciones Familiares en Fuenlabrada */}
+                        {day.id === 6 && (
+                            <div id="constelaciones-familiares" className="lg:col-span-12 mt-6 pt-8 border-t border-[#C5A059]/25 scroll-mt-24">
+                                <div className="max-w-4xl mx-auto space-y-8">
+                                    <div className="text-center mb-8">
+                                        <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-2">
+                                            Terapia Sistémica & Crecimiento Personal
+                                        </span>
+                                        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-[#800020]">
+                                            Constelaciones Familiares en Fuenlabrada
+                                        </h2>
+                                        <p className="text-sm sm:text-base text-stone-600 font-medium mt-2 max-w-2xl mx-auto">
+                                            Sanación de vínculos, reconciliación con el sistema familiar y orden consciente
+                                        </p>
+                                    </div>
+
+                                    {/* Card principal explicativa */}
+                                    <div className="bg-white p-6 sm:p-10 rounded-2xl border border-[#C5A059]/25 shadow-sm space-y-5 text-stone-700 leading-relaxed font-sans text-sm sm:text-base">
+                                        <p>
+                                            Las <strong className="text-stone-900 font-semibold">Constelaciones Familiares</strong> son una poderosa herramienta terapéutica vivencial orientada a mirar con profundidad, claridad y respeto las dinámicas inconscientes, lealtades invisibles y bloqueos emocionales que heredamos de nuestro sistema familiar.
+                                        </p>
+                                        <p>
+                                            En el <strong className="text-stone-900 font-semibold">Centro de Yoga Salvadora Conesa en Fuenlabrada</strong> organizamos talleres mensuales guiados por <strong className="text-stone-900 font-semibold">Salvadora Conesa</strong>, facilitadora con más de 26 años de experiencia como terapeuta Gestalt y acompañamiento en desarrollo personal. En un ambiente cálido, confidencial y sin juicios, permitimos que lo oculto o desordenado encuentre su lugar de paz, dignidad y reconciliación.
+                                        </p>
+                                        <p>
+                                            Durante el taller se puede participar en dos modalidades complementarias:
+                                        </p>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2">
+                                            <div className="bg-[#FAF9F6] p-4 rounded-xl border border-stone-200">
+                                                <h4 className="font-serif text-[#800020] font-bold text-base mb-1">
+                                                    1. Constelar (Asunto propio · 60 €)
+                                                </h4>
+                                                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                                                    Para trabajar un tema personal, síntoma físico o emocional, dificultad de relación familiar o de pareja, o un bloqueo laboral que desees esclarecer y liberar desde el origen sistémico.
+                                                </p>
+                                            </div>
+                                            <div className="bg-[#FAF9F6] p-4 rounded-xl border border-stone-200">
+                                                <h4 className="font-serif text-[#800020] font-bold text-base mb-1">
+                                                    2. Participar / Representar (20 €)
+                                                </h4>
+                                                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                                                    Para asistir como representante u observador activo dentro del campo grupal. Es una vivencia sumamente enriquecedora y sanadora que aporta comprensiones profundas para la propia historia.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            No es necesario tener experiencia previa en terapia, psicología ni haber asistido antes a constelaciones o clases de yoga.
+                                        </p>
+                                        <p className="font-medium text-stone-800">
+                                            El taller se realiza en grupos reducidos con plazas limitadas para garantizar un espacio de máxima confianza, intimidad y cuidado.
+                                        </p>
+
+                                        {/* Grid de 4 detalles: Fecha, Horario, Lugar, Precios */}
+                                        <div className="pt-6 mt-6 border-t border-stone-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                            <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                                                <Calendar className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                                                        Próxima sesión
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                                                        Sábado 14 de Noviembre de 2026
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                                                <Clock className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                                                        Horario
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                                                        10:00 a 14:00 h (4 horas)
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                                                <MapPin className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                                                        Lugar
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                                                        Centro de Yoga Salvadora Conesa
+                                                    </span>
+                                                    <span className="block text-[11px] text-stone-500">
+                                                        Calle Holanda, 1, Fuenlabrada
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
+                                                <Sparkles className="w-5 h-5 text-[#800020] shrink-0 mt-0.5" />
+                                                <div>
+                                                    <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
+                                                        Aportación
+                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
+                                                        Constelar: 60 € · Participar: 20 €
+                                                    </span>
+                                                    <span className="block text-[11px] text-stone-500">
+                                                        Plazas limitadas
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Botón CTA Reserva y Consulta */}
+                                        <div className="pt-4 text-center">
+                                            <button
+                                                type="button"
+                                                onClick={() => triggerCrmChat("Hola, me gustaría consultar y reservar plaza para el Taller de Constelaciones Familiares del Sábado 14 de Noviembre de 2026 (10:00 a 14:00).", true)}
+                                                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#800020] hover:bg-[#800020]/90 text-white text-xs sm:text-sm font-bold uppercase tracking-wider rounded-xl shadow-md shadow-[#800020]/15 hover:scale-102 active:scale-98 transition duration-200 cursor-pointer"
+                                            >
+                                                <Calendar className="w-4 h-4" />
+                                                Consultar próxima fecha / Reservar plaza
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Bloque Reseña / Testimonio destacado sobre Constelaciones Familiares */}
+                                    <div className="bg-gradient-to-br from-[#FAF9F6] via-white to-[#F5F2EB] p-6 sm:p-8 rounded-2xl border-2 border-[#C5A059]/35 shadow-md">
+                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-[#C5A059]/20">
+                                            <div className="flex items-center gap-2">
+                                                <span className="inline-flex items-center gap-1.5 bg-[#800020]/10 text-[#800020] text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-[#800020]/20">
+                                                    <Sparkles className="w-3.5 h-3.5 text-[#C5A059]" />
+                                                    Reseña verificada · Taller de Constelaciones
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-1 text-amber-500" aria-label="Valoración 5 de 5 estrellas">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                                                ))}
+                                                <span className="text-xs font-extrabold text-stone-700 ml-1">5.0 / 5</span>
+                                            </div>
+                                        </div>
+
+                                        <blockquote className="mt-4 text-stone-800 text-sm sm:text-base leading-relaxed italic font-serif">
+                                            “Participar en el taller de Constelaciones Familiares con Salvadora en Fuenlabrada ha supuesto un antes y un después en mi manera de ver mi historia y mis vínculos familiares. La sensibilidad, el respeto y la maestría con la que Salvadora sostiene al grupo te hace sentir en un entorno de absoluta confianza y recogimiento desde el primer instante. Pude liberar un bloqueo que llevaba años arrastrando y volver a casa con una paz interior y una ligereza que no sentía desde hacía mucho tiempo. Es una experiencia sumamente sanadora que recomiendo de corazón a cualquier persona que busque reconciliarse y avanzar.”
+                                        </blockquote>
+
+                                        <div className="mt-4 pt-3 border-t border-stone-200/60 flex items-center justify-between flex-wrap gap-2">
+                                            <div>
+                                                <cite className="not-italic font-bold text-stone-900 text-sm font-sans block">
+                                                    Carmen R.
+                                                </cite>
+                                                <span className="text-xs text-stone-500 font-sans">
+                                                    Participante en el Taller de Constelaciones Familiares · Centro de Yoga Salvadora Conesa (Fuenlabrada)
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                                                <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+                                                <span>Asistencia verificada al taller</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                         {day.id === 9 && (
                             <div className="lg:col-span-12 mt-6 pt-8 border-t border-[#C5A059]/25">
                                 <div className="max-w-4xl mx-auto space-y-8">
