@@ -98,6 +98,19 @@ export default function BookingForm({ initialServices, initialCategories }: Book
         emailProvided: boolean;
     } | null>(null);
 
+    // Web Booking Anti-Fraud OTP Verification
+    const [bookingOtpRequired, setBookingOtpRequired] = useState(false);
+    const [bookingOtpInfo, setBookingOtpInfo] = useState<{
+        channel?: string;
+        destinationPhone?: string;
+        destinationEmail?: string | null;
+        message?: string;
+    } | null>(null);
+    const [bookingOtpCode, setBookingOtpCode] = useState("");
+    const [bookingOtpError, setBookingOtpError] = useState<string | null>(null);
+    const [bookingOtpSubmitting, setBookingOtpSubmitting] = useState(false);
+    const [bookingOtpResending, setBookingOtpResending] = useState(false);
+
     // OTP Verification Fields (for existing session lookup)
     const [authEmail, setAuthEmail] = useState("");
     const [otpSent, setOtpSent] = useState(false);
@@ -298,6 +311,19 @@ export default function BookingForm({ initialServices, initialCategories }: Book
                 throw new Error(data.error || "Ocurrió un error al registrar la reserva.");
             }
 
+            if (data.requiresOtp) {
+                setBookingOtpRequired(true);
+                setBookingOtpInfo({
+                    channel: data.channel,
+                    destinationPhone: data.destinationPhone,
+                    destinationEmail: data.destinationEmail,
+                    message: data.message,
+                });
+                setBookingOtpCode("");
+                setBookingOtpError(null);
+                return;
+            }
+
             setBookingSuccessData({
                 reservaId: data.reservaId,
                 reserva: data.reserva,
@@ -311,6 +337,82 @@ export default function BookingForm({ initialServices, initialCategories }: Book
             setError(err.message || "Error al registrar la reserva.");
         } finally {
             setFormLoading(false);
+        }
+    };
+
+
+    const handleConfirmBookingOtp = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!bookingOtpCode.trim() || bookingOtpCode.trim().length < 6) {
+            setBookingOtpError("Introduce el código de verificación de 6 dígitos.");
+            return;
+        }
+
+        setBookingOtpSubmitting(true);
+        setBookingOtpError(null);
+
+        try {
+            const emailToSend = bookingEmail.trim() || authEmail.trim();
+            const res = await fetch("/api/reservas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nombre: nombre.trim(),
+                    email: emailToSend,
+                    telefono: telefono.trim(),
+                    numeroPlazas,
+                    tipoHabitacion,
+                    comentarios: comentarios.trim(),
+                    verificationCode: bookingOtpCode.trim(),
+                }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data.error || "Código de verificación incorrecto o no válido.");
+            }
+
+            setBookingOtpRequired(false);
+            setBookingSuccessData({
+                reservaId: data.reservaId,
+                reserva: data.reserva,
+                smsSent: data.smsSent,
+                emailProvided: data.emailProvided,
+            });
+
+            await loadSession();
+        } catch (err: any) {
+            setBookingOtpError(err.message || "Error al verificar el código.");
+        } finally {
+            setBookingOtpSubmitting(false);
+        }
+    };
+
+    const handleResendBookingOtp = async () => {
+        setBookingOtpResending(true);
+        setBookingOtpError(null);
+        try {
+            const emailToSend = bookingEmail.trim() || authEmail.trim();
+            const res = await fetch("/api/reservas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nombre: nombre.trim(),
+                    email: emailToSend,
+                    telefono: telefono.trim(),
+                    numeroPlazas,
+                    tipoHabitacion,
+                    comentarios: comentarios.trim(),
+                }),
+            });
+            const data = await res.json();
+            if (data.requiresOtp) {
+                setBookingOtpInfo((prev) => ({ ...prev, message: data.message }));
+            }
+        } catch (err: any) {
+            setBookingOtpError("No se pudo reenviar el código. Inténtalo de nuevo.");
+        } finally {
+            setBookingOtpResending(false);
         }
     };
 
@@ -1287,6 +1389,91 @@ export default function BookingForm({ initialServices, initialCategories }: Book
                     )}
                 </div>
             )}
+        
+            {/* MODAL DE VERIFICACIÓN OTP ANTI-FRAUDE */}
+            {bookingOtpRequired && (
+                <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+                    <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 space-y-5 animate-in fade-in zoom-in-95 duration-200">
+                        <div className="text-center space-y-2">
+                            <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto text-amber-800">
+                                <KeyRound className="w-6 h-6" />
+                            </div>
+                            <h3 className="font-serif text-xl font-bold text-[#800020]">
+                                Verificación de Seguridad
+                            </h3>
+                            <p className="text-xs text-stone-600 leading-relaxed">
+                                {bookingOtpInfo?.message || "Para evitar reservas fraudulentas y verificar tu identidad, te hemos enviado un código de 6 dígitos."}
+                            </p>
+                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-100 text-stone-700 text-[11px] font-mono font-semibold">
+                                <Clock className="w-3.5 h-3.5 text-[#800020]" />
+                                <span>Código válido durante 7 minutos</span>
+                            </div>
+                        </div>
+
+                        <form onSubmit={handleConfirmBookingOtp} className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-stone-700 mb-1 text-center">
+                                    Introduce el código de 6 dígitos
+                                </label>
+                                <input
+                                    type="text"
+                                    required
+                                    maxLength={6}
+                                    value={bookingOtpCode}
+                                    onChange={(e) => setBookingOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                                    placeholder="123456"
+                                    className="block w-full py-3 text-center font-mono text-2xl tracking-[0.5em] font-bold border-2 border-stone-300 rounded-xl focus:border-[#800020] focus:ring-1 focus:ring-[#800020] outline-none"
+                                    autoFocus
+                                />
+                            </div>
+
+                            {bookingOtpError && (
+                                <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 text-center font-medium">
+                                    ⚠️ {bookingOtpError}
+                                </div>
+                            )}
+
+                            <div className="space-y-2">
+                                <button
+                                    type="submit"
+                                    disabled={bookingOtpSubmitting || bookingOtpCode.length < 6}
+                                    className="w-full py-3 px-4 bg-[#800020] hover:bg-[#660019] text-white rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+                                >
+                                    {bookingOtpSubmitting ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 animate-spin" /> Verificando código...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <ShieldCheck className="w-4 h-4" /> Verificar y Confirmar Reserva
+                                        </>
+                                    )}
+                                </button>
+
+                                <div className="flex items-center justify-between text-xs pt-1">
+                                    <button
+                                        type="button"
+                                        onClick={handleResendBookingOtp}
+                                        disabled={bookingOtpResending}
+                                        className="text-[#800020] hover:underline font-medium text-xs flex items-center gap-1"
+                                    >
+                                        {bookingOtpResending ? <Loader2 className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
+                                        Reenviar código
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setBookingOtpRequired(false)}
+                                        className="text-stone-500 hover:text-stone-800 text-xs"
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }

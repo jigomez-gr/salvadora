@@ -31,7 +31,7 @@ export async function GET() {
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { nombre, email, telefono, numeroPlazas, tipoHabitacion, comentarios } = body;
+        const { nombre, email, telefono, numeroPlazas, tipoHabitacion, comentarios, verificationCode } = body;
 
         // Validación de campos de contacto primarios
         if (!nombre || !telefono || !numeroPlazas || !tipoHabitacion) {

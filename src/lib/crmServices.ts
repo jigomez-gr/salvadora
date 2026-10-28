@@ -141,6 +141,106 @@ export async function checkCrmMaintenanceAndContact(
   return { allowed: true, maintenance: false, blocked: false };
 }
 
+
+export async function requestBookingVerification(
+  phone: string,
+  email?: string,
+  name?: string
+): Promise<{
+  requiresOtp: boolean;
+  isValidContact: boolean;
+  contactId?: string;
+  channel?: 'whatsapp' | 'sms' | 'email';
+  destinationPhone?: string;
+  destinationEmail?: string | null;
+  message: string;
+}> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    const res = await fetch(
+      `${CRM_API_BASE_URL}/api/contacts/booking-verification/request`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, email, name }),
+        signal: controller.signal,
+      }
+    );
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        requiresOtp: Boolean(data.requiresOtp),
+        isValidContact: Boolean(data.isValidContact),
+        contactId: data.contactId,
+        channel: data.channel,
+        destinationPhone: data.destinationPhone,
+        destinationEmail: data.destinationEmail,
+        message: data.message || 'Verificación procesada.',
+      };
+    } else {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.message || 'Error al solicitar verificación.');
+    }
+  } catch (err: any) {
+    console.warn('requestBookingVerification CRM error:', err.message);
+    throw err;
+  }
+}
+
+export async function confirmBookingVerification(
+  phone: string,
+  code: string,
+  email?: string,
+  name?: string
+): Promise<{
+  verified: boolean;
+  contactId?: string;
+  contact?: any;
+  message: string;
+}> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+    const res = await fetch(
+      `${CRM_API_BASE_URL}/api/contacts/booking-verification/confirm`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, code, email, name }),
+        signal: controller.signal,
+      }
+    );
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      return {
+        verified: Boolean(data.verified),
+        contactId: data.contactId,
+        contact: data.contact,
+        message: data.message || 'Verificación completada.',
+      };
+    } else {
+      const errData = await res.json().catch(() => ({}));
+      return {
+        verified: false,
+        message: errData.message || 'Código de verificación incorrecto o expirado.',
+      };
+    }
+  } catch (err: any) {
+    console.warn('confirmBookingVerification CRM error:', err.message);
+    return {
+      verified: false,
+      message: err.message || 'Error al conectar con el servicio de verificación.',
+    };
+  }
+}
+
 // Fallback catalog in case of temporary network unavailability
 export const FALLBACK_CRM_SERVICES: CrmService[] = [
   {
