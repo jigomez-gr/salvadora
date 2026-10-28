@@ -19,7 +19,7 @@ export default function Navbar() {
         { label: "Testimonios", href: "/#testimonios" },
         { label: "Qué Incluye", href: "/#incluye" },
         { label: "Plazas y Precios", href: "/#precios" },
-        { label: "Consultas / Reservas por Email", href: "/#contacto" },
+        { label: "Consultas / Reservas por Email ó Wassap", href: "/#contacto" },
     ];
 
     const handleInicioClick = (e: React.MouseEvent) => {

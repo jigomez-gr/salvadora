@@ -16,6 +16,8 @@ import CrmBookingButton from "@/components/CrmBookingButton";
 import VapiCallButton from "@/components/VapiCallButton";
 import { VapiVoiceBookingButton } from "@/components/VapiVoiceBookingButton";
 import Footer from "@/components/Footer";
+import WhatsAppContactSection from "@/components/WhatsAppContactSection";
+import BajaServiciosSection from "@/components/BajaServiciosSection";
 import { fetchCrmServices, findServiceByCodeOrId, formatDuration } from "@/lib/crmServices";
 
 export const dynamic = "force-dynamic";
@@ -878,7 +880,7 @@ export default async function Home() {
               Centro de Yoga Fuenlabrada (Salvadora Conesa) • Atención Personalizada
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#800020]">
-              Consultas y Reservas por Email
+              Consultas y Reservas por Email ó Wassap
             </h2>
             <p className="mt-3 text-xs sm:text-sm text-stone-600 max-w-xl mx-auto leading-relaxed">
               ¿Quieres consultar dudas o solicitar tu plaza para clases de yoga, baños de gong, terapias o retiros? Escríbenos directamente y gestionaremos tu solicitud por email de inmediato.
@@ -983,6 +985,12 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* 13b. Pantalla de Canal Oficial de WhatsApp - Asistente Escuela Yoga */}
+      <WhatsAppContactSection />
+
+      {/* 13c. Pantalla Separada de Baja de Servicios de la Clínica (Restricción Técnica) */}
+      <BajaServiciosSection />
 
       {/* 14. Sección de Testimonios de los Alumnos/as */}
       <TestimonialsSection />

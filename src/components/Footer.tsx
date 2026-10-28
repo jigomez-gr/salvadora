@@ -30,6 +30,14 @@ export default function Footer() {
           >
             Ley de Protección de Datos (RGPD)
           </Link>
+          <span className="hidden sm:inline text-white/30">•</span>
+          <Link
+            href="/baja"
+            className="hover:text-[#E9C168] transition duration-200 underline-offset-4 hover:underline text-[#E9C168]"
+            title="Solicitud de baja voluntaria y restricción técnica de comunicaciones"
+          >
+            Baja de Servicios (Restricción Técnica)
+          </Link>
         </div>
 
         {/* RGPD & AI Compliance Note */}

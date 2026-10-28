@@ -93,6 +93,14 @@ export function FooterLegal({ dark = true, className = "" }: FooterLegalProps) {
           >
             Ley de Protección de Datos
           </a>
+          <span className="text-stone-500 select-none">•</span>
+          <a
+            href="/baja"
+            className="hover:underline hover:text-amber-400 text-amber-500 transition font-semibold"
+            title="Baja voluntaria y restricción técnica de servicios"
+          >
+            Baja de Servicios
+          </a>
         </div>
 
         {/* Copyright */}
