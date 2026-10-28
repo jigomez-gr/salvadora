@@ -3,6 +3,8 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ContactQueryForm from "@/components/ContactQueryForm";
+import WhatsAppQuickBanner from "@/components/WhatsAppQuickBanner";
+import WhatsAppContactSection from "@/components/WhatsAppContactSection";
 import { fetchCrmServices } from "@/lib/crmServices";
 import { Mail, Phone, ArrowLeft } from "lucide-react";
 
@@ -48,7 +50,11 @@ export default async function ContactoPage() {
           </p>
         </div>
 
+        <WhatsAppQuickBanner />
         <ContactQueryForm initialServices={services} initialCategories={categories} />
+        <div className="mt-14">
+          <WhatsAppContactSection />
+        </div>
 
         <div className="mt-12 text-center pt-8 border-t border-[#C5A059]/20">
           <p className="text-xs text-stone-500 mb-4">¿Prefieres contactarnos por teléfono o correo?</p>

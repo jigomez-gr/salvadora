@@ -17,6 +17,7 @@ import VapiCallButton from "@/components/VapiCallButton";
 import { VapiVoiceBookingButton } from "@/components/VapiVoiceBookingButton";
 import Footer from "@/components/Footer";
 import WhatsAppContactSection from "@/components/WhatsAppContactSection";
+import WhatsAppQuickBanner from "@/components/WhatsAppQuickBanner";
 import BajaServiciosSection from "@/components/BajaServiciosSection";
 import { fetchCrmServices, findServiceByCodeOrId, formatDuration } from "@/lib/crmServices";
 
@@ -887,6 +888,7 @@ export default async function Home() {
             </p>
           </div>
 
+          <WhatsAppQuickBanner />
           <ContactQueryForm initialServices={services} initialCategories={categories} />
         </div>
       </section>
