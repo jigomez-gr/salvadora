@@ -991,7 +991,7 @@ export default async function Home() {
       {/* 13b. Pantalla de Canal Oficial de WhatsApp - Asistente Escuela Yoga */}
       <WhatsAppContactSection />
 
-      {/* 13c. Pantalla Separada de Baja de Servicios de la Clínica (Restricción Técnica) */}
+      {/* 13c. Pantalla Separada de Baja de Servicios de la Escuela de Yoga (Restricción Técnica) */}
       <BajaServiciosSection />
 
       {/* 14. Sección de Testimonios de los Alumnos/as */}

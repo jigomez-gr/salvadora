@@ -22,12 +22,13 @@ import {
   Image as ImageIcon,
   Maximize2,
   Play,
+  MessageCircle,
 } from "lucide-react";
 import { SimuladorDiagnosticoModal } from "@/components/SimuladorDiagnosticoModal";
 import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { VapiVoiceBookingButton } from "@/components/VapiVoiceBookingButton";
 import { triggerVapiCall } from "@/components/VapiCallModal";
-import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
+import { isPorWassapEnabled, isPorVapiEnabled, getNumeroWassap } from "@/lib/featureFlags";
 import { GOOGLE_REVIEW_URL } from "@/lib/constants";
 import {
   CrmCategory,
@@ -316,6 +317,32 @@ function ServiciosContent() {
     process.env.NEXT_PUBLIC_SHOW_ANALIZAIA !== "n";
 
   const showPorWassap = isPorWassapEnabled();
+
+  const buildActWhatsAppUrl = useCallback((activity: any) => {
+    const num = getNumeroWassap().clean;
+    const parts: string[] = [
+      `Hola, me gustaría consultar y pedir cita para la actividad: *${activity.name}*.`
+    ];
+    if (activity.price && activity.price !== "0" && activity.price !== "0.00") {
+      parts.push(`• Precio: ${activity.price}€`);
+    } else if (activity.sinpreciodefinitivo === "S" && activity.textosinpreciodefinitivo) {
+      parts.push(`• Precio: ${activity.textosinpreciodefinitivo}`);
+    }
+    if (activity.scheduleText) {
+      parts.push(`• Horario: ${activity.scheduleText}`);
+    }
+    if (activity.eventDatesText) {
+      parts.push(`• Fechas: ${activity.eventDatesText}`);
+    }
+    if (activity.textoespecifico) {
+      parts.push(`• Detalle: ${activity.textoespecifico.slice(0, 140)}`);
+    } else if (activity.description) {
+      parts.push(`• Detalle: ${activity.description.slice(0, 140)}`);
+    }
+    parts.push("¿Tenéis disponibilidad? Muchas gracias.");
+    return `https://wa.me/${num}?text=${encodeURIComponent(parts.join("\n"))}`;
+  }, []);
+
   const showPorVapi = isPorVapiEnabled();
 
   const searchParams = useSearchParams();
@@ -1220,29 +1247,16 @@ function ServiciosContent() {
                       </button>
                       <div className="flex items-center justify-between text-xs pt-1">
                         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                          {showPorWassap && (
-                            act.whatsappBookingUrl ? (
-                              <a
-                                href={act.whatsappBookingUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1"
-                              >
-                                <Phone className="w-3.5 h-3.5" /> Pedir por WhatsApp
-                              </a>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSelectedService(act.name);
-                                  setWaModalOpen(true);
-                                }}
-                                className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1 cursor-pointer"
-                              >
-                                <Phone className="w-3.5 h-3.5" /> Pedir por WhatsApp
-                              </button>
-                            )
-                          )}
+                          {/* Pedir por Wassap a la izquierda de Pedir por Teléfono */}
+                          <a
+                            href={buildActWhatsAppUrl(act)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1 transition hover:underline cursor-pointer"
+                            title={`Consultar o pedir cita por WhatsApp para ${act.name}`}
+                          >
+                            <MessageCircle className="w-3.5 h-3.5 text-emerald-600" /> Pedir por Wassap
+                          </a>
 
                           {showPorVapi && (
                             <button
@@ -1386,27 +1400,25 @@ function ServiciosContent() {
                     </button>
                     <div className="flex items-center justify-between text-[11px] text-stone-500 pt-1">
                       <span>{durationDisplay}</span>
-                      <div className="flex items-center gap-2">
-                        {showPorWassap && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setSelectedService(act.name);
-                              setWaModalOpen(true);
-                            }}
-                            className="text-emerald-700 font-bold hover:underline cursor-pointer flex items-center gap-0.5"
-                          >
-                            <Phone className="w-3 h-3" /> WhatsApp
-                          </button>
-                        )}
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <a
+                          href={buildActWhatsAppUrl(act)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-emerald-700 hover:text-emerald-900 font-bold hover:underline cursor-pointer flex items-center gap-1"
+                          title={`Consultar o pedir cita por WhatsApp para ${act.name}`}
+                        >
+                          <MessageCircle className="w-3.5 h-3.5 text-emerald-600" /> Pedir por Wassap
+                        </a>
+
                         {showPorVapi && (
                           <button
                             type="button"
                             onClick={() => triggerVapiCall({ inquiry: `Consulta y reserva para ${act.name}` })}
-                            className="text-[#800020] font-bold hover:underline cursor-pointer flex items-center gap-0.5"
+                            className="text-[#800020] font-bold hover:underline cursor-pointer flex items-center gap-1"
                             title="Pedir llamada con Asistente de Voz IA"
                           >
-                            <PhoneCall className="w-3 h-3 text-[#C5A059]" /> Pedir por Teléfono
+                            <PhoneCall className="w-3.5 h-3.5 text-[#C5A059]" /> Pedir por Teléfono
                           </button>
                         )}
                       </div>

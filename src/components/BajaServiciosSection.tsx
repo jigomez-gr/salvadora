@@ -117,10 +117,10 @@ export default function BajaServiciosSection() {
             <span>Derecho de Supresión • Restricción Técnica</span>
           </div>
           <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#800020] mb-3">
-            Baja de Servicios de la Clínica / Centro
+            Baja de Servicios de la Escuela de Yoga / Centro
           </h2>
           <p className="text-xs sm:text-sm text-stone-600 max-w-xl mx-auto leading-relaxed">
-            Si deseas darte de baja de los servicios, recordatorios y comunicaciones de la clínica, introduce tu email y teléfono móvil. Te enviaremos un código de verificación seguro para confirmar la baja por restricción técnica.
+            Si deseas darte de baja de los servicios, recordatorios y comunicaciones de la Escuela de Yoga, introduce tu email y teléfono móvil. Te enviaremos un código de verificación seguro para confirmar la baja por restricción técnica.
           </p>
         </div>
 

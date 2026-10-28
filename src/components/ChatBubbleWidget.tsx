@@ -276,8 +276,17 @@ export function ChatBubbleWidget({
   };
 
   const handleWhatsAppClick = () => {
-    const text = inputValue.trim() || (messages.length > 1 ? messages[messages.length - 1].body : "Hola, me gustaría información y reservar una plaza en el Centro de Yoga Salvadora Conesa.");
-    const waUrl = `https://wa.me/34695172625?text=${encodeURIComponent(text)}`;
+    const rawNumber =
+      process.env.NEXT_PUBLIC_NUMEROWASSAP ||
+      process.env.NUMEROWASSAP ||
+      "34 646 03 42 31";
+    const cleanNumber = rawNumber.replace(/\D/g, "") || "34646034231";
+    const lastUserMsg = messages.filter((m) => m.direction === "outbound").pop()?.body;
+    const contextText = inputValue.trim() || lastUserMsg || "";
+    const text = contextText
+      ? `Hola, me gustaría consultar o pedir cita en la Escuela de Yoga Salvadora Conesa sobre: "${contextText}".`
+      : "Hola, me gustaría consultar información o pedir cita en la Escuela de Yoga Salvadora Conesa.";
+    const waUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(text)}`;
     if (typeof window !== "undefined") {
       window.open(waUrl, "_blank");
     }
@@ -480,10 +489,10 @@ export function ChatBubbleWidget({
                   type="button"
                   onClick={handleWhatsAppClick}
                   className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#25D366] hover:bg-[#20ba5a] py-1.5 px-2 text-[11px] font-bold text-white shadow-2xs transition active:scale-98 cursor-pointer"
-                  title="Pedir por WhatsApp"
+                  title="Consultar ó Pedir Cita por Wassap"
                 >
                   <MessageCircle className="h-3.5 w-3.5 shrink-0" />
-                  <span className="truncate">Pedir por WhatsApp</span>
+                  <span className="truncate">Consultar ó Pedir Cita por Wassap</span>
                 </button>
               )}
               {showPorVapi && (

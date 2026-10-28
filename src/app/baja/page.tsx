@@ -8,7 +8,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Baja de Servicios por Restricción Técnica • Centro de Yoga Salvadora Conesa",
   description:
-    "Formulario oficial para solicitar la baja de los servicios de la clínica por restricción técnica mediante verificación por email y teléfono móvil.",
+    "Formulario oficial para solicitar la baja de los servicios de la Escuela de Yoga por restricción técnica mediante verificación por email y teléfono móvil.",
 };
 
 export default function BajaPage() {
