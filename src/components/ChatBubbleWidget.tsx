@@ -481,37 +481,34 @@ export function ChatBubbleWidget({
             </button>
           </form>
 
-          {/* Quick Action Bar: Pedir por WhatsApp & Pedir por Teléfono (VAPI) */}
-          {(showPorWassap || showPorVapi) && (
-            <div className="flex items-center gap-2 border-t border-stone-100 bg-stone-50/90 px-3 py-1.5">
-              {showPorWassap && (
-                <button
-                  type="button"
-                  onClick={handleWhatsAppClick}
-                  className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#25D366] hover:bg-[#20ba5a] py-1.5 px-2 text-[11px] font-bold text-white shadow-2xs transition active:scale-98 cursor-pointer"
-                  title="Consultar ó Pedir Cita por Wassap"
-                >
-                  <MessageCircle className="h-3.5 w-3.5 shrink-0" />
-                  <span className="truncate">Consultar ó Pedir Cita por Wassap</span>
-                </button>
-              )}
-              {showPorVapi && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    triggerVapiCall({
-                      inquiry: inputValue.trim() || (messages.length > 1 ? messages[messages.length - 1].body : "Consulta sobre clases y servicios"),
-                    });
-                  }}
-                  className="flex flex-1 items-center justify-center gap-1 rounded-lg bg-[#800020] hover:bg-[#800020]/90 py-1.5 px-2 text-[11px] font-bold text-white shadow-2xs transition active:scale-98 cursor-pointer border border-[#C5A059]/30"
-                  title="Pedir por Teléfono con Asistente de Voz IA"
-                >
-                  <PhoneCall className="h-3.5 w-3.5 shrink-0 text-[#C5A059]" />
-                  <span className="truncate">Te Llamamos (IA)</span>
-                </button>
-              )}
-            </div>
-          )}
+          {/* Quick Action Bar: Te Llamamos (IA) encima y Consultar Pedir Citas ó Servicios (IA) abajo */}
+          <div className="flex flex-col gap-2 border-t border-stone-100 bg-stone-50/90 px-3.5 py-2.5">
+            {/* Te Llamamos (IA) encima */}
+            <button
+              type="button"
+              onClick={() => {
+                triggerVapiCall({
+                  inquiry: inputValue.trim() || (messages.length > 1 ? messages[messages.length - 1].body : "Consulta sobre clases y servicios"),
+                });
+              }}
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#800020] hover:bg-[#6e001b] py-2 px-3 text-xs font-bold text-white shadow-2xs transition active:scale-98 cursor-pointer border border-[#C5A059]/40"
+              title="Pedir por Teléfono con Asistente de Voz IA"
+            >
+              <PhoneCall className="h-4 w-4 shrink-0 text-[#C5A059]" />
+              <span className="truncate">Te Llamamos (IA)</span>
+            </button>
+
+            {/* Consultar Pedir Citas ó Servicios (IA) abajo de Te Llamamos (IA) */}
+            <button
+              type="button"
+              onClick={handleWhatsAppClick}
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] py-2 px-3 text-xs font-bold text-white shadow-2xs transition active:scale-98 cursor-pointer"
+              title="Consultar Pedir Citas ó Servicios (IA)"
+            >
+              <MessageCircle className="h-4 w-4 shrink-0" />
+              <span className="truncate">Consultar Pedir Citas ó Servicios (IA)</span>
+            </button>
+          </div>
 
           {/* Permanent Legal & AI Footer in Chat Window */}
           <div className="px-3.5 py-1.5 bg-stone-100 border-t border-stone-200/80 text-[10px] text-stone-500 flex items-center justify-between select-none">

@@ -1246,18 +1246,8 @@ function ServiciosContent() {
                         <Calendar className="w-4 h-4" /> Reservar / Consultar Disponibilidad
                       </button>
                       <div className="flex items-center justify-between text-xs pt-1">
-                        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                          {/* Pedir por Wassap a la izquierda de Pedir por Teléfono */}
-                          <a
-                            href={buildActWhatsAppUrl(act)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1 transition hover:underline cursor-pointer"
-                            title={`Consultar o pedir cita por WhatsApp para ${act.name}`}
-                          >
-                            <MessageCircle className="w-3.5 h-3.5 text-emerald-600" /> Pedir por Wassap
-                          </a>
-
+                        <div className="flex flex-col gap-1.5">
+                          {/* Pedir por Teléfono encima */}
                           {showPorVapi && (
                             <button
                               type="button"
@@ -1268,8 +1258,19 @@ function ServiciosContent() {
                               <PhoneCall className="w-3.5 h-3.5 text-[#C5A059]" /> Pedir por Teléfono
                             </button>
                           )}
+
+                          {/* Pedir por Wassap abajo */}
+                          <a
+                            href={buildActWhatsAppUrl(act)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-emerald-700 hover:text-emerald-900 font-bold flex items-center gap-1 transition hover:underline cursor-pointer"
+                            title={`Consultar o pedir cita por WhatsApp para ${act.name}`}
+                          >
+                            <MessageCircle className="w-3.5 h-3.5 text-emerald-600" /> Pedir por Wassap
+                          </a>
                         </div>
-                        <span className="text-stone-500 font-medium text-[11px] shrink-0">Pago en centro</span>
+                        <span className="text-stone-500 font-medium text-[11px] shrink-0 self-end">Pago en centro</span>
                       </div>
                     </div>
                   </div>
@@ -1400,27 +1401,26 @@ function ServiciosContent() {
                     </button>
                     <div className="flex items-center justify-between text-[11px] text-stone-500 pt-1">
                       <span>{durationDisplay}</span>
-                      <div className="flex items-center gap-2 sm:gap-3">
-                        <a
-                          href={buildActWhatsAppUrl(act)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-emerald-700 hover:text-emerald-900 font-bold hover:underline cursor-pointer flex items-center gap-1"
-                          title={`Consultar o pedir cita por WhatsApp para ${act.name}`}
-                        >
-                          <MessageCircle className="w-3.5 h-3.5 text-emerald-600" /> Pedir por Wassap
-                        </a>
-
+                      <div className="flex flex-col gap-1 items-end">
                         {showPorVapi && (
                           <button
                             type="button"
                             onClick={() => triggerVapiCall({ inquiry: `Consulta y reserva para ${act.name}` })}
-                            className="text-[#800020] font-bold hover:underline cursor-pointer flex items-center gap-1"
+                            className="text-[#800020] font-bold hover:underline cursor-pointer flex items-center gap-1 text-[11px]"
                             title="Pedir llamada con Asistente de Voz IA"
                           >
                             <PhoneCall className="w-3.5 h-3.5 text-[#C5A059]" /> Pedir por Teléfono
                           </button>
                         )}
+                        <a
+                          href={buildActWhatsAppUrl(act)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-emerald-700 hover:text-emerald-900 font-bold hover:underline cursor-pointer flex items-center gap-1 text-[11px]"
+                          title={`Consultar o pedir cita por WhatsApp para ${act.name}`}
+                        >
+                          <MessageCircle className="w-3.5 h-3.5 text-emerald-600" /> Pedir por Wassap
+                        </a>
                       </div>
                     </div>
                   </div>
