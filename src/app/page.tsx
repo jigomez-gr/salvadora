@@ -281,16 +281,14 @@ export default async function Home() {
               Reservar por Actividad
             </Link>
           </div>
-          {/* Fila única: Botón verde Reservas Email / Wassap + Instagram + Facebook a su derecha con misma altura */}
-          <div className="w-full max-w-xl mt-2 sm:mt-2.5 px-2 sm:px-0 z-10 flex flex-wrap items-center justify-center gap-2">
+          {/* Fila única: Botón verde Reservas Email Wassap + Instagram + Facebook a su derecha con misma altura */}
+          <div className="w-full max-w-xl mt-2 sm:mt-2.5 px-2 sm:px-0 z-10 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
             <a
               href="https://salvadora.jigretera.com/#contacto"
-              className="inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-lg text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-2xs transition active:scale-95 text-center cursor-pointer whitespace-nowrap"
-              title="Reservas Email / Wassap"
+              className="inline-flex items-center justify-center px-2.5 py-1 rounded-lg text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-2xs transition active:scale-95 text-center cursor-pointer whitespace-nowrap"
+              title="Reservas Email Wassap"
             >
-              <Mail className="w-3.5 h-3.5 text-white shrink-0" />
-              <MessageCircle className="w-3.5 h-3.5 text-white shrink-0" />
-              <span>Reservas Email / Wassap</span>
+              <span>Reservas Email Wassap</span>
             </a>
 
             <a
