@@ -24,7 +24,7 @@ export default function WhatsAppContactSection({
     : `+${rawNumber.trim()}`;
 
   const wassapChatUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(
-    "Hola, deseo consultar información y disponibilidad de citas y actividades de la Escuela de Yoga Salvadora Conesa."
+    "🤖 ¡Hola! Soy el asistente virtual del Centro de Yoga Salvadora Conesa. ¿En qué puedo ayudarte hoy?"
   )}`;
 
   const handleDownloadVCard = () => {

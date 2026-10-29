@@ -605,7 +605,9 @@ function ServiciosContent() {
           window.open(data.whatsappUrl, "_blank");
         } else {
           const defaultMsg = encodeURIComponent(
-            `Hola, me gustaría información sobre ${selectedService || "las actividades del centro"}.`
+            selectedService
+              ? `Hola, me gustaría información sobre ${selectedService}.`
+              : "🤖 ¡Hola! Soy el asistente virtual del Centro de Yoga Salvadora Conesa. ¿En qué puedo ayudarte hoy?"
           );
           window.open(`https://wa.me/${whatsappPhone.replace(/[^0-9]/g, "")}?text=${defaultMsg}`, "_blank");
         }
@@ -729,7 +731,7 @@ function ServiciosContent() {
               </button>
             )}
             <button
-              onClick={() => triggerCrmChat("Hola, me gustaría consultar los servicios y actividades del Centro de Yoga Salvadora Conesa.", false)}
+              onClick={() => triggerCrmChat("¡Hola! Me gustaría consultar disponibilidad de citas y actividades en el centro.", false)}
               className="bg-[#800020] text-white px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-[#800020]/90 transition shadow-xs flex items-center gap-1.5 cursor-pointer"
             >
               <MessageSquare className="w-3.5 h-3.5" /> Abrir Asistente
@@ -752,7 +754,7 @@ function ServiciosContent() {
           </p>
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2">
             <button
-              onClick={() => triggerCrmChat("Hola, me gustaría consultar los servicios y actividades del Centro de Yoga Salvadora Conesa.", false)}
+              onClick={() => triggerCrmChat("¡Hola! Me gustaría consultar disponibilidad de citas y actividades en el centro.", false)}
               className="bg-[#800020] hover:bg-[#800020]/90 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer"
             >
               <Calendar className="w-4 h-4" /> Consultar Disponibilidad en Vivo

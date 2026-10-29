@@ -285,8 +285,8 @@ export function ChatBubbleWidget({
     const lastUserMsg = messages.filter((m) => m.direction === "outbound").pop()?.body;
     const contextText = inputValue.trim() || lastUserMsg || "";
     const text = contextText
-      ? `Hola, me gustaría consultar o pedir cita en la Escuela de Yoga Salvadora Conesa sobre: "${contextText}".`
-      : "Hola, me gustaría consultar información o pedir cita en la Escuela de Yoga Salvadora Conesa.";
+      ? `🤖 ¡Hola! Soy el asistente virtual del Centro de Yoga Salvadora Conesa. ¿En qué puedo ayudarte hoy? (Consulta: ${contextText})`
+      : "🤖 ¡Hola! Soy el asistente virtual del Centro de Yoga Salvadora Conesa. ¿En qué puedo ayudarte hoy?";
     const waUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(text)}`;
     if (typeof window !== "undefined") {
       window.open(waUrl, "_blank");
