@@ -19,7 +19,7 @@ export default function WhatsAppQuickBanner() {
   )}`;
 
   return (
-    <div className="mb-10 bg-gradient-to-r from-emerald-50 via-white to-emerald-50 border border-[#25D366]/35 rounded-2xl p-5 sm:p-6 shadow-md shadow-emerald-900/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left font-sans">
+    <div className="mb-3.5 sm:mb-4 bg-gradient-to-r from-emerald-50 via-white to-emerald-50 border border-[#25D366]/35 rounded-2xl p-4 sm:p-5 shadow-sm shadow-emerald-900/5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-center sm:text-left font-sans">
       <div className="flex flex-col sm:flex-row items-center gap-4">
         <div className="relative shrink-0">
           <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#25D366] shadow-sm bg-stone-100 flex items-center justify-center">

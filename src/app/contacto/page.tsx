@@ -38,7 +38,7 @@ export default async function ContactoPage() {
           </Link>
         </div>
 
-        <div className="text-center mb-10">
+        <div className="text-center mb-3.5 sm:mb-4">
           <span className="text-xs uppercase tracking-widest text-[#96680E] font-extrabold block mb-2">
             Centro de Yoga Fuenlabrada (Salvadora Conesa)
           </span>
