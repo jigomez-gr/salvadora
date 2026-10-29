@@ -39,15 +39,20 @@ export function ChatBubbleWidget({
   const [showTooltip, setShowTooltip] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Auto-ocultar el tooltip tras 6 segundos en TODOS los dispositivos para no tapar permanentemente los botones inferiores (como Reservar en portátiles)
+  // Auto-ocultar el tooltip tras 1.5s en móviles (1/4 de los 6s habituales) o 6s en escritorio
   useEffect(() => {
     try {
       const dismissed = sessionStorage.getItem("crm_widget_tooltip_dismissed");
       if (!dismissed) {
         setShowTooltip(true);
+        const isMobile =
+          typeof window !== "undefined" &&
+          (window.innerWidth < 768 ||
+            /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent));
+        const duration = isMobile ? 1500 : 6000;
         const timer = setTimeout(() => {
           setShowTooltip(false);
-        }, 6000);
+        }, duration);
         return () => clearTimeout(timer);
       }
     } catch {

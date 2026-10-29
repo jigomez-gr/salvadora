@@ -311,9 +311,11 @@ export default async function Home() {
 
             <a
               href="https://salvadora.jigretera.com/#contacto"
-              className="inline-flex items-center justify-center px-2.5 py-1 rounded-lg text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-2xs transition active:scale-95 text-center cursor-pointer whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-2xs transition active:scale-95 text-center cursor-pointer whitespace-nowrap"
               title="Reservas Email Wassap"
             >
+              <Mail className="w-3.5 h-3.5 text-white shrink-0" />
+              <MessageCircle className="w-3.5 h-3.5 text-white shrink-0" />
               <span>Reservas Email Wassap</span>
             </a>
           </div>
