@@ -142,6 +142,12 @@ export function BubbleMessageContent({ body, isUser }: BubbleMessageContentProps
   lines.forEach((line, idx) => {
     const trimmed = line.trim();
 
+    // 0. Detect Ficha Multimedia Link (/actividad/...)
+    const fichaMatch = trimmed.match(/(?:🎬📄[^\n\r]*:\s*)?(https?:\/\/[^\s\)]+\/actividad\/[^\s\)]+)/i);
+    const isFichaLine = Boolean(
+      fichaMatch && (trimmed.includes("actividad") || trimmed.includes("Ficha") || trimmed.includes("🎬📄"))
+    );
+
     // 1. Detect Video Link
     // Matches video lines with or without emoji, extracts URL ending in .mp4 or containing /videos/
     const videoMatch = trimmed.match(/(?:🎬[^\n\r]*:\s*)?(https?:\/\/[^\s\)]+(?:\.mp4|\/videos\/[^\s\)]+))/i);
@@ -156,7 +162,26 @@ export function BubbleMessageContent({ body, isUser }: BubbleMessageContentProps
       flyerMatch && (trimmed.includes("📄") || trimmed.toLowerCase().includes("flyer") || trimmed.includes("/flyers/"))
     );
 
-    if (isVideoLine && videoMatch) {
+    if (isFichaLine && fichaMatch) {
+      flushTextBuffer(`txt-${idx}`);
+      const fichaUrl = fichaMatch[1];
+      renderedElements.push(
+        <a
+          key={`ficha-btn-${idx}`}
+          href={fichaUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="my-2 flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-emerald-600 via-teal-700 to-[#0B4A72] hover:opacity-95 shadow-sm transition active:scale-98 group cursor-pointer border border-emerald-400/40 no-underline"
+          title="Ver Ficha Multimedia y Vídeo de la Actividad"
+        >
+          <span className="flex items-center gap-2 truncate">
+            <span className="text-base shrink-0">🎬📄</span>
+            <span className="truncate">Ver Ficha Multimedia y Vídeo de la Actividad</span>
+          </span>
+          <ArrowUpRight className="w-4 h-4 shrink-0 text-emerald-200 opacity-90 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+        </a>
+      );
+    } else if (isVideoLine && videoMatch) {
       flushTextBuffer(`txt-${idx}`);
       const videoUrl = videoMatch[1];
       renderedElements.push(
