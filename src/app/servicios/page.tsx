@@ -764,6 +764,15 @@ function ServiciosContent() {
                 className="!py-2.5 !px-5 !rounded-xl !text-xs !bg-[#800020] hover:!bg-[#660019]"
               />
             )}
+            <a
+              href="https://salvadora.jigretera.com/#contacto"
+              className="bg-[#0B4A72] hover:bg-[#083654] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer"
+              title="Reservar por Email / Wassap"
+            >
+              <Mail className="w-4 h-4 text-amber-300" />
+              <MessageCircle className="w-4 h-4 text-emerald-400" />
+              <span>Reservar por Email / Wassap</span>
+            </a>
             {showPorWassap && (
               <button
                 onClick={() => setWaModalOpen(true)}

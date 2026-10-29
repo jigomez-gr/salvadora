@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { MessageSquare, X, Send, Bot, Trash2, ShieldCheck, Check, PhoneCall, MessageCircle, Loader2 } from "lucide-react";
 import { triggerVapiCall } from "@/components/VapiCallModal";
 import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
+import { BubbleMessageContent } from "./BubbleMessageContent";
 
 interface ChatMessage {
   id: string;
@@ -373,7 +374,7 @@ export function ChatBubbleWidget({
                     }`}
                     style={isUser ? { backgroundColor: brandColor } : {}}
                   >
-                    <p className="whitespace-pre-wrap">{m.body}</p>
+                    <BubbleMessageContent body={m.body} isUser={isUser} />
                   </div>
                 </div>
               );
@@ -498,15 +499,15 @@ export function ChatBubbleWidget({
               <span className="truncate">Te Llamamos (IA)</span>
             </button>
 
-            {/* Consultar Pedir Citas ó Servicios (IA) abajo de Te Llamamos (IA) */}
+            {/* Consultar Pedir Citas ó Servicios WASSAP (IA) abajo de Te Llamamos (IA) */}
             <button
               type="button"
               onClick={handleWhatsAppClick}
               className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] py-2 px-3 text-xs font-bold text-white shadow-2xs transition active:scale-98 cursor-pointer"
-              title="Consultar Pedir Citas ó Servicios (IA)"
+              title="Consultar Pedir Citas ó Servicios WASSAP (IA)"
             >
               <MessageCircle className="h-4 w-4 shrink-0" />
-              <span className="truncate">Consultar Pedir Citas ó Servicios (IA)</span>
+              <span className="truncate">Consultar Pedir Citas ó Servicios WASSAP (IA)</span>
             </button>
           </div>
 

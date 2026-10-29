@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 import {
   Calendar, MapPin, Shield, Compass, FileText, CheckCircle2,
   HelpCircle, Mail, Phone, Clock, Award, Users, Music,
-  Sparkles, Moon, Heart, Network, Activity
+  Sparkles, Moon, Heart, Network, Activity, MessageCircle
 } from "lucide-react";
 
 // Server-side helper to check if mp4 videos exist in external media directory or /public/videos
@@ -326,6 +326,26 @@ export default async function Home() {
                   <span>Facebook</span>
                 </a>
               </div>
+            </div>
+
+            {/* Botones Reservar por Email y Reservar por Wassap -> https://salvadora.jigretera.com/#contacto */}
+            <div className="flex items-center justify-center gap-2 mt-2 w-full">
+              <a
+                href="https://salvadora.jigretera.com/#contacto"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold text-white bg-[#0B4A72] hover:bg-[#083654] shadow-2xs transition active:scale-95 text-center whitespace-nowrap"
+                title="Reservar por Email"
+              >
+                <Mail className="w-3.5 h-3.5 shrink-0 text-amber-300" />
+                <span>Reservar por Email</span>
+              </a>
+              <a
+                href="https://salvadora.jigretera.com/#contacto"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-2xs transition active:scale-95 text-center whitespace-nowrap"
+                title="Reservar por Wassap"
+              >
+                <MessageCircle className="w-3.5 h-3.5 shrink-0 text-white" />
+                <span>Reservar por Wassap</span>
+              </a>
             </div>
           </div>
         </div>
