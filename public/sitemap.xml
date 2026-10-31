@@ -1,51 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://centrodeyogasalvadoraconesa.es</loc>
-    <lastmod>2026-09-06T17:08:07.655Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://salvadoraconesa.es/</loc>
   </url>
   <url>
-    <loc>https://centrodeyogasalvadoraconesa.es/servicios</loc>
-    <lastmod>2026-09-06T17:08:07.655Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://salvadoraconesa.es/servicios</loc>
   </url>
   <url>
-    <loc>https://centrodeyogasalvadoraconesa.es/reserva</loc>
-    <lastmod>2026-09-06T17:08:07.655Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://salvadoraconesa.es/nagna-yoga</loc>
   </url>
   <url>
-    <loc>https://centrodeyogasalvadoraconesa.es/nagna-yoga</loc>
-    <lastmod>2026-09-06T17:08:07.655Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://salvadoraconesa.es/mejorar-asanas</loc>
   </url>
   <url>
-    <loc>https://centrodeyogasalvadoraconesa.es/mejorar-asanas</loc>
-    <lastmod>2026-09-06T17:08:07.655Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://salvadoraconesa.es/bienestar-experience/mas-alla-del-tumor</loc>
   </url>
   <url>
-    <loc>https://centrodeyogasalvadoraconesa.es/politica-de-privacidad</loc>
-    <lastmod>2026-09-06T17:08:07.655Z</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://salvadoraconesa.es/politica-de-privacidad</loc>
   </url>
   <url>
-    <loc>https://centrodeyogasalvadoraconesa.es/politica-de-cookies</loc>
-    <lastmod>2026-09-06T17:08:07.655Z</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://salvadoraconesa.es/politica-de-cookies</loc>
   </url>
   <url>
-    <loc>https://centrodeyogasalvadoraconesa.es/ley-de-proteccion-de-datos</loc>
-    <lastmod>2026-09-06T17:08:07.655Z</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://salvadoraconesa.es/ley-de-proteccion-de-datos</loc>
   </url>
 </urlset>
