@@ -8,7 +8,13 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_PORVAPI: process.env.NEXT_PUBLIC_PORVAPI || process.env.PORVAPI || "S",
   },
   async redirects() {
-    return [];
+    return [
+      {
+        source: "/index.html",
+        destination: "/",
+        statusCode: 301,
+      },
+    ];
   },
   async rewrites() {
     return [
