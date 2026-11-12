@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         destination: "/",
         statusCode: 301,
       },
+      {
+        source: "/practica__yoga.html",
+        destination: "/servicios",
+        statusCode: 301,
+      },
     ];
   },
   async rewrites() {
