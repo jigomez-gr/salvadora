@@ -278,7 +278,7 @@ export default async function Home() {
               href="/servicios"
               className="hero-cta-btn w-full sm:w-auto flex items-center justify-center h-12 px-8 border border-[#800020] text-xs font-bold uppercase tracking-widest rounded-md text-white bg-[#800020] hover:bg-[#800020]/90 shadow-md hover:scale-102 transition duration-250"
             >
-              Clases y Horarios de Yoga
+              RESERVAR YOGA, GONG y EVENTOS
             </Link>
           </div>
           {/* Fila única: Instagram + Facebook + Botón verde Reservas Email Wassap a su derecha con misma altura */}
