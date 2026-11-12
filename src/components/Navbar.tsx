@@ -49,7 +49,7 @@ export default function Navbar() {
                 >
                     <img
                         src="/imagenes/logo/logo.png"
-                        alt="Logo Centro de Yoga Salvadora Conesa"
+                        alt="Centro de Yoga Salvadora Conesa en Fuenlabrada"
                         className="h-[52px] w-auto object-contain transition duration-300 group-hover:scale-105"
                     />
                 </a>
@@ -119,7 +119,7 @@ export default function Navbar() {
                     <a href="/" onClick={handleInicioClick} className="cursor-pointer">
                         <img
                             src="/imagenes/logo/logo.png"
-                            alt="Logo Centro de Yoga Salvadora Conesa"
+                            alt="Centro de Yoga Salvadora Conesa en Fuenlabrada"
                             className="h-11 w-auto object-contain transition duration-200"
                         />
                     </a>

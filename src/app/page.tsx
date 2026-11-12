@@ -24,8 +24,8 @@ import { fetchCrmServices, findServiceByCodeOrId, formatDuration } from "@/lib/c
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Centro de Yoga Fuenlabrada | Clases, Baños de Gong y Constelaciones Familiares",
-  description: "Centro de Yoga Salvadora Conesa en Fuenlabrada: Hatha y Kundalini yoga, baños y puja de gong, talleres de constelaciones familiares, meditación guiada y retiros de ayuno terapéutico.",
+  title: "Centro de Yoga en Fuenlabrada | Clases de Yoga · Salvadora Conesa",
+  description: "Clases de yoga en Fuenlabrada con Salvadora Conesa. Hatha yoga terapéutico, cuidado de la espalda, calma y bienestar. ¡Reserva tu 1ª clase de prueba de regalo!",
   alternates: {
     canonical: "https://salvadoraconesa.es/",
   },
@@ -242,11 +242,11 @@ export default async function Home() {
           </div>
 
           <h1 className="hero-title font-serif text-xl sm:text-3.5xl md:text-[44px] lg:text-[48px] font-extrabold tracking-tight text-[#800020] uppercase leading-tight mb-1 sm:mb-1.5 select-none">
-            CENTRO DE YOGA FUENLABRADA
+            Centro de Yoga en Fuenlabrada – Salvadora Conesa
           </h1>
 
           <p className="hero-desc text-[9px] sm:text-xs tracking-[0.12em] sm:tracking-[0.2em] text-[#96680E] uppercase font-extrabold text-center max-w-3xl mb-3 sm:mb-4.5 mt-1 px-4 sm:px-0">
-            Desde 1986, guiando la práctica del yoga en un espacio cercano y sereno en Calle Holanda, 1, Fuenlabrada, junto al Metro Parque Europa (Línea 12 – MetroSur).
+            Tu centro de yoga en Fuenlabrada desde 1986. Clases de yoga adaptadas y bienestar en un espacio cercano y sereno en Calle Holanda, 1, Fuenlabrada, junto al Metro Parque Europa (Línea 12 – MetroSur).
           </p>
 
           {/* Framed Media Block mimicking ccmfalla.com Paintings */}
@@ -278,7 +278,7 @@ export default async function Home() {
               href="/servicios"
               className="hero-cta-btn w-full sm:w-auto flex items-center justify-center h-12 px-8 border border-[#800020] text-xs font-bold uppercase tracking-widest rounded-md text-white bg-[#800020] hover:bg-[#800020]/90 shadow-md hover:scale-102 transition duration-250"
             >
-              Reservar por Actividad
+              Clases y Horarios de Yoga
             </Link>
           </div>
           {/* Fila única: Instagram + Facebook + Botón verde Reservas Email Wassap a su derecha con misma altura */}
@@ -358,7 +358,7 @@ export default async function Home() {
                 <div className="relative aspect-[4/3] sm:aspect-[16/10] rounded-xl overflow-hidden">
                   <img
                     src="/imagenes/salvadora/sobre_mi.jpg"
-                    alt="Salvadora Conesa - Práctica de Yoga"
+                    alt="Salvadora Conesa impartiendo clase de yoga en su centro de Fuenlabrada"
                     className="w-full h-full object-cover object-center"
                   />
                 </div>
@@ -393,7 +393,7 @@ export default async function Home() {
             </h2>
             <div className="space-y-4 text-sm sm:text-base text-[#1C1C1C]/75 leading-relaxed text-justify sm:text-center">
               <p>
-                El Centro de Yoga Fuenlabrada de Salvadora Conesa es un espacio dedicado a la salud, el bienestar y el desarrollo integral de la persona en pleno corazón de Fuenlabrada. A través de la práctica regular de Hatha Yoga, Kundalini y meditación, ofrecemos herramientas reales para calmar la mente, fortalecer el cuerpo y reconectar con lo esencial.
+                El Centro de Yoga en Fuenlabrada de Salvadora Conesa es un espacio dedicado a la salud, el bienestar y el desarrollo integral de la persona en pleno corazón de Fuenlabrada. Impartimos clases de yoga adaptadas para todos los niveles (desde principiantes hasta avanzados), con especial enfoque en Hatha Yoga terapéutico, cuidado de la espalda, Kundalini y meditación guiada.
               </p>
               <p>
                 Además de nuestras sesiones semanales, contamos con renombradas experiencias de terapia de sonido como los Baños de Gong y la transformadora Puja de Gong nocturna, ambas guiadas por sonoterapeutas profesionales. Ofrecemos también una variada propuesta de retiros de Ayuno Terapéutico en plena naturaleza, diseñados para resetear el organismo y descansar profundamente.
@@ -790,7 +790,7 @@ export default async function Home() {
               href="/servicios"
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#800020] px-6 py-3.5 text-sm font-semibold text-[#800020] hover:bg-[#800020] hover:text-white transition-all"
             >
-              Ver Horarios y Catálogo Completo
+              Ver Horarios y Clases de Yoga en Fuenlabrada
             </Link>
           </div>
         </div>
