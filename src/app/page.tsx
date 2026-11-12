@@ -241,7 +241,7 @@ export default async function Home() {
             <span className="inline sm:hidden">Yoga · Gong · Gestalt · Constelaciones · Retiros</span>
           </div>
 
-          <h1 className="hero-title font-serif text-xl sm:text-3.5xl md:text-[44px] lg:text-[48px] font-extrabold tracking-tight text-[#800020] uppercase leading-tight mb-1 sm:mb-1.5 select-none">
+          <h1 className="hero-title font-serif text-[15px] min-[380px]:text-[17px] min-[440px]:text-xl sm:text-3.5xl md:text-[44px] lg:text-[48px] whitespace-nowrap font-extrabold tracking-tight text-[#800020] uppercase leading-tight mb-1 sm:mb-1.5 select-none">
             Centro de Yoga en Fuenlabrada
           </h1>
 
