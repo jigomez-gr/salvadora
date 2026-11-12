@@ -47,16 +47,19 @@ export function ChatBubbleWidget({
         setShowTooltip(true);
         const isMobile =
           typeof window !== "undefined" &&
-          (window.innerWidth < 768 ||
+          (window.innerWidth < 640 ||
             /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent));
-        const duration = isMobile ? 1500 : 6000;
+        if (isMobile) {
+          setShowTooltip(false);
+          return;
+        }
         const timer = setTimeout(() => {
           setShowTooltip(false);
-        }, duration);
+        }, 6000);
         return () => clearTimeout(timer);
       }
     } catch {
-      setShowTooltip(true);
+      setShowTooltip(false);
     }
   }, []);
 
@@ -545,7 +548,7 @@ export function ChatBubbleWidget({
           <div
             onClick={() => setIsOpen(true)}
             className={`${
-              showTooltip || isHovered ? "flex" : "hidden"
+              showTooltip || isHovered ? "hidden sm:flex" : "hidden"
             } items-center cursor-pointer mr-2.5 sm:mr-3 select-none transition-all duration-300 animate-in fade-in z-50`}
             role="button"
             tabIndex={0}
