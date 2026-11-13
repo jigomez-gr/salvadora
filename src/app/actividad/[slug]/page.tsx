@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { fetchCrmServices, CRM_API_BASE_URL } from "@/lib/crmServices";
 import { findActivityBySlugOrId } from "@/lib/activitySlug";
 import { FichaMultimediaClient } from "@/components/FichaMultimediaClient";
+import BanosDeGongExperience from "@/components/BanosDeGongExperience";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const dynamic = "force-dynamic";
 
@@ -87,6 +91,39 @@ export default async function ActividadPage({ params }: PageProps) {
             Ver Catálogo de Actividades
           </a>
         </div>
+      </div>
+    );
+  }
+
+  // Si es Baño de Gong, renderizar la experiencia inmersiva completa
+  if (/baño de gong/i.test(activity.name)) {
+    return (
+      <div className="bg-[#FAF9F6] text-[#1C1C1C] min-h-screen flex flex-col justify-between selection:bg-[#C5A059]/30 selection:text-[#12241D]">
+        <Navbar />
+        <main className="pt-24 sm:pt-28 pb-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-6 flex flex-wrap items-center gap-2 text-xs font-semibold text-stone-500"
+          >
+            <Link
+              href="/"
+              className="hover:text-[#800020] transition inline-flex items-center gap-1"
+            >
+              <span>Inicio</span>
+            </Link>
+            <span>/</span>
+            <Link
+              href="/servicios"
+              className="hover:text-[#800020] transition inline-flex items-center gap-1"
+            >
+              <span>Actividades</span>
+            </Link>
+            <span>/</span>
+            <span className="text-[#800020] font-bold">Baños de Gong</span>
+          </nav>
+          <BanosDeGongExperience activity={activity} isEmbedded={false} />
+        </main>
+        <Footer />
       </div>
     );
   }

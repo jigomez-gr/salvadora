@@ -19,6 +19,21 @@ const nextConfig: NextConfig = {
         destination: "/servicios",
         statusCode: 301,
       },
+      {
+        source: "/banos__gong.html",
+        destination: "/banos-de-gong",
+        statusCode: 301,
+      },
+      {
+        source: "/pages/banos__gong.html",
+        destination: "/banos-de-gong",
+        statusCode: 301,
+      },
+      {
+        source: "/pages/banos_gong.html",
+        destination: "/banos-de-gong",
+        statusCode: 301,
+      },
     ];
   },
   async rewrites() {

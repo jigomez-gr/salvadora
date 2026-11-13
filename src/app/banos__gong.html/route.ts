@@ -6,7 +6,7 @@ export async function GET() {
   return new NextResponse(null, {
     status: 301,
     headers: {
-      Location: "https://salvadoraconesa.es/servicios",
+      Location: "https://salvadoraconesa.es/banos-de-gong",
     },
   });
 }
@@ -15,7 +15,7 @@ export async function HEAD() {
   return new NextResponse(null, {
     status: 301,
     headers: {
-      Location: "https://salvadoraconesa.es/servicios",
+      Location: "https://salvadoraconesa.es/banos-de-gong",
     },
   });
 }

@@ -26,6 +26,7 @@ export function findActivityBySlugOrId(
 
   // 3. Known friendly aliases
   const aliases: Record<string, string> = {
+    "3": "baño de gong",
     gong: "baño de gong",
     "bano-de-gong": "baño de gong",
     "banos-de-gong": "baño de gong",

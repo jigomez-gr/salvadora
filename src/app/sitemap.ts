@@ -13,6 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/servicios`,
     },
     {
+      url: `${baseUrl}/banos-de-gong`,
+    },
+    {
       url: `${baseUrl}/nagna-yoga`,
     },
     {
