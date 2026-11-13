@@ -518,26 +518,43 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
     };
 
     useEffect(() => {
+        const selectDay = (dayNum: number) => {
+            if (dayNum >= 1 && dayNum <= 9) {
+                setActiveDay(dayNum);
+                setTimeout(() => {
+                    const el = document.getElementById("itinerario");
+                    if (el) {
+                        el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                }, 80);
+            }
+        };
+
         const handleHashChange = () => {
             const hash = window.location.hash;
             if (hash.startsWith("#dia-")) {
                 const dayNum = parseInt(hash.replace("#dia-", ""), 10);
-                if (dayNum >= 1 && dayNum <= 9) {
-                    setActiveDay(dayNum);
-                    setTimeout(() => {
-                        const el = document.getElementById("itinerario");
-                        if (el) {
-                            el.scrollIntoView({ behavior: "smooth", block: "start" });
-                        }
-                    }, 80);
-                }
+                selectDay(dayNum);
+            } else if (hash === "#itinerario") {
+                selectDay(1);
+            }
+        };
+
+        const handleCustomSelect = (e: Event) => {
+            const customEvent = e as CustomEvent<number>;
+            if (customEvent.detail) {
+                selectDay(customEvent.detail);
             }
         };
 
         handleHashChange();
 
         window.addEventListener("hashchange", handleHashChange);
-        return () => window.removeEventListener("hashchange", handleHashChange);
+        window.addEventListener("select-activity-day", handleCustomSelect);
+        return () => {
+            window.removeEventListener("hashchange", handleHashChange);
+            window.removeEventListener("select-activity-day", handleCustomSelect);
+        };
     }, []);
 
     const [selectedModes, setSelectedModes] = useState<{ [key: number]: "summary" | "flyer" | "booking" }>({

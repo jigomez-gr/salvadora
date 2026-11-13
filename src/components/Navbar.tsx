@@ -6,35 +6,61 @@ import { triggerCrmChat } from "@/components/ChatBubbleWidget";
 import { triggerVapiCall } from "@/components/VapiCallModal";
 import { isPorVapiEnabled } from "@/lib/featureFlags";
 
+interface MenuItem {
+    label: string;
+    href: string;
+    dayNum?: number;
+}
+
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const showPorVapi = isPorVapiEnabled();
 
-    const menuItems = [
+    const menuItems: MenuItem[] = [
         { label: "Inicio", href: "/#inicio" },
         { label: "Sobre Mí", href: "/#sobre-mi" },
-        { label: "Actividades", href: "/#itinerario" },
-        { label: "Vídeos", href: "/#videos" },
-        { label: "Viajes Realizados", href: "/#viajes-realizados" },
+        { label: "Yoga Terapéutico", href: "/#dia-1", dayNum: 1 },
+        { label: "Baños del Gong", href: "/#dia-3", dayNum: 3 },
+        { label: "Actividades", href: "/#itinerario", dayNum: 1 },
         { label: "Testimonios", href: "/#testimonios" },
         { label: "Qué Incluye", href: "/#incluye" },
         { label: "Plazas y Precios", href: "/#precios" },
         { label: "Consultas / Reservas por Email ó Wassap", href: "/#contacto" },
     ];
 
-    const handleInicioClick = (e: React.MouseEvent) => {
-        e.preventDefault();
+    const handleNavClick = (e: React.MouseEvent, item: MenuItem) => {
+        const isInicio = item.label.toLowerCase() === "inicio";
         if (typeof window !== "undefined") {
-            if (window.location.pathname === "/") {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                if (window.location.hash) {
-                    history.replaceState(null, "", "/");
+            if (isInicio) {
+                e.preventDefault();
+                if (window.location.pathname === "/") {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    if (window.location.hash) {
+                        history.replaceState(null, "", "/");
+                    }
+                } else {
+                    window.location.href = "/";
                 }
-            } else {
-                window.location.href = "/";
+                return;
+            }
+
+            if (item.dayNum !== undefined) {
+                if (window.location.pathname === "/") {
+                    e.preventDefault();
+                    const hashTarget = item.href.replace("/", "");
+                    window.history.replaceState(null, "", hashTarget);
+                    window.dispatchEvent(new CustomEvent("select-activity-day", { detail: item.dayNum }));
+                    const el = document.getElementById("itinerario");
+                    if (el) {
+                        el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                    return;
+                }
             }
         }
     };
+
+    const handleInicioClick = (e: React.MouseEvent) => handleNavClick(e, { label: "Inicio", href: "/#inicio" });
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#C5A059]/15 shadow-sm font-sans">
@@ -65,15 +91,15 @@ export default function Navbar() {
                 </a>
 
                 {/* Submenu links with vertical pipes */}
-                <nav className="flex items-center justify-center space-x-3.5 lg:space-x-5 text-[10.5px] font-bold uppercase tracking-widest text-stone-600">
+                <nav className="flex items-center justify-center space-x-2.5 lg:space-x-3.5 xl:space-x-4 text-[10px] xl:text-[10.5px] font-bold uppercase tracking-widest text-stone-600">
                     {menuItems.map((item, idx) => {
                         const isInicio = item.label.toLowerCase() === "inicio";
                         return (
-                            <span key={item.label} className="flex items-center space-x-3.5 lg:space-x-5">
+                            <span key={item.label} className="flex items-center space-x-2.5 lg:space-x-3.5 xl:space-x-4">
                                 {idx > 0 && <span className="text-[#C5A059]/40 select-none font-light">|</span>}
                                 <a
                                     href={item.href}
-                                    onClick={isInicio ? handleInicioClick : undefined}
+                                    onClick={(e) => handleNavClick(e, item)}
                                     className={`hover:text-[#800020] transition duration-200 ${isInicio ? "cursor-pointer font-extrabold text-[#800020]" : ""}`}
                                 >
                                     {item.label}
@@ -151,9 +177,7 @@ export default function Navbar() {
                                     href={item.href}
                                     onClick={(e) => {
                                         setIsOpen(false);
-                                        if (isInicio) {
-                                            handleInicioClick(e);
-                                        }
+                                        handleNavClick(e, item);
                                     }}
                                     className={`hover:text-[#800020] py-1 transition ${isInicio ? "font-extrabold text-[#800020]" : ""}`}
                                 >
