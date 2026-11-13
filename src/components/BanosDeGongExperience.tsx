@@ -71,7 +71,9 @@ export default function BanosDeGongExperience({
   };
 
   // Video / Flyer Lightbox State
-  const [activeMediaModal, setActiveMediaModal] = useState<"video" | "flyer" | null>(null);
+  const [activeMediaModal, setActiveMediaModal] = useState<
+    "video-actividad" | "video-sesion" | "flyer" | null
+  >(null);
 
   const faqs = [
     {
@@ -164,13 +166,24 @@ export default function BanosDeGongExperience({
                 <span>Reservar mi experiencia</span>
               </a>
 
+              {/* Botón Vídeo de la Actividad (itinerario-3.mp4) */}
               <button
                 type="button"
-                onClick={() => setActiveMediaModal("video")}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-black/50 hover:bg-black/70 backdrop-blur-md text-white border border-[#C5A059]/40 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl hover:border-[#C5A059] transition-all duration-200 cursor-pointer"
+                onClick={() => setActiveMediaModal("video-actividad")}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#800020]/90 hover:bg-[#800020] text-white border border-[#C5A059]/60 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg hover:scale-102 active:scale-98 transition-all duration-200 cursor-pointer"
+              >
+                <Play className="w-4 h-4 text-[#E5C378] fill-current" />
+                <span>Ver Vídeo de la Actividad</span>
+              </button>
+
+              {/* Botón Vídeo de la Sesión (Bano-de-Gong_particular.mp4) */}
+              <button
+                type="button"
+                onClick={() => setActiveMediaModal("video-sesion")}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-black/60 hover:bg-black/80 backdrop-blur-md text-white border border-[#C5A059]/40 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl hover:border-[#C5A059] transition-all duration-200 cursor-pointer"
               >
                 <Play className="w-4 h-4 text-[#D4AF37] fill-current" />
-                <span>Ver vídeo de la sesión</span>
+                <span>Ver Vídeo de Sala</span>
               </button>
             </div>
           </div>
@@ -585,11 +598,20 @@ export default function BanosDeGongExperience({
             <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
               <button
                 type="button"
-                onClick={() => setActiveMediaModal("video")}
+                onClick={() => setActiveMediaModal("video-actividad")}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#800020] hover:bg-[#660019] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition duration-150 shadow-sm cursor-pointer"
+              >
+                <Play className="w-3.5 h-3.5 text-[#E5C378] fill-current" />
+                <span>Vídeo de la Actividad</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveMediaModal("video-sesion")}
                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#12241D] hover:bg-[#1a382b] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition duration-150 shadow-sm cursor-pointer"
               >
                 <Play className="w-3.5 h-3.5 text-[#D4AF37] fill-current" />
-                <span>Ver Vídeo de Sala</span>
+                <span>Vídeo de Sala</span>
               </button>
 
               <button
@@ -756,24 +778,77 @@ export default function BanosDeGongExperience({
             className="relative bg-[#0D1F18] border border-[#C5A059]/40 rounded-2xl max-w-3xl w-full p-4 sm:p-6 overflow-hidden shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
-              <span className="font-serif text-lg font-bold text-[#E5C378]">
-                {activeMediaModal === "video"
-                  ? "Vídeo de Sala · Baños de Gong"
-                  : "Cartel Oficial · Baños de Gong"}
-              </span>
+            {/* Header del Modal con Selector de Contenido */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-white/10 mb-4">
+              <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => setActiveMediaModal("video-actividad")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                    activeMediaModal === "video-actividad"
+                      ? "bg-[#800020] text-white shadow"
+                      : "bg-white/10 text-stone-300 hover:text-white"
+                  }`}
+                >
+                  <Play className="w-3 h-3 text-[#E5C378] fill-current" />
+                  <span>Vídeo Actividad</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveMediaModal("video-sesion")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                    activeMediaModal === "video-sesion"
+                      ? "bg-[#800020] text-white shadow"
+                      : "bg-white/10 text-stone-300 hover:text-white"
+                  }`}
+                >
+                  <Play className="w-3 h-3 text-[#E5C378] fill-current" />
+                  <span>Vídeo Sala</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveMediaModal("flyer")}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                    activeMediaModal === "flyer"
+                      ? "bg-[#800020] text-white shadow"
+                      : "bg-white/10 text-stone-300 hover:text-white"
+                  }`}
+                >
+                  <Maximize2 className="w-3 h-3 text-[#E5C378]" />
+                  <span>Cartel</span>
+                </button>
+              </div>
+
               <button
                 type="button"
                 onClick={() => setActiveMediaModal(null)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer shrink-0 self-end sm:self-auto"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {activeMediaModal === "video" ? (
-              <div className="relative aspect-video rounded-xl overflow-hidden bg-black">
+            {/* Contenido según selección */}
+            {activeMediaModal === "video-actividad" && (
+              <div className="relative aspect-video rounded-xl overflow-hidden bg-black shadow-inner">
                 <video
+                  key="video-actividad"
+                  src="/videos/itinerario-3.mp4"
+                  poster="/videos/itinerario-3-poster.jpg"
+                  controls
+                  autoPlay
+                  playsInline
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            )}
+
+            {activeMediaModal === "video-sesion" && (
+              <div className="relative aspect-video rounded-xl overflow-hidden bg-black shadow-inner">
+                <video
+                  key="video-sesion"
                   src="/videos/Bano-de-Gong_particular.mp4"
                   poster="/videos/Bano-de-Gong_particular-poster.jpg"
                   controls
@@ -782,7 +857,9 @@ export default function BanosDeGongExperience({
                   className="w-full h-full object-contain"
                 />
               </div>
-            ) : (
+            )}
+
+            {activeMediaModal === "flyer" && (
               <div className="max-h-[75vh] overflow-auto flex items-center justify-center bg-black/50 rounded-xl p-2">
                 <img
                   src="/flyers/banogongparticular.jpg"
@@ -794,7 +871,11 @@ export default function BanosDeGongExperience({
 
             <div className="pt-3 text-center">
               <span className="text-xs text-stone-400">
-                Centro de Yoga Salvadora Conesa · Fuenlabrada (Madrid)
+                {activeMediaModal === "video-actividad"
+                  ? "Vídeo Resumen de la Actividad (itinerario-3.mp4)"
+                  : activeMediaModal === "video-sesion"
+                  ? "Vídeo de Sala · Baños de Gong (Bano-de-Gong_particular.mp4)"
+                  : "Cartel Oficial de la Convocatoria"}
               </span>
             </div>
           </div>
