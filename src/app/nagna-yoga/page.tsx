@@ -9,12 +9,20 @@ export default function NagnaYogaPage() {
       <Navbar />
 
       <main className="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
             className="text-xs uppercase font-bold tracking-widest text-[#800020] hover:underline inline-flex items-center space-x-1"
           >
             <span>← Volver al Inicio</span>
+          </Link>
+
+          <Link
+            href="/practica-yoga"
+            className="text-xs uppercase font-bold tracking-wider text-[#96680E] hover:underline inline-flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200"
+          >
+            <span>✨ Ver Experiencia Completa: Practica Yoga</span>
+            <span>→</span>
           </Link>
         </div>
 

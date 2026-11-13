@@ -1075,9 +1075,31 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                             {/* Green Banners Block inside DIARIO VISUAL column (Only for Activity 1: Yoga) */}
                             {day.id === 1 && (
                                 <div className="space-y-4">
+                                    {/* Card Master: Practica Yoga */}
+                                    <a
+                                        href="/practica-yoga"
+                                        className="block bg-gradient-to-r from-[#800020] via-[#991B36] to-[#800020] p-4 sm:p-5 rounded-xl border border-[#C5A059]/40 shadow-md hover:shadow-lg hover:scale-[1.01] transition duration-300 text-center text-white relative overflow-hidden group cursor-pointer"
+                                    >
+                                        <div className="flex items-center justify-center gap-2 mb-1">
+                                            <span className="text-sm">✨</span>
+                                            <span className="text-[10px] tracking-[0.25em] text-[#E5C378] uppercase font-bold">
+                                                Experiencia Completa
+                                            </span>
+                                        </div>
+                                        <h4 className="font-serif text-base sm:text-lg font-bold text-white leading-tight mb-1">
+                                            Practica Yoga — <span className="italic text-[#E5C378]">Equilibrio y Consciencia</span>
+                                        </h4>
+                                        <p className="text-[11px] text-white/90 font-sans font-light leading-snug">
+                                            Filosofía, sesiones en descarga, cadenas fasciales, Nagna Yoga y asanas.
+                                        </p>
+                                        <div className="inline-flex items-center space-x-1 text-[10px] uppercase font-bold tracking-widest text-[#E5C378] group-hover:underline pt-2 border-t border-white/10 w-full justify-center mt-2">
+                                            <span>Abrir presentación completa de Yoga</span>
+                                            <span>→</span>
+                                        </div>
+                                    </a>
                                     {/* Card 1: Nagna Yoga */}
                                     <a
-                                        href="#nagna-yoga"
+                                        href="/practica-yoga#nagna-yoga"
                                         className="block bg-gradient-to-br from-[#1E3E2B] via-[#2E5A44] to-[#1D3D2C] p-5 sm:p-6 rounded-xl border border-[#C5A059]/30 shadow-md hover:shadow-lg hover:scale-[1.01] transition duration-300 text-center text-white relative overflow-hidden group cursor-pointer"
                                     >
                                         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#C5A059_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
@@ -1098,7 +1120,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
 
                                     {/* Card 2: Espacio para mejorar las Asanas */}
                                     <a
-                                        href="#mejorar-asanas"
+                                        href="/practica-yoga#mejorar-asanas"
                                         className="block bg-gradient-to-br from-[#1E3E2B] via-[#2E5A44] to-[#1D3D2C] p-5 sm:p-6 rounded-xl border border-[#C5A059]/30 shadow-md hover:shadow-lg hover:scale-[1.01] transition duration-300 text-center text-white relative overflow-hidden group cursor-pointer"
                                     >
                                         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#C5A059_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />

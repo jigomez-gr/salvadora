@@ -16,7 +16,17 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/practica__yoga.html",
-        destination: "/servicios",
+        destination: "/practica-yoga",
+        statusCode: 301,
+      },
+      {
+        source: "/pages/practica__yoga.html",
+        destination: "/practica-yoga",
+        statusCode: 301,
+      },
+      {
+        source: "/pages/practica_yoga.html",
+        destination: "/practica-yoga",
         statusCode: 301,
       },
       {
