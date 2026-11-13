@@ -781,7 +781,12 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
+          {/* Banner Rápido WhatsApp Asistente 24/7 */}
+          <div className="mt-8 text-left">
+            <WhatsAppQuickBanner />
+          </div>
+
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
             <VapiVoiceBookingButton
               buttonText="📞 Reservar por Teléfono (Llamada IA + SMS)"
               serviceHint="Reserva o consulta de plaza de Yoga"
