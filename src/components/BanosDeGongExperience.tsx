@@ -105,7 +105,7 @@ export default function BanosDeGongExperience({
       {/* ─────────────────────────────────────────────────────────────
           1. HERO CINEMATOGRÁFICO — IMAGEN PRINCIPAL (1920 × 780)
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl bg-[#0D1F18] border border-[#C5A059]/30">
+      <section className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md bg-[#0D1F18] border border-[#C5A059]/30">
         {/* Contenedor de la fotografía con encuadre original sin recortar gongs */}
         <div className="relative w-full aspect-[16/9] sm:aspect-[1920/780] min-h-[360px] sm:min-h-[460px] max-h-[640px] flex items-center justify-center overflow-hidden">
           {/* Fotografía protagonista obligatoria img__gong.jpg */}
@@ -229,7 +229,7 @@ export default function BanosDeGongExperience({
       {/* ─────────────────────────────────────────────────────────────
           3. SECCIÓN 2: UN VIAJE DE VIBRACIONES
       ───────────────────────────────────────────────────────────── */}
-      <section className="mt-16 sm:mt-20 bg-gradient-to-b from-[#12241D] via-[#0E1C17] to-[#12241D] text-white rounded-3xl p-6 sm:p-12 shadow-xl border border-[#C5A059]/25 relative overflow-hidden">
+      <section className="mt-16 sm:mt-20 bg-gradient-to-b from-[#12241D] via-[#0E1C17] to-[#12241D] text-white rounded-3xl p-6 sm:p-12 shadow-md border border-[#C5A059]/25 relative overflow-hidden">
         {/* Decoración de fondo */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#C5A059]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#1A382B]/30 rounded-full blur-3xl pointer-events-none" />
@@ -673,7 +673,7 @@ export default function BanosDeGongExperience({
         id="reservar-experiencia"
         className="mt-16 sm:mt-24 scroll-mt-24"
       >
-        <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#12241D] via-[#0B1713] to-[#12241D] rounded-3xl p-8 sm:p-14 text-white text-center shadow-2xl border-2 border-[#C5A059]/40 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#12241D] via-[#0B1713] to-[#12241D] rounded-3xl p-8 sm:p-14 text-white text-center shadow-md border-2 border-[#C5A059]/40 relative overflow-hidden">
           {/* Destellos dorados */}
           <div className="absolute top-0 right-1/4 w-72 h-72 bg-[#D4AF37]/15 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-[#C5A059]/10 rounded-full blur-3xl pointer-events-none" />

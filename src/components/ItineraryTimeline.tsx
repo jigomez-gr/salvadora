@@ -654,6 +654,14 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                 const currentVideoObj = dayVideos[activeVIdx] || dayVideos[0] || null;
                 const effectiveVideoSrc = currentVideoObj?.src || null;
 
+                if (day.id === 3) {
+                    return (
+                        <div key={day.id} className="animate-fadeIn w-full px-2 sm:px-0">
+                            <BanosDeGongExperience activity={matchingService} isEmbedded={true} />
+                        </div>
+                    );
+                }
+
                 return (
                     <div key={day.id} className="animate-fadeIn grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 sm:px-0 items-start">
 
@@ -1111,13 +1119,6 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                 </div>
                             )}
                         </div>
-
-                        {/* Bloque Informativo exclusivo de la Actividad 3: Baño de Gong en Fuenlabrada */}
-                        {day.id === 3 && (
-                            <div className="lg:col-span-12 mt-6 pt-8 border-t border-[#C5A059]/25">
-                                <BanosDeGongExperience activity={getMatchingService(3)} isEmbedded={true} />
-                            </div>
-                        )}
 
                         {/* Bloque Informativo exclusivo de Bienestar Experience (Primer Evento: Más Allá del Tumor) */}
                         {/* Bloque Informativo exclusivo de la Actividad 6: Constelaciones Familiares en Fuenlabrada */}
