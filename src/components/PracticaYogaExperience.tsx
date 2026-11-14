@@ -172,7 +172,7 @@ export default function PracticaYogaExperience({
           1. CABECERA CINEMATOGRÁFICA — SLIDER PRÁCTICA YOGA
       ───────────────────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md bg-[#0D1F18] border border-[#C5A059]/30">
-        <div className="relative w-full aspect-[16/9] sm:aspect-[1920/780] min-h-[380px] sm:min-h-[480px] max-h-[640px] flex items-center justify-center overflow-hidden">
+        <div className="relative w-full sm:aspect-[1920/780] min-h-[500px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden">
           {/* Fotografía protagonista obligatoria slider_practica_yoga.jpg */}
           <img
             src="/imagenes/yoga/slider_practica_yoga.jpg"
@@ -185,8 +185,8 @@ export default function PracticaYogaExperience({
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A1612]/95 via-[#0A1612]/45 to-[#0A1612]/30 pointer-events-none" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0A1612]/20 to-[#0A1612]/70 pointer-events-none" />
 
-          {/* Contenido textual del Hero */}
-          <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex flex-col items-center text-center justify-end h-full">
+          {/* Contenido textual del Hero centrado y sin recortes en móviles */}
+          <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex flex-col items-center text-center justify-center min-h-[500px] sm:min-h-full">
             {/* Logotipo discreto de la flor de loto */}
             <div className="w-12 h-12 sm:w-14 sm:h-14 mb-3 opacity-90 drop-shadow-md">
               <img
@@ -218,7 +218,7 @@ export default function PracticaYogaExperience({
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10">
                 <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
-                Grupos Mañana y Tarde
+                {yogaService.eventDatesText || "Grupos Mañana y Tarde"}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-[#E5C378] font-bold">
                 <Ticket className="w-3.5 h-3.5 text-[#D4AF37]" />
@@ -226,8 +226,25 @@ export default function PracticaYogaExperience({
               </span>
             </div>
 
+            {/* Información Específica del Servicio (textoespecifico en CRM) */}
+            {yogaService.textoespecifico && (
+              <div className="mt-4 w-full max-w-2xl mx-auto rounded-xl border border-[#C5A059]/50 bg-[#0D1F18]/90 backdrop-blur-md p-3 sm:p-4 text-left shadow-xl">
+                <div className="flex items-start gap-2.5">
+                  <span className="text-base sm:text-lg flex-shrink-0">📌</span>
+                  <div className="space-y-1">
+                    <span className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#E5C378]">
+                      Información Específica del Servicio:
+                    </span>
+                    <p className="text-xs sm:text-sm text-stone-200 leading-relaxed whitespace-pre-line font-sans">
+                      {yogaService.textoespecifico}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Botones de acción rápida en Hero */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
               <a
                 href="#reservar-clase"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-[#C5A059] via-[#D4AF37] to-[#B38D45] hover:from-[#D4AF37] hover:to-[#C5A059] text-[#0D1F18] font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-xl shadow-amber-900/30 hover:scale-103 active:scale-97 transition-all duration-200 cursor-pointer"
@@ -773,6 +790,15 @@ export default function PracticaYogaExperience({
             <p className="text-sm sm:text-base text-stone-300 font-light leading-relaxed">
               Descubre en primera persona cómo sienta una práctica cuidada, en descarga y pensada para tu columna. Consulta los turnos libres de mañana o tarde y reserva tu plaza.
             </p>
+
+            {yogaService.textoespecifico && (
+              <div className="rounded-xl border border-[#C5A059]/40 bg-black/40 backdrop-blur-md p-3.5 text-xs text-stone-200 text-left shadow-md leading-relaxed whitespace-pre-line">
+                <span className="block text-[11px] font-bold uppercase tracking-wider text-[#E5C378] mb-1">
+                  📌 Información Específica del Servicio:
+                </span>
+                {yogaService.textoespecifico}
+              </div>
+            )}
 
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <a

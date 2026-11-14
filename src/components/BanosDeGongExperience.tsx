@@ -108,8 +108,8 @@ export default function BanosDeGongExperience({
           1. HERO CINEMATOGRÁFICO — IMAGEN PRINCIPAL (1920 × 780)
       ───────────────────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md bg-[#0D1F18] border border-[#C5A059]/30">
-        {/* Contenedor de la fotografía con encuadre original sin recortar gongs */}
-        <div className="relative w-full aspect-[16/9] sm:aspect-[1920/780] min-h-[360px] sm:min-h-[460px] max-h-[640px] flex items-center justify-center overflow-hidden">
+        {/* Contenedor de la fotografía con encuadre original y altura adaptable para evitar recortes en móvil */}
+        <div className="relative w-full sm:aspect-[1920/780] min-h-[500px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden">
           {/* Fotografía protagonista obligatoria img__gong.jpg */}
           <img
             src="/imagenes/gong/img__gong.jpg"
@@ -122,8 +122,8 @@ export default function BanosDeGongExperience({
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A1612]/95 via-[#0A1612]/40 to-[#0A1612]/30 pointer-events-none" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0A1612]/20 to-[#0A1612]/70 pointer-events-none" />
 
-          {/* Contenido textual superpuesto */}
-          <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex flex-col items-center text-center justify-end h-full">
+          {/* Contenido textual superpuesto centrado y sin recortes en móviles */}
+          <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex flex-col items-center text-center justify-center min-h-[500px] sm:min-h-full">
             {/* Badge de exclusividad y ubicación */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#12241D]/80 backdrop-blur-md border border-[#C5A059]/50 text-[#E5C378] text-[11px] sm:text-xs font-bold uppercase tracking-widest mb-3 shadow-lg">
               <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-pulse" />
@@ -156,8 +156,25 @@ export default function BanosDeGongExperience({
               </span>
             </div>
 
+            {/* Información Específica del Servicio (textoespecifico en CRM) */}
+            {gongService.textoespecifico && (
+              <div className="mt-4 w-full max-w-2xl mx-auto rounded-xl border border-[#C5A059]/50 bg-[#0D1F18]/90 backdrop-blur-md p-3 sm:p-4 text-left shadow-xl">
+                <div className="flex items-start gap-2.5">
+                  <span className="text-base sm:text-lg flex-shrink-0">📌</span>
+                  <div className="space-y-1">
+                    <span className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#E5C378]">
+                      Información Específica del Servicio:
+                    </span>
+                    <p className="text-xs sm:text-sm text-stone-200 leading-relaxed whitespace-pre-line font-sans">
+                      {gongService.textoespecifico}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Botones de acción rápida en Hero */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
               <a
                 href="#reservar-experiencia"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-gradient-to-r from-[#C5A059] via-[#D4AF37] to-[#B38D45] hover:from-[#D4AF37] hover:to-[#C5A059] text-[#0D1F18] font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-xl shadow-amber-900/30 hover:scale-103 active:scale-97 transition-all duration-200 cursor-pointer"
@@ -713,6 +730,15 @@ export default function BanosDeGongExperience({
             <p className="text-sm sm:text-base text-stone-300 font-light leading-relaxed">
               Próxima sesión: <strong className="text-[#E5C378]">{nextDateText}</strong>. Las plazas son reducidas para garantizar que cada asistente disfrute del espacio y el sonido con total comodidad.
             </p>
+
+            {gongService.textoespecifico && (
+              <div className="rounded-xl border border-[#C5A059]/40 bg-black/40 backdrop-blur-md p-3.5 text-xs text-stone-200 text-left shadow-md leading-relaxed whitespace-pre-line">
+                <span className="block text-[11px] font-bold uppercase tracking-wider text-[#E5C378] mb-1">
+                  📌 Información Específica del Servicio:
+                </span>
+                {gongService.textoespecifico}
+              </div>
+            )}
 
             {/* BOTÓN PRINCIPAL DESTACADO SOLICITADO */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
