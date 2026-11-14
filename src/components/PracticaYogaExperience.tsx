@@ -168,13 +168,15 @@ export default function PracticaYogaExperience({
     },
   ];
 
+  const HeadingTag = isEmbedded ? "h2" : "h1";
+
   return (
     <div className="w-full text-stone-800 font-sans selection:bg-[#C5A059]/30 selection:text-[#12241D]">
       {/* ─────────────────────────────────────────────────────────────
           1. CABECERA CINEMATOGRÁFICA — SLIDER PRÁCTICA YOGA
       ───────────────────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md bg-[#0D1F18] border border-[#C5A059]/30">
-        <div className="relative w-full sm:aspect-[1920/780] min-h-[500px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden">
+        <div className="relative w-full sm:aspect-[1920/780] min-h-[520px] py-8 sm:py-6 flex items-center justify-center overflow-hidden">
           {/* Fotografía protagonista obligatoria slider_practica_yoga.jpg */}
           <img
             src="/imagenes/yoga/slider_practica_yoga.jpg"
@@ -188,7 +190,7 @@ export default function PracticaYogaExperience({
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0A1612]/20 to-[#0A1612]/70 pointer-events-none" />
 
           {/* Contenido textual del Hero centrado y sin recortes en móviles */}
-          <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex flex-col items-center text-center justify-center min-h-[500px] sm:min-h-full">
+          <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 py-4 sm:py-8 flex flex-col items-center text-center justify-center min-h-[500px] sm:min-h-full">
             {/* Logotipo discreto de la flor de loto */}
             <div className="w-12 h-12 sm:w-14 sm:h-14 mb-3 opacity-90 drop-shadow-md">
               <img
@@ -203,10 +205,10 @@ export default function PracticaYogaExperience({
               <span>Centro de Yoga Salvadora Conesa · Fuenlabrada (Madrid)</span>
             </div>
 
-            {/* Título Principal solicitado */}
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-md leading-tight max-w-4xl">
+            {/* Título Principal semántico (h2 si está embebido en home para SEO, h1 en página propia) */}
+            <HeadingTag className="font-serif text-2xl min-[400px]:text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-md leading-tight max-w-4xl break-words">
               Hatha Yoga Terapéutico
-            </h1>
+            </HeadingTag>
 
             {/* Subtítulo */}
             <p className="font-serif italic text-base sm:text-2xl text-[#E5C378] mt-2 max-w-3xl text-shadow-sm font-light">

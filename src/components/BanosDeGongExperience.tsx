@@ -102,6 +102,8 @@ export default function BanosDeGongExperience({
     },
   ];
 
+  const HeadingTag = isEmbedded ? "h2" : "h1";
+
   return (
     <div className="w-full text-stone-800 font-sans selection:bg-[#C5A059]/30 selection:text-[#12241D]">
       {/* ─────────────────────────────────────────────────────────────
@@ -109,7 +111,7 @@ export default function BanosDeGongExperience({
       ───────────────────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-md bg-[#0D1F18] border border-[#C5A059]/30">
         {/* Contenedor de la fotografía con encuadre original y altura adaptable para evitar recortes en móvil */}
-        <div className="relative w-full sm:aspect-[1920/780] min-h-[500px] sm:min-h-[500px] lg:min-h-[540px] flex items-center justify-center overflow-hidden">
+        <div className="relative w-full sm:aspect-[1920/780] min-h-[520px] py-8 sm:py-6 flex items-center justify-center overflow-hidden">
           {/* Fotografía protagonista obligatoria img__gong.jpg */}
           <img
             src="/imagenes/gong/img__gong.jpg"
@@ -123,17 +125,17 @@ export default function BanosDeGongExperience({
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0A1612]/20 to-[#0A1612]/70 pointer-events-none" />
 
           {/* Contenido textual superpuesto centrado y sin recortes en móviles */}
-          <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex flex-col items-center text-center justify-center min-h-[500px] sm:min-h-full">
+          <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-8 py-4 sm:py-8 flex flex-col items-center text-center justify-center min-h-[500px] sm:min-h-full">
             {/* Badge de exclusividad y ubicación */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#12241D]/80 backdrop-blur-md border border-[#C5A059]/50 text-[#E5C378] text-[11px] sm:text-xs font-bold uppercase tracking-widest mb-3 shadow-lg">
               <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-pulse" />
               <span>Experiencia Inmersiva de Sonoterapia · Fuenlabrada (Madrid)</span>
             </div>
 
-            {/* Título principal solicitado */}
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-md leading-tight">
+            {/* Título principal semántico (h2 si está embebido en home para SEO, h1 en página propia) */}
+            <HeadingTag className="font-serif text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-md leading-tight break-words">
               Baños de Gong
-            </h1>
+            </HeadingTag>
 
             {/* Subtítulo solicitado */}
             <p className="font-serif italic text-lg sm:text-2xl text-[#E5C378] mt-2 max-w-2xl text-shadow-sm font-light">
