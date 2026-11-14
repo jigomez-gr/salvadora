@@ -210,7 +210,7 @@ const DAYS_DATA: DayItem[] = [
             },
             {
                 title: "Promo Bienestar Experience 2026",
-                description: "Más allá del tumor · Una mirada integrativa sobre el cáncer en Madrid (13 Noviembre 2026).",
+                description: "Más allá del tumor · Una mirada integrativa sobre el cáncer en Madrid.",
                 filePath: "/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4"
             }
         ]

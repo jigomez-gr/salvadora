@@ -285,9 +285,10 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     id: "469fa9b9-227d-4168-bda7-cac5cf3e7f46",
     name: "Bienestar Experience (Longevidad y Bienestar Integral)",
     serviceType: "event",
-    description: "Bienestar Experience es un espacio de encuentro dedicado al bienestar integral, el autoconocimiento y el cuidado de cuerpo y mente. Primer evento: Bienestar Experience 2026 · Más allá del tumor en Impact Hub Gobernador (Madrid). Una mirada integrativa sobre el cáncer con Txiki Soto, Giulliana Gabaldoni y María Salvadora Conesa (Baño de Gong). Precio: 19,99 €.",
-    scheduleText: "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)",
-    eventDatesText: "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)",
+    description: "Bienestar Experience es un espacio de encuentro dedicado al bienestar integral, el autoconocimiento y el cuidado de cuerpo y mente. Sesión integral combinada de bioenergética, respiración consciente, pautas de longevidad y relajación.",
+    scheduleText: "Viernes por la tarde",
+    eventDatesText: null,
+    textoespecifico: "El proximo evento está en estudio y preparacion",
     durationMinutes: 300,
     price: "19.99",
     currency: "EUR",
@@ -297,7 +298,7 @@ export const FALLBACK_CRM_SERVICES: CrmService[] = [
     firstClassFree: false,
     freeForYogaStudents: false,
     flyerUrl: "/flyers/bienestar.png",
-    flyerParticularUrl: "/flyers/flyer13nov2026vivemasparticular.jpeg",
+    flyerParticularUrl: null,
     flyerParticularPath: "public/flyers/flyer13nov2026vivemasparticular.jpeg",
     videoParticularUrl: "/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4",
     videoParticularPath: "media_base/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4",
@@ -648,12 +649,13 @@ export async function fetchCrmServices(filters?: {
         const isBienestar = /bienestar experience/i.test(s.name) || s.id === "469fa9b9-227d-4168-bda7-cac5cf3e7f46";
 
         if (isBienestar) {
-          eventDatesText = "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)";
-          scheduleText = "Viernes 13 de noviembre de 2026 (16:30 a 21:30 h)";
+          eventDatesText = s.eventDatesText || null;
+          scheduleText = s.scheduleText || "Viernes por la tarde";
+          textoespecifico = s.textoespecifico || "El próximo evento está en estudio y preparación";
           flyerUrl = "/flyers/bienestar.png";
           flyerPath = "public/flyers/bienestar.png";
-          flyerParticularUrl = "/flyers/flyer13nov2026vivemasparticular.jpeg";
-          flyerParticularPath = "public/flyers/flyer13nov2026vivemasparticular.jpeg";
+          flyerParticularUrl = s.flyerParticularUrl ? resolveUrl(s.flyerParticularUrl) : null;
+          flyerParticularPath = s.flyerParticularPath || null;
           videoParticularUrl = "/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4";
           videoParticularPath = "media_base/videos/Promo_Bienestar-Experience-2026_1920x1080.mp4";
         }

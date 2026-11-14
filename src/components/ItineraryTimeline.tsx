@@ -347,7 +347,7 @@ const DAY_OVERLAY_DETAILS: { [key: number]: { title: string; category: string; d
         title: "Bienestar Experience",
         category: "SALUD, CONSCIENCIA Y BIENESTAR INTEGRAL",
         description: "Espacio de encuentro dedicado al bienestar integral, el autoconocimiento y el cuidado de cuerpo y mente",
-        date: "Viernes 13 Nov 2026"
+        date: "Próximas Convocatorias"
     }
 };
 
@@ -464,9 +464,9 @@ const ACTIVITY_BOOKING_MESSAGES: { [key: number]: { title: string; subtitle: str
         queryMessage: "Hola, me gustaría consultar disponibilidad y reservar plaza para el Retiro de Ayuno Terapéutico."
     },
     9: {
-        title: "Bienestar Experience 2026 · Más allá del tumor",
-        subtitle: "Una mirada integrativa sobre el cáncer. 13 de noviembre de 2026, Impact Hub Gobernador, Madrid.",
-        queryMessage: "Hola, me gustaría consultar y reservar plaza para Bienestar Experience 2026 · Más allá del tumor."
+        title: "Bienestar Experience",
+        subtitle: "Espacio de encuentro dedicado al bienestar integral, el autoconocimiento y el cuidado de cuerpo y mente.",
+        queryMessage: "Hola, me gustaría consultar información y próximas convocatorias para Bienestar Experience."
     }
 };
 
@@ -1360,6 +1360,17 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                             </p>
                                         </div>
 
+                                        {matchingService?.textoespecifico && (
+                                            <div className="rounded-xl border border-amber-300 bg-amber-50/80 p-4 text-xs sm:text-sm text-stone-800 space-y-1">
+                                                <span className="font-bold text-[#800020] uppercase text-[11px] block">
+                                                    📌 Información Específica del Servicio:
+                                                </span>
+                                                <p className="whitespace-pre-line font-medium text-stone-700">
+                                                    {matchingService.textoespecifico}
+                                                </p>
+                                            </div>
+                                        )}
+
                                         {/* Fila de detalles: Fecha, Horario, Lugar, Precio */}
                                         <div className="pt-6 border-t border-stone-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                             <div className="flex items-start gap-3 bg-[#FAF9F6] p-4 rounded-xl border border-stone-200/70">
@@ -1368,9 +1379,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                                     <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
                                                         Fecha
                                                     </span>
-                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
-                                                        Viernes 13 de noviembre de 2026
-                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">{matchingService?.eventDatesText || "Próxima fecha en estudio"}</span>
                                                 </div>
                                             </div>
 
@@ -1380,9 +1389,7 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
                                                     <span className="block text-[11px] uppercase tracking-wider text-stone-500 font-bold">
                                                         Horario
                                                     </span>
-                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">
-                                                        16:30 a 21:30 h
-                                                    </span>
+                                                    <span className="text-xs sm:text-sm font-semibold text-stone-800">{matchingService?.scheduleText || "Viernes por la tarde"}</span>
                                                 </div>
                                             </div>
 
