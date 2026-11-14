@@ -36,10 +36,12 @@ import { triggerVapiCall } from "@/components/VapiCallModal";
 
 interface PracticaYogaExperienceProps {
   activity?: CrmService;
+  isEmbedded?: boolean;
 }
 
 export default function PracticaYogaExperience({
   activity,
+  isEmbedded = false,
 }: PracticaYogaExperienceProps) {
   // Datos dinámicos del CRM
   const yogaService =
@@ -202,13 +204,13 @@ export default function PracticaYogaExperience({
             </div>
 
             {/* Título Principal solicitado */}
-            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight drop-shadow-md leading-tight max-w-4xl">
-              Practica Yoga — Un camino hacia el equilibrio, la consciencia y el bienestar
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight drop-shadow-md leading-tight max-w-4xl">
+              Hatha Yoga Terapéutico
             </h1>
 
-            {/* Subtítulo recuperado de la web antigua */}
-            <p className="font-serif italic text-sm sm:text-lg text-[#E5C378] mt-2 max-w-3xl text-shadow-sm font-light">
-              «Hatha, Kundalini y Nagna Yoga: sesiones pensadas para cuidar tu columna, tu respiración y tu calma, sesión a sesión.»
+            {/* Subtítulo */}
+            <p className="font-serif italic text-base sm:text-2xl text-[#E5C378] mt-2 max-w-3xl text-shadow-sm font-light">
+              «Un camino hacia el equilibrio, la consciencia y el bienestar»
             </p>
 
             {/* Badges de Clases y Regalo */}
@@ -218,7 +220,7 @@ export default function PracticaYogaExperience({
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10">
                 <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
-                {yogaService.eventDatesText || "Grupos Mañana y Tarde"}
+                {yogaService.scheduleText || yogaService.eventDatesText || "Grupos Mañana y Tarde (90 min)"}
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-black/40 backdrop-blur-sm border border-white/10 text-[#E5C378] font-bold">
                 <Ticket className="w-3.5 h-3.5 text-[#D4AF37]" />
@@ -256,10 +258,19 @@ export default function PracticaYogaExperience({
               <button
                 type="button"
                 onClick={() => setActiveMediaModal("video-yoga")}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-black/50 hover:bg-black/70 backdrop-blur-md text-white border border-[#C5A059]/40 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl hover:border-[#C5A059] transition-all duration-200 cursor-pointer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#800020]/90 hover:bg-[#800020] text-white border border-[#C5A059]/60 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl shadow-lg hover:scale-102 active:scale-98 transition-all duration-200 cursor-pointer"
+              >
+                <Play className="w-4 h-4 text-[#E5C378] fill-current" />
+                <span>Ver vídeo de la actividad</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveMediaModal("video-kundalini")}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-black/60 hover:bg-black/80 backdrop-blur-md text-white border border-[#C5A059]/40 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-xl hover:border-[#C5A059] transition-all duration-200 cursor-pointer"
               >
                 <Play className="w-4 h-4 text-[#D4AF37] fill-current" />
-                <span>Ver vídeo de la sala</span>
+                <span>Ver vídeo de sala</span>
               </button>
             </div>
           </div>

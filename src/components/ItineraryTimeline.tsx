@@ -9,6 +9,7 @@ import { isPorWassapEnabled, isPorVapiEnabled } from "@/lib/featureFlags";
 import { fetchCrmServices, CrmService, CRM_API_BASE_URL } from "@/lib/crmServices";
 import { FormattedTextWithLinks } from "@/components/FormattedTextWithLinks";
 import BanosDeGongExperience from "@/components/BanosDeGongExperience";
+import PracticaYogaExperience from "@/components/PracticaYogaExperience";
 
 interface TimelineDay {
     id: number;
@@ -669,7 +670,15 @@ export default function ItineraryTimeline({ videosExist }: ItineraryTimelineProp
 
                 const activeVIdx = activeVideoIndexes[day.id] || 0;
                 const currentVideoObj = dayVideos[activeVIdx] || dayVideos[0] || null;
-                const effectiveVideoSrc = currentVideoObj?.src || null;
+                const effectiveVideoSrc = currentVideoObj?.src || null;                if (day.id === 1) {
+                    return (
+                        <div key={day.id} className="animate-fadeIn w-full px-2 sm:px-0">
+                            <PracticaYogaExperience activity={matchingService} isEmbedded={true} />
+                        </div>
+                    );
+                }
+
+
 
                 if (day.id === 3) {
                     return (
