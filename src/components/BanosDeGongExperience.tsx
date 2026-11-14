@@ -597,6 +597,24 @@ export default function BanosDeGongExperience({
             </div>
           </div>
 
+          {/* Información Específica del Servicio (Base de Datos) */}
+          {gongService.textoespecifico && (
+            <div className="rounded-2xl border-2 border-[#C5A059]/40 bg-gradient-to-r from-[#FAF9F6] via-amber-50/60 to-[#FAF9F6] p-5 sm:p-6 shadow-sm text-stone-800 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#96680E] font-serif">
+                  <span className="text-base sm:text-lg">📌</span>
+                  <span>Información Específica de la Convocatoria:</span>
+                </div>
+                <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/90 px-2.5 py-0.5 rounded-full border border-emerald-300">
+                  Actualizado en Base de Datos
+                </span>
+              </div>
+              <p className="text-sm sm:text-base text-stone-900 leading-relaxed whitespace-pre-line font-medium pl-6">
+                {gongService.textoespecifico}
+              </p>
+            </div>
+          )}
+
           {/* Caja con Vídeo Oficial y Flyer descargable */}
           <div className="bg-white rounded-2xl p-6 sm:p-8 border border-stone-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-1.5 text-center md:text-left">

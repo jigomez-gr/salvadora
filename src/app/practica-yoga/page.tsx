@@ -55,6 +55,7 @@ export const metadata: Metadata = {
 export default async function PracticaYogaPage() {
   const { services } = await fetchCrmServices();
   const activity =
+    services.find((s) => /hatha yoga/i.test(s.name) && s.textoespecifico) ||
     findActivityBySlugOrId("hatha-yoga", services) ||
     services.find((s) => /hatha yoga/i.test(s.name));
 

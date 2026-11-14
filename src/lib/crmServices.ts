@@ -38,6 +38,8 @@ export interface CrmService {
   videoPath?: string | null;
   videoUrl?: string | null;
   textoespecifico?: string | null;
+  eventStartDate?: string | null;
+  eventEndDate?: string | null;
   editions?: Array<{
     id: string;
     title?: string;
@@ -611,9 +613,9 @@ export async function fetchCrmServices(filters?: {
 
         let textoespecifico = s.textoespecifico;
         if (isGong) {
-          eventDatesText = s.eventDatesText || "Sábado 21 de Noviembre de 2026 (18:00 a 20:00)";
-          scheduleText = s.scheduleText || "Sábado 21 de Noviembre (18:00 a 20:00)";
-          textoespecifico = "Próxima sesión confirmada: Sábado 21 de Noviembre de 2026 de 18:00 a 20:00 h. Mejoraremos el Hígado. Precio: 16 € (14 € si vienes acompañado/acompañada).";
+          eventDatesText = s.eventDatesText || s.scheduleText || "Sábado 21 de Noviembre de 2026 (18:00 a 20:00)";
+          scheduleText = s.scheduleText || s.eventDatesText || "Sábado 21 de Noviembre (18:00 a 20:00)";
+          textoespecifico = s.textoespecifico || "Próxima sesión confirmada: Sábado 21 de Noviembre de 2026 de 18:00 a 20:00 h. Mejoraremos el Hígado. Precio: 16 € (14 € si vienes acompañado/acompañada).";
           if (description) {
             description = description
               .replace(/31\s*de\s*octubre/gi, "21 de Noviembre")

@@ -706,7 +706,79 @@ export default function PracticaYogaExperience({
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          7. PREGUNTAS FRECUENTES (FAQ)
+          7. INFORMACIÓN PRÁCTICA, HORARIOS Y CONVOCATORIAS
+      ───────────────────────────────────────────────────────────── */}
+      <section className="mt-16 sm:mt-24">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#12241D]/5 text-[#132A21] text-xs font-bold uppercase tracking-wider border border-[#132A21]/15">
+              <Calendar className="w-3.5 h-3.5 text-[#C5A059]" />
+              <span>Horarios y Convocatorias</span>
+            </div>
+            <h2 className="font-serif text-2xl sm:text-4xl font-bold text-[#12241D]">
+              Horarios de Clases y Próximos Encuentros
+            </h2>
+            <p className="text-sm text-stone-600 font-light">
+              Datos actualizados y sincronizados en tiempo real con la base de datos del centro.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="bg-[#FAF9F6] p-5 rounded-2xl border border-stone-200 text-stone-800 space-y-1">
+              <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-[#96680E]">
+                <Clock className="w-3.5 h-3.5 text-[#C5A059]" />
+                Horarios Regulares
+              </span>
+              <p className="text-xs sm:text-sm font-bold text-stone-900 leading-snug">
+                {yogaService.scheduleText || "Martes y Jueves (Mañanas y Tardes) · Miércoles (Tardes)"}
+              </p>
+            </div>
+
+            <div className="bg-[#FAF9F6] p-5 rounded-2xl border border-stone-200 text-stone-800 space-y-1">
+              <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-[#96680E]">
+                <Calendar className="w-3.5 h-3.5 text-[#C5A059]" />
+                Próximo Evento / Convocatoria
+              </span>
+              <p className="text-xs sm:text-sm font-bold text-stone-900 leading-snug">
+                {yogaService.eventDatesText || "Clases semanales continuas"}
+              </p>
+            </div>
+
+            <div className="bg-amber-50/70 p-5 rounded-2xl border border-amber-200 text-stone-800 space-y-1">
+              <span className="inline-flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-[#96680E]">
+                <Ticket className="w-3.5 h-3.5 text-[#C5A059]" />
+                1ª Clase de Regalo
+              </span>
+              <p className="text-xl sm:text-2xl font-black text-[#800020] leading-none">
+                0 €
+              </p>
+              <span className="text-[11px] text-stone-600 block">
+                {priceFormatted} al formalizar plaza
+              </span>
+            </div>
+          </div>
+
+          {yogaService.textoespecifico && (
+            <div className="rounded-2xl border-2 border-[#C5A059]/40 bg-gradient-to-r from-[#FAF9F6] via-amber-50/60 to-[#FAF9F6] p-5 sm:p-6 shadow-sm text-stone-800 space-y-2">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-[#96680E] font-serif">
+                  <span className="text-base sm:text-lg">📌</span>
+                  <span>Información Específica del Servicio (Actualizada):</span>
+                </div>
+                <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/90 px-2.5 py-0.5 rounded-full border border-emerald-300">
+                  Actualizado en Base de Datos
+                </span>
+              </div>
+              <p className="text-sm sm:text-base text-stone-900 leading-relaxed whitespace-pre-line font-medium pl-6">
+                {yogaService.textoespecifico}
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          8. PREGUNTAS FRECUENTES (FAQ)
       ───────────────────────────────────────────────────────────── */}
       <section className="mt-16 sm:mt-24">
         <div className="max-w-4xl mx-auto space-y-8">

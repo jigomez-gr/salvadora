@@ -63,8 +63,8 @@ export default async function BanosDeGongPage() {
     description:
       "Sesión completa de 2 horas de sonoterapia e inmersión sonora con gongs sinfónicos y cuencos tibetanos conducida por Salvadora Conesa.",
     image: "https://salvadoraconesa.es/imagenes/gong/img__gong.jpg",
-    startDate: "2026-11-21T18:00:00+01:00",
-    endDate: "2026-11-21T20:00:00+01:00",
+    startDate: activity?.eventStartDate ? new Date(activity.eventStartDate).toISOString() : "2026-11-21T18:00:00+01:00",
+    endDate: activity?.eventEndDate ? new Date(activity.eventEndDate).toISOString() : "2026-11-21T20:00:00+01:00",
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     location: {
